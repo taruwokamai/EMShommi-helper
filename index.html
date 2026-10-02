@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rumah Sakit Hommi - EMS Helper</title>
+    <title>Rumah Sakit Hommi Helper</title>
     <style>
         :root {
             --bg-color: #12161a;
@@ -11,7 +11,10 @@
             --text-color: #e3e9f0;
             --border-color: #2c353d;
             --accent-color: #00bcd4;
-            --discord-blurple: #5865F2;
+            --btn-bg: #1a2126;
+            --btn-hover: #232d34;
+            
+            /* Rank Colors matching your document */
             --color-direksi: #1e3a8a;
             --color-hrd: #7f1d1d;
             --color-spesialis: #581c87;
@@ -26,129 +29,153 @@
             margin: 0;
             padding: 20px;
         }
-        .container { max-width: 900px; margin: 0 auto; }
-        header { text-align: center; padding: 20px 0; border-bottom: 2px solid var(--border-color); margin-bottom: 30px; }
-        header h1 { margin: 0; color: var(--accent-color); letter-spacing: 2px; }
-        header p { margin: 5px 0 0 0; opacity: 0.7; }
-        .helper-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-        @media (max-width: 768px) { .helper-grid { grid-template-columns: 1fr; } }
-        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); }
-        .card h2 { margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; color: var(--text-color); }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; font-weight: bold; font-size: 14px; }
-        input, select, textarea { width: 100%; padding: 10px; background-color: var(--bg-color); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-color); box-sizing: border-box; font-size: 14px; }
-        input:focus, select:focus, textarea:focus { outline: none; border-color: var(--accent-color); }
-        button { cursor: pointer; padding: 12px 20px; border: none; border-radius: 4px; font-weight: bold; font-size: 14px; transition: background 0.2s; width: 100%; margin-top: 10px; }
-        .btn-calc { background-color: var(--accent-color); color: #000; }
-        .btn-calc:hover { background-color: #0097a7; }
-        .btn-copy { background-color: var(--discord-blurple); color: #fff; }
-        .btn-copy:hover { background-color: #4752c4; }
-        #discord-preview { background-color: #2f3136; font-family: 'Courier New', Courier, monospace; white-space: pre-wrap; padding: 15px; border-radius: 4px; border: 1px solid #202225; color: #dcddde; min-height: 150px; font-size: 13px; }
-        .badge-ip { display: inline-block; padding: 3px 8px; border-radius: 4px; font-size: 12px; font-weight: bold; margin-top: 5px; background-color: var(--border-color); }
+        .container { max-width: 800px; margin: 0 auto; }
+        header { text-align: center; padding: 20px 0; margin-bottom: 20px; }
+        header h1 { margin: 0; color: var(--text-color); letter-spacing: 1px; font-size: 32px; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        header p { margin: 5px 0 0 0; opacity: 0.6; font-size: 14px; }
+        
+        /* Main Menu Buttons (Police Helper Style) */
+        .menu-list { display: flex; flex-direction: column; gap: 15px; margin: 30px auto; max-width: 600px; }
+        .menu-item {
+            background-color: var(--btn-bg); border: 2px solid var(--border-color);
+            border-radius: 8px; padding: 20px; text-align: center; font-weight: bold;
+            cursor: pointer; transition: all 0.2s ease; font-size: 16px; color: var(--text-color);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+        .menu-item:hover { background-color: var(--btn-hover); border-color: var(--accent-color); transform: translateY(-2px); }
+        .menu-item.disabled { opacity: 0.5; cursor: not-allowed; background-color: #15191d; border-style: dashed; }
+        .menu-item.disabled:hover { transform: none; border-color: var(--border-color); }
+
+        /* Content Sections */
+        .content-section { display: none; background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); margin-top: 20px; }
+        .content-section h2 { margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-size: 22px; color: var(--accent-color); margin-bottom: 20px; }
+        
+        /* Table Styles */
+        .table-container { background-color: var(--bg-color); border-radius: 6px; padding: 10px; border: 1px solid var(--border-color); overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+        th, td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); }
+        th { background-color: #1e252b; color: var(--accent-color); font-weight: bold; }
+        
+        .rank-header { font-weight: bold; text-transform: uppercase; font-size: 13px; letter-spacing: 1px; color: #ffffff; text-align: center; padding: 10px; }
+        .bg-direksi { background-color: var(--color-direksi); }
+        .bg-hrd { background-color: var(--color-hrd); }
+        .bg-spesialis { background-color: var(--color-spesialis); }
+        .bg-umum { background-color: var(--color-umum); }
+        .bg-coass { background-color: var(--color-coass); }
+        .bg-trainee { background-color: var(--color-trainee); }
+
+        .back-btn { background-color: #374151; color: white; border: none; padding: 8px 15px; font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-bottom: 20px; }
+        .back-btn:hover { background-color: #4b5563; }
     </style>
 </head>
 <body>
 <div class="container">
     <header>
-        <h1>RUMAH SAKIT HOMMI HELPER</h1>
-        <p>Sistem Penginputan & Generator Infraction Point (IP) Discord Faksi</p>
+        <h1>Rumah Sakit Hommi Helper</h1>
+        <p>Sistem Informasi & Papan Pengumuman Internal Faksi</p>
     </header>
-    <div class="helper-grid">
-        <div class="card">
-            <h2>Input Data Pelanggaran</h2>
-            <div class="form-group">
-                <label for="nama-staff">Nama Staff Medis</label>
-                <input type="text" id="nama-staff" placeholder="Contoh: Paijo / Siti Ceprit">
-            </div>
-            <div class="form-group">
-                <label for="pangkat-staff">Pangkat / Jabatan</label>
-                <select id="pangkat-staff" onchange="updateMaxIP()">
-                    <option value="Trainee" data-max="0">Trainee (Max 0 IP)</option>
-                    <option value="Co-Ass" data-max="50">Co-Ass (Max 50 IP)</option>
-                    <option value="Dokter Umum" data-max="75">Dokter Umum (Max 75 IP)</option>
-                    <option value="Dokter Spesialis" data-max="100">Dokter Spesialis (Max 100 IP)</option>
-                    <option value="HRD & Komdis" data-max="200">HRD & Komdis (Max 200 IP)</option>
-                    <option value="KABID & Direktur" data-max="Unlimited">KABID & Direktur (Unlimited IP)</option>
-                </select>
-                <div id="info-max-ip" class="badge-ip">Batas Maksimal Pangkat: 0 IP</div>
-            </div>
-            <div class="form-group">
-                <label for="jenis-pelanggaran">Jenis Pelanggaran (SOP)</label>
-                <select id="jenis-pelanggaran" onchange="checkCustomPelanggaran()">
-                    <option value="10" data-sp="SP1">Ketidakhadiran Tanpa Kabar / Alpha (-10 IP + SP1)</option>
-                    <option value="5" data-sp="Verbal/SP1">Overstay Surat Izin / Penyalahgunaan Izin (-5 IP)</option>
-                    <option value="3" data-sp="Verbal">Kurang Jam Kerja / Under Duty (-3 IP)</option>
-                    <option value="10" data-sp="SP1">Keluyuran Saat Dinas / Loitering Berulang (-10 IP + SP1)</option>
-                    <option value="0" data-sp="Verbal">Pelanggaran Protokol Radio / Radio Comms (Verbal Peringatan)</option>
-                    <option value="MAX" data-sp="PTDH">Kolusi dengan Kriminal / High Treason (PTDH Langsung)</option>
-                    <option value="custom" data-sp="Custom">-- Pelanggaran Kustom / Input Manual --</option>
-                </select>
-            </div>
-            <div class="form-group" id="custom-ip-group" style="display: none;">
-                <label for="custom-ip">Nilai Pengurangan IP Manual</label>
-                <input type="number" id="custom-ip" value="0" min="0">
-            </div>
-            <div class="form-group">
-                <label for="keterangan-kasus">Kronologi / Catatan Tambahan</label>
-                <textarea id="keterangan-kasus" rows="3" placeholder="Contoh: Kedapatan nongkrong di mekanik..."></textarea>
-            </div>
-            <button class="btn-calc" onclick="generateDiscordText()">Generate Teks Discord</button>
-        </div>
-        <div class="card">
-            <h2>Preview Teks Discord (Markdown)</h2>
-            <div class="form-group">
-                <div id="discord-preview">Belum ada data yang dimasukkan. Silakan isi form di sebelah kiri lalu klik "Generate".</div>
-            </div>
-            <button class="btn-copy" onclick="copyToClipboard()">📋 Copy Teks ke Clipboard</button>
+
+    <!-- MAIN INTERFACE BUTTONS -->
+    <div id="main-menu" class="menu-list">
+        <div class="menu-item" onclick="openSection('infraction')">📊 Infraction Point Staff</div>
+        <div class="menu-item disabled">👥 Struktur Rumah Sakit (Coming Soon)</div>
+    </div>
+
+    <!-- INFRACTION POINT SECTION PANEL -->
+    <div id="section-infraction" class="content-section">
+        <button class="back-btn" onclick="backToMenu()">⬅ Kembali ke Menu Utama</button>
+        <h2>Data Infraction Point (IP) Staff</h2>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nama Staff</th>
+                        <th>Pangkat / Jabatan</th>
+                        <th>Infraction Point</th>
+                    </tr>
+                </thead>
+                <tbody id="staff-table-body">
+                    <!-- Loaded via Javascript -->
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 <script>
-    function updateMaxIP() {
-        const select = document.getElementById('pangkat-staff');
-        const selectedOption = select.options[select.selectedIndex];
-        const maxIp = selectedOption.getAttribute('data-max');
-        document.getElementById('info-max-ip').innerText = `Batas Maksimal Pangkat: ${maxIp} IP`;
-    }
-    function checkCustomPelanggaran() {
-        const jenis = document.getElementById('jenis-pelanggaran').value;
-        const customGroup = document.getElementById('custom-ip-group');
-        if (jenis === 'custom') { customGroup.style.display = 'block'; } else { customGroup.style.display = 'none'; }
-    }
-    function generateDiscordText() {
-        const nama = document.getElementById('nama-staff').value || "TANPA NAMA";
-        const pangkat = document.getElementById('pangkat-staff').value;
-        const selectPangkat = document.getElementById('pangkat-staff');
-        const maxIpLimit = selectPangkat.options[selectPangkat.selectedIndex].getAttribute('data-max');
-        const selectPelanggaran = document.getElementById('jenis-pelanggaran');
-        const pelanggaranNama = selectPelanggaran.options[selectPelanggaran.selectedIndex].text;
-        let sanksiSP = selectPelanggaran.options[selectPelanggaran.selectedIndex].getAttribute('data-sp');
-        let poinDikurang = selectPelanggaran.value;
+    // DATA DIKUNCI MATI SESUAI DOKUMEN ANDA
+    const staffDatabase = [
+        // DIREKSI
+        { name: "Prof. Dr. Dr. Kai Whitegate, Sp.B", rank: "Direktur Utama", ip: "Unlimited", group: "direksi", label: "JAJARAN DIREKSI & KABID (UNLIMITED IP)" },
+        { name: "Dr. El Zero D W, Sp.B", rank: "KABID HRD", ip: "Unlimited", group: "direksi" },
+        { name: "Dr. Karyo Wedus, Sp.JP", rank: "Wakil Direktur", ip: "Unlimited", group: "direksi" },
+        { name: "Gombloh", rank: "KABID Operasional", ip: "Unlimited", group: "direksi" },
+        { name: "Inem Segeer", rank: "KABID Keuangan", ip: "Unlimited", group: "direksi" },
+        { name: "Bagong", rank: "KABID Sarpras", ip: "Unlimited", group: "direksi" },
+        // HRD KOMDIS
+        { name: "Joko Kendil", rank: "Komite Disiplin", ip: "200 IP", group: "hrd", label: "PANGKAT/JABATAN: HRD & KOMDIS (MAX 200 IP)" },
+        { name: "Slamet Kopling", rank: "HRD Staff", ip: "200 IP", group: "hrd" },
+        { name: "Siyem Racing", rank: "Komite Disiplin", ip: "200 IP", group: "hrd" },
+        { name: "Marno Slebor", rank: "HRD Staff", ip: "200 IP", group: "hrd" },
+        // SPESIALIS
+        { name: "Dr. Sukijo, Sp.An", rank: "Dokter Spesialis", ip: "100 IP", group: "spesialis", label: "PANGKAT/JABATAN: DOKTER SPESIALIS (MAX 100 IP)" },
+        { name: "Dr. Warsiyem, Sp.OG", rank: "Dokter Spesialis", ip: "100 IP", group: "spesialis" },
+        { name: "Dr. Bambang Gentolet, Sp.B", rank: "Dokter Spesialis", ip: "100 IP", group: "spesialis" },
+        { name: "Dr. Paino, Sp.PD", rank: "Dokter Spesialis", ip: "100 IP", group: "spesialis" },
+        { name: "Dr. Srintil, Sp.KFR", rank: "Dokter Spesialis", ip: "100 IP", group: "spesialis" },
+        // DOKUM
+        { name: "Dr. Jono Petir", rank: "Dokter Umum", ip: "75 IP", group: "umum", label: "PANGKAT/JABATAN: DOKTER UMUM (MAX 75 IP)" },
+        { name: "Dr. Surti Jamu", rank: "Dokter Umum", ip: "75 IP", group: "umum" },
+        { name: "Dr. Udin Slebew", rank: "Dokter Umum", ip: "75 IP", group: "umum" },
+        { name: "Dr. Markopolo", rank: "Dokter Umum", ip: "75 IP", group: "umum" },
+        { name: "Dr. Tarjo", rank: "Dokter Umum", ip: "75 IP", group: "umum" },
+        // COASS
+        { name: "Matt", rank: "Co-Ass", ip: "50 IP", group: "coass", label: "PANGKAT/JABATAN: CO-ASS (MAX 50 IP)" },
+        { name: "Gembul", rank: "Co-Ass", ip: "50 IP", group: "coass" },
+        { name: "Siti Ceprit", rank: "Co-Ass", ip: "50 IP", group: "coass" },
+        { name: "Mukidi", rank: "Co-Ass", ip: "50 IP", group: "coass" },
+        { name: "Dadang Konelo", rank: "Co-Ass", ip: "50 IP", group: "coass" },
+        // TRAINEE
+        { name: "Tukumin", rank: "Trainee", ip: "0 IP", group: "trainee", label: "PANGKAT/JABATAN: TRAINEE (MAX 0 IP)" },
+        { name: "Markonah", rank: "Trainee", ip: "0 IP", group: "trainee" },
+        { name: "Paijo", rank: "Trainee", ip: "0 IP", group: "trainee" },
+        { name: "Sumiati", rank: "Trainee", ip: "0 IP", group: "trainee" },
+        { name: "Tejo", rank: "Trainee", ip: "0 IP", group: "trainee" }
+    ];
 
-        if (poinDikurang === 'custom') {
-            poinDikurang = document.getElementById('custom-ip').value;
-            sanksiSP = "Penyesuaian Internal";
-        }
-        let sisaIPText = "";
-        if (maxIpLimit === "Unlimited") {
-            sisaIPText = "Unlimited IP (Diskresi Atasan)";
-        } else if (poinDikurang === "MAX") {
-            sisaIPText = "0 IP (Kuota Habis)";
-        } else {
-            let sisa = parseInt(maxIpLimit) - parseInt(poinDikurang);
-            if (sisa < 0) sisa = 0;
-            sisaIPText = `${sisa} / ${maxIpLimit} IP`;
-        }
-        const kronologi = document.getElementById('keterangan-kasus').value || "Tidak ada catatan tambahan.";
-        const formatDiscord = `╔══════════════════════════════════════════════╗\\n   📢 **SURAT PENINDAKAN DISIPLIN - RS HOMMI**\\n╚══════════════════════════════════════════════╝\\n\\n**[ DATA ANGGOTA MEDIS ]**\\n• **Nama Staff:** ${nama}\\n• **Jabatan/Rank:** ${pangkat}\\n• **Kapasitas Kuota Akhir IP:** ${sisaIPText}\\n\\n**[ DETAIL PELANGGARAN ]**\\n• **Kasus:** ${pelanggaranNama}\\n• **Nilai Pengurangan:** -${poinDikurang === 'MAX' ? maxIpLimit : poinDikurang} IP\\n• **Status Sanksi Akhir:** ⚠️ **${sanksiSP}** ⚠️\\n\\n**[ KRONOLOGI / CATATAN ]**\\n*"${kronologi}"*\\n\\n--------------------------------------------------\\n*SOP Berlaku. Keputusan Komite Disiplin & Petinggi Rumah Sakit Hommi bersifat mutlak.*`;
-        document.getElementById('discord-preview').innerText = formatDiscord.replace(/\\n/g, '\n');
+    function renderTable() {
+        const tbody = document.getElementById("staff-table-body");
+        tbody.innerHTML = "";
+        
+        staffDatabase.forEach((staff) => {
+            if (staff.label) {
+                const headerRow = document.createElement("tr");
+                headerRow.innerHTML = `<td colspan="3" class="rank-header bg-${staff.group}">${staff.label}</td>`;
+                tbody.appendChild(headerRow);
+            }
+            
+            const row = document.createElement("tr");
+            row.innerHTML = `
+                <td><strong>${staff.name}</strong></td>
+                <td>${staff.rank}</td>
+                <td><span style="font-weight:bold; color: #e3e9f0;">${staff.ip}</span></td>
+            `;
+            tbody.appendChild(row);
+        });
     }
-    function copyToClipboard() {
-        const text = document.getElementById('discord-preview').innerText;
-        if(text.includes("Belum ada data")) { alert("Isi data dan generate terlebih dahulu!"); return; }
-        navigator.clipboard.writeText(text).then(() => { alert("Teks berhasil disalin!"); }).catch(err => { alert("Gagal menyalin teks: ", err); });
+
+    function openSection(id) {
+        document.getElementById("main-menu").style.display = "none";
+        document.getElementById("section-" + id).style.display = "block";
     }
-    updateMaxIP();
+
+    function backToMenu() {
+        document.getElementById("section-infraction").style.display = "none";
+        document.getElementById("main-menu").style.display = "flex";
+    }
+
+    // Jalankan render tabel otomatis
+    renderTable();
 </script>
 </body>
 </html>
