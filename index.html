@@ -164,45 +164,25 @@
 </div>
 
 <script>
-    // DATABASE UTUH SEPERTI AWAL
+    // DATABASE HANYA KAI DAN ZERO SESUAI PERMINTAAN
     let staffDatabase = [
         { name: "Prof. Dr. Dr. Kai Whitegate, Sp.B", rank: "Direktur Utama", ip: "Unlimited" },
-        { name: "Dr. El Zero D W, Sp.B", rank: "KABID HRD", ip: "Unlimited" },
-        { name: "Dr. Karyo Wedus, Sp.JP", rank: "Wakil Direktur", ip: "Unlimited" },
-        { name: "Gombloh", rank: "KABID Operasional", ip: "Unlimited" },
-        { name: "Inem Segeer", rank: "KABID Keuangan", ip: "Unlimited" },
-        { name: "Bagong", rank: "KABID Sarpras", ip: "Unlimited" },
-        { name: "Joko Kendil", rank: "Komite Disiplin", ip: "200 IP" },
-        { name: "Slamet Kopling", rank: "HRD Staff", ip: "200 IP" },
-        { name: "Siyem Racing", rank: "Komite Disiplin", ip: "200 IP" },
-        { name: "Marno Slebor", rank: "HRD Staff", ip: "200 IP" },
-        { name: "Dr. Sukijo, Sp.An", rank: "Dokter Spesialis", ip: "100 IP" },
-        { name: "Dr. Warsiyem, Sp.OG", rank: "Dokter Spesialis", ip: "100 IP" },
-        { name: "Dr. Bambang Gentolet, Sp.B", rank: "Dokter Spesialis", ip: "100 IP" },
-        { name: "Dr. Paino, Sp.PD", rank: "Dokter Spesialis", ip: "100 IP" },
-        { name: "Dr. Srintil, Sp.KFR", rank: "Dokter Spesialis", ip: "100 IP" },
-        { name: "Dr. Jono Petir", rank: "Dokter Umum", ip: "75 IP" },
-        { name: "Dr. Surti Jamu", rank: "Dokter Umum", ip: "75 IP" },
-        { name: "Dr. Udin Slebew", rank: "Dokter Umum", ip: "75 IP" },
-        { name: "Dr. Markopolo", rank: "Dokter Umum", ip: "75 IP" },
-        { name: "Dr. Tarjo", rank: "Dokter Umum", ip: "75 IP" },
-        { name: "Matt", rank: "Co-Ass", ip: "50 IP" },
-        { name: "Gembul", rank: "Co-Ass", ip: "50 IP" },
-        { name: "Siti Ceprit", rank: "Co-Ass", ip: "50 IP" },
-        { name: "Mukidi", rank: "Co-Ass", ip: "50 IP" },
-        { name: "Dadang Konelo", rank: "Co-Ass", ip: "50 IP" },
-        { name: "Tukumin", rank: "Trainee", ip: "0 IP" },
-        { name: "Markonah", rank: "Trainee", ip: "0 IP" },
-        { name: "Paijo", rank: "Trainee", ip: "0 IP" },
-        { name: "Sumiati", rank: "Trainee", ip: "0 IP" },
-        { name: "Tejo", rank: "Trainee", ip: "0 IP" }
+        { name: "Dr. El Zero D W, Sp.B", rank: "KABID HRD", ip: "Unlimited" }
     ];
-    function renderTable() {
+       function renderTable() {
         const tbody = document.getElementById('staff-table-body');
         tbody.innerHTML = '';
-        staffDatabase.forEach(staff => {
+        staffDatabase.forEach((staff, index) => {
             const row = document.createElement('tr');
-            row.innerHTML = `<td>${staff.name}</td><td>${staff.rank}</td><td>${staff.ip}</td>`;
+            row.innerHTML = `
+                <td>${staff.name}</td>
+                <td>${staff.rank}</td>
+                <td>${staff.ip}</td>
+                <td style="text-align: center; white-space: nowrap;">
+                    <button onclick="editStaff(${index})" style="background-color: #ffcc00; color: black; border: none; padding: 4px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 5px; font-size: 12px;">✏️ Edit</button>
+                    <button onclick="hapusStaff(${index})" style="background-color: #ff3333; color: white; border: none; padding: 4px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px;">❌ Hapus</button>
+                </td>
+            `;
             tbody.appendChild(row);
         });
     }
@@ -225,8 +205,43 @@
         document.getElementById('ip_jumlah').value = '';
 
         const status = document.getElementById('ip_status');
-        status.innerText = "✅ Data berhasil ditambahkan ke tabel layar!";
+        status.innerText = "✅ Data berhasil ditambahkan ke tabel!";
         setTimeout(() => { status.innerText = ""; }, 3000);
+    }
+
+    function editStaff(index) {
+        const staff = staffDatabase[index];
+        const namaBaru = prompt("Edit Nama Staff:", staff.name);
+        if (namaBaru === null) return; // Batal edit
+        
+        const jabatanBaru = prompt("Edit Jabatan/Pangkat:", staff.rank);
+        if (jabatanBaru === null) return;
+        
+        const ipBaru = prompt("Edit Infraction Point:", staff.ip);
+        if (ipBaru === null) return;
+
+        if (!namaBaru || !jabatanBaru || !ipBaru) {
+            alert("Semua kolom edit wajib diisi!");
+            return;
+        }
+
+        staffDatabase[index] = { name: namaBaru, rank: jabatanBaru, ip: ipBaru };
+        renderTable();
+        
+        const status = document.getElementById('ip_status');
+        status.innerText = "✏️ Data staff berhasil diperbarui!";
+        setTimeout(() => { status.innerText = ""; }, 3000);
+    }
+
+    function hapusStaff(index) {
+        if (confirm(`Apakah Anda yakin ingin menghapus ${staffDatabase[index].name} dari tabel?`)) {
+            staffDatabase.splice(index, 1);
+            renderTable();
+            
+            const status = document.getElementById('ip_status');
+            status.innerText = "❌ Data staff berhasil dihapus!";
+            setTimeout(() => { status.innerText = ""; }, 3000);
+        }
     }
 
     function copyStaffDiscord() {
@@ -274,6 +289,7 @@
         if(id === 'farmasi') updateFarmasiFormat();
     }
 
+    // Pembaruan fungsi kembali agar otomatis memperbarui tabel utama
     function backToMenu() {
         document.getElementById('main-menu').style.display = 'flex';
         document.getElementById('section-infraction').style.display = 'none';
