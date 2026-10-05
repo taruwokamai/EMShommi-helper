@@ -37,7 +37,6 @@
         }
         .menu-item:hover { background-color: var(--btn-hover); border-color: var(--accent-color); transform: translateY(-2px); }
         .menu-item.disabled { opacity: 0.4; cursor: not-allowed; border-style: dashed; color: #666; }
-
         /* Content Sections */
         .content-section { display: none; background-color: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; padding: 25px; box-shadow: 0 4px 12px rgba(0,0,0,0.7); margin-top: 20px; }
         .content-section h2 { margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 12px; font-size: 22px; color: var(--accent-color); margin-bottom: 20px; }
@@ -54,8 +53,20 @@
         /* Table Styles */
         .table-container { background-color: var(--bg-color); border-radius: 6px; padding: 10px; border: 1px solid var(--border-color); overflow-x: auto; margin-top: 15px; }
         table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
-        th, td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); }
+        th, td { padding: 12px 15px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
         th { background-color: #260808; color: var(--accent-color); font-weight: bold; }
+        
+        .table-input {
+            width: 100%;
+            padding: 6px 8px;
+            background-color: var(--btn-bg);
+            border: 1px solid var(--accent-color);
+            border-radius: 4px;
+            color: var(--text-color);
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        .table-input:focus { outline: none; border-color: var(--accent-color); box-shadow: 0 0 4px rgba(255,204,0,0.4); }
         
         .back-btn { background-color: #5a1212; color: white; border: 1px solid var(--accent-color); padding: 8px 15px; font-size: 13px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-bottom: 20px; }
         .back-btn:hover { background-color: #7a1a1a; }
@@ -64,7 +75,13 @@
         .btn-action:hover { background-color: var(--accent-color); }
         .btn-discord { background-color: #5865F2; color: white; }
         .btn-discord:hover { background-color: #4752c4; }
-
+        .btn-save { background-color: #28a745; color: white; border: none; padding: 5px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 4px; font-size: 12px; }
+        .btn-save:hover { background-color: #218838; }
+        .btn-cancel { background-color: #6c757d; color: white; border: none; padding: 5px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn-cancel:hover { background-color: #5a6268; }
+        .btn-delete { background-color: #ff3333; color: white; border: none; padding: 5px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; }
+        .btn-delete:hover { background-color: #cc0000; }
+        
         .preview-box { background-color: var(--bg-color); color: var(--accent-color); padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); white-space: pre-wrap; font-family: monospace; font-size: 14px; margin-top: 10px; text-align: left; }
         .status-msg { display: block; color: #48bb78; font-size: 13px; margin-top: 8px; font-weight: bold; }
     </style>
@@ -75,14 +92,12 @@
         <h1>Rumah Sakit Hommi Helper</h1>
         <p>Sistem Informasi & Papan Pengumuman Internal Faksi</p>
     </header>
-
     <!-- MENU UTAMA -->
     <div id="main-menu" class="menu-list">
         <div class="menu-item" onclick="openSection('infraction')">📊 Infraction Point Staff</div>
         <div class="menu-item" onclick="openSection('farmasi')">💊 Pencatatan Farmasi</div>
         <div class="menu-item disabled">👥 Struktur Rumah Sakit (Coming Soon)</div>
     </div>
-
     <!-- HALAMAN INFRACTION POINT -->
     <div id="section-infraction" class="content-section">
         <button class="back-btn" onclick="backToMenu()">⬅ Kembali ke Menu Utama</button>
@@ -106,7 +121,6 @@
             <button class="btn-action btn-discord" onclick="copyStaffDiscord()">📋 Get Code for Discord</button>
             <span id="ip_status" class="status-msg"></span>
         </div>
-
         <!-- Tabel Tampilan -->
         <div class="table-container">
             <table>
@@ -140,7 +154,6 @@
                 </label>
             </div>
         </div>
-
         <div class="form-group">
             <label>NAMA PASIEN :</label>
             <input type="text" id="farmasi_pasien" class="form-control" placeholder="Masukkan nama pasien" oninput="updateFarmasiFormat()">
@@ -153,7 +166,6 @@
             <label>BUKTI RESEP OBAT (Link Foto) :</label>
             <input type="text" id="farmasi_foto" class="form-control" placeholder="Masukkan link foto resep" oninput="updateFarmasiFormat()">
         </div>
-
         <div style="margin-top: 20px;">
             <label style="font-weight: bold; opacity: 0.8; font-size: 14px; color: var(--accent-color);">Preview Format Discord:</label>
             <pre id="farmasi_preview" class="preview-box"></pre>
@@ -163,70 +175,87 @@
         <span id="farmasi_status" class="status-msg" style="text-align: center;"></span>
     </div>
 </div>
-
 <script>
-    // DATABASE BERISI KAI DAN ZERO DENGAN KOLOM AKSI AKTIF
     let staffDatabase = [
-        { name: "Prof. Dr. Dr. Kai Whitegate, Sp.B", rank: "Direktur Utama", ip: "Unlimited" },
+        { name: "Prof. Dr. Kai Whitegate, Sp.B", rank: "Direktur Utama", ip: "Unlimited" },
         { name: "Dr. El Zero D W, Sp.B", rank: "KABID HRD", ip: "Unlimited" }
     ];
+    let editingIndex = -1; // menandai baris yang sedang diedit
+
     function renderTable() {
         const tbody = document.getElementById('staff-table-body');
         tbody.innerHTML = '';
         staffDatabase.forEach((staff, index) => {
             const row = document.createElement('tr');
-            row.innerHTML = `
-                <td>${staff.name}</td>
-                <td>${staff.rank}</td>
-                <td>${staff.ip}</td>
-                <td style="text-align: center; white-space: nowrap;">
-                    <button onclick="editStaff(${index})" style="background-color: #ffcc00; color: black; border: none; padding: 4px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 5px; font-size: 12px;">✏️ Edit</button>
-                    <button onclick="hapusStaff(${index})" style="background-color: #ff3333; color: white; border: none; padding: 4px 8px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px;">❌ Hapus</button>
-                </td>
-            `;
+            
+            if (editingIndex === index) {
+                // Mode Edit — tampilkan input langsung di tabel
+                row.innerHTML = `
+                    <td><input type="text" id="edit-name-${index}" class="table-input" value="${escapeHtml(staff.name)}"></td>
+                    <td><input type="text" id="edit-rank-${index}" class="table-input" value="${escapeHtml(staff.rank)}"></td>
+                    <td><input type="text" id="edit-ip-${index}" class="table-input" value="${escapeHtml(staff.ip)}"></td>
+                    <td style="text-align: center; white-space: nowrap;">
+                        <button onclick="simpanEdit(${index})" class="btn-save">✅ Simpan</button>
+                        <button onclick="batalEdit()" class="btn-cancel">↩ Batal</button>
+                    </td>
+                `;
+            } else {
+                // Mode Tampil Biasa
+                row.innerHTML = `
+                    <td>${escapeHtml(staff.name)}</td>
+                    <td>${escapeHtml(staff.rank)}</td>
+                    <td>${escapeHtml(staff.ip)}</td>
+                    <td style="text-align: center; white-space: nowrap;">
+                        <button onclick="editStaff(${index})" style="background-color: #ffcc00; color: black; border: none; padding: 5px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; margin-right: 4px; font-size: 12px;">✏️ Edit</button>
+                        <button onclick="hapusStaff(${index})" class="btn-delete">❌ Hapus</button>
+                    </td>
+                `;
+            }
             tbody.appendChild(row);
         });
     }
 
-    function tambahStaff() {
-        const nama = document.getElementById('ip_nama').value;
-        const jabatan = document.getElementById('ip_jabatan').value;
-        const ip = document.getElementById('ip_jumlah').value;
+    function escapeHtml(text) {
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
 
+    function tambahStaff() {
+        const nama = document.getElementById('ip_nama').value.trim();
+        const jabatan = document.getElementById('ip_jabatan').value.trim();
+        const ip = document.getElementById('ip_jumlah').value.trim();
         if(!nama || !jabatan || !ip) {
             alert("Harap isi semua kolom input data staff!");
             return;
         }
-
         staffDatabase.push({ name: nama, rank: jabatan, ip: ip });
         renderTable();
-
         document.getElementById('ip_nama').value = '';
         document.getElementById('ip_jabatan').value = '';
         document.getElementById('ip_jumlah').value = '';
-
         const status = document.getElementById('ip_status');
         status.innerText = "✅ Data berhasil ditambahkan ke tabel!";
         setTimeout(() => { status.innerText = ""; }, 3000);
     }
 
     function editStaff(index) {
-        const staff = staffDatabase[index];
-        const namaBaru = prompt("Edit Nama Staff:", staff.name);
-        if (namaBaru === null) return; 
-        
-        const jabatanBaru = prompt("Edit Jabatan/Pangkat:", staff.rank);
-        if (jabatanBaru === null) return;
-        
-        const ipBaru = prompt("Edit Infraction Point:", staff.ip);
-        if (ipBaru === null) return;
+        editingIndex = index;
+        renderTable();
+    }
 
+    function simpanEdit(index) {
+        const namaBaru = document.getElementById(`edit-name-${index}`).value.trim();
+        const jabatanBaru = document.getElementById(`edit-rank-${index}`).value.trim();
+        const ipBaru = document.getElementById(`edit-ip-${index}`).value.trim();
+        
         if (!namaBaru || !jabatanBaru || !ipBaru) {
-            alert("Semua kolom edit wajib diisi!");
+            alert("Semua kolom wajib diisi!");
             return;
         }
-
+        
         staffDatabase[index] = { name: namaBaru, rank: jabatanBaru, ip: ipBaru };
+        editingIndex = -1;
         renderTable();
         
         const status = document.getElementById('ip_status');
@@ -234,9 +263,15 @@
         setTimeout(() => { status.innerText = ""; }, 3000);
     }
 
+    function batalEdit() {
+        editingIndex = -1;
+        renderTable();
+    }
+
     function hapusStaff(index) {
         if (confirm(`Apakah Anda yakin ingin menghapus ${staffDatabase[index].name} dari tabel?`)) {
             staffDatabase.splice(index, 1);
+            if (editingIndex === index) editingIndex = -1;
             renderTable();
             
             const status = document.getElementById('ip_status');
@@ -251,7 +286,6 @@
             teksDiscord += `Nama: ${staff.name}\nJabatan: ${staff.rank}\nIP: ${staff.ip}\n-----------------------\n`;
         });
         teksDiscord += "```";
-
         navigator.clipboard.writeText(teksDiscord).then(() => {
             const status = document.getElementById('ip_status');
             status.innerText = "✅ Kode Discord berhasil disalin! Tinggal paste ke Discord.";
@@ -264,12 +298,10 @@
         const nama = document.getElementById('farmasi_pasien').value || '';
         const obat = document.getElementById('farmasi_obat').value || '';
         const foto = document.getElementById('farmasi_foto').value || '[masukin link]';
-
         const formatTeks = "```\n" + jenis + "\n\n" +
                            "NAMA PASIEN : " + nama + "\n" +
                            "OBAT/JUMLAH : " + obat + "\n" +
                            "BUKTI RESEP OBAT\n" + foto + "\n```";
-
         document.getElementById('farmasi_preview').innerText = formatTeks;
     }
 
@@ -288,12 +320,14 @@
         document.getElementById('section-farmasi').style.display = 'none';
         document.getElementById('section-' + id).style.display = 'block';
         if(id === 'farmasi') updateFarmasiFormat();
+        editingIndex = -1; // keluar mode edit jika pindah halaman
     }
 
     function backToMenu() {
         document.getElementById('main-menu').style.display = 'flex';
         document.getElementById('section-infraction').style.display = 'none';
         document.getElementById('section-farmasi').style.display = 'none';
+        editingIndex = -1;
     }
 
     window.onload = function() { renderTable(); };
