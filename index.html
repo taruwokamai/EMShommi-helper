@@ -115,6 +115,7 @@
                         <th>Nama Staff</th>
                         <th>Pangkat / Jabatan</th>
                         <th>Infraction Point</th>
+                        <th style="text-align: center;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="staff-table-body">
@@ -164,12 +165,12 @@
 </div>
 
 <script>
-    // DATABASE HANYA KAI DAN ZERO SESUAI PERMINTAAN
+    // DATABASE BERISI KAI DAN ZERO DENGAN KOLOM AKSI AKTIF
     let staffDatabase = [
         { name: "Prof. Dr. Dr. Kai Whitegate, Sp.B", rank: "Direktur Utama", ip: "Unlimited" },
         { name: "Dr. El Zero D W, Sp.B", rank: "KABID HRD", ip: "Unlimited" }
     ];
-       function renderTable() {
+    function renderTable() {
         const tbody = document.getElementById('staff-table-body');
         tbody.innerHTML = '';
         staffDatabase.forEach((staff, index) => {
@@ -212,7 +213,7 @@
     function editStaff(index) {
         const staff = staffDatabase[index];
         const namaBaru = prompt("Edit Nama Staff:", staff.name);
-        if (namaBaru === null) return; // Batal edit
+        if (namaBaru === null) return; 
         
         const jabatanBaru = prompt("Edit Jabatan/Pangkat:", staff.rank);
         if (jabatanBaru === null) return;
@@ -289,7 +290,6 @@
         if(id === 'farmasi') updateFarmasiFormat();
     }
 
-    // Pembaruan fungsi kembali agar otomatis memperbarui tabel utama
     function backToMenu() {
         document.getElementById('main-menu').style.display = 'flex';
         document.getElementById('section-infraction').style.display = 'none';
