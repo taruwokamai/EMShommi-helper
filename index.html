@@ -1,211 +1,212 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Rumah Sakit Hommi Helper</title>
-    <style>
-        :root{--bg-color:#0c0000;--card-bg:#1a0505;--text-color:#fff;--border-color:#7a0000;--accent-color:#ffc;--accent-red:#f33;--btn-bg:#260808;--btn-hover:#3d0d0d;--success:#28a745}
-        *{box-sizing:border-box;margin:0;padding:0}
-        body{font-family:'Segoe UI',sans-serif;background:var(--bg-color);color:var(--text-color);padding:20px;line-height:1.6}
-        .container{max-width:900px;margin:0 auto}
-        header{text-align:center;padding:20px;margin-bottom:20px;border-bottom:3px solid var(--accent-color)}
-        header h1{color:var(--accent-color);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
-        header p{margin-top:5px;color:var(--accent-red);font-weight:700;font-size:14px}
-        .menu-list{display:flex;flex-direction:column;gap:12px;margin:25px auto;max-width:600px}
-        .menu-item{background:var(--btn-bg);border:2px solid var(--border-color);border-radius:8px;padding:18px;text-align:center;font-weight:700;cursor:pointer;transition:.2s;font-size:16px;color:var(--accent-color)}
-        .menu-item:hover{background:var(--btn-hover);border-color:var(--accent-color);transform:translateY(-2px)}
-        .menu-item.disabled{opacity:.4;cursor:not-allowed;border-style:dashed;color:#666}
-        .content-section{display:none;background:var(--card-bg);border:2px solid var(--border-color);border-radius:8px;padding:25px;margin-top:20px}
-        .back-btn{background:#5a1212;color:#fff;border:1px solid var(--accent-color);padding:8px 15px;border-radius:4px;cursor:pointer;margin-bottom:20px;font-weight:700}
-        .back-btn:hover{background:#7a1a1a}
-        .form-group{margin-bottom:15px}
-        .form-group label{display:block;font-weight:700;margin-bottom:5px;color:var(--accent-color);font-size:14px}
-        .form-control{width:100%;padding:10px;background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;color:var(--text-color);font-size:14px}
-        .form-control:focus{border-color:var(--accent-color);outline:none}
-        .form-control:disabled{opacity:.5;cursor:not-allowed;background:#111}
-        .btn-action{background:var(--accent-color);color:#000;border:none;padding:10px 18px;font-weight:700;border-radius:6px;cursor:pointer;margin-right:8px;margin-top:8px}
-        .btn-action:hover{background:#ffd333}
-        .btn-action:disabled{opacity:.4;cursor:not-allowed;transform:none}
-        .btn-discord{background:#5865f2;color:#fff}
-        .btn-discord:hover{background:#4752c4}
-        .btn-copy-sm{background:var(--accent-color);color:#000;border:none;padding:4px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px}
-        .btn-save{background:var(--success);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
-        .btn-save:hover{background:#218838}
-        .btn-cancel{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
-        .btn-cancel:hover{background:#5a6268}
-        .btn-delete{background:var(--accent-red);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
-        .btn-delete:hover{background:#c00}
-        .table-container{background:var(--bg-color);border-radius:6px;padding:10px;border:1px solid var(--border-color);overflow-x:auto;margin-top:15px}
-        table{width:100%;border-collapse:collapse;font-size:14px}
-        th,td{padding:12px;border-bottom:1px solid var(--border-color);vertical-align:middle}
-        th{background:#260808;color:var(--accent-color);font-weight:700}
-        .table-input{width:100%;padding:6px 8px;background:var(--btn-bg);border:1px solid var(--accent-color);border-radius:4px;color:var(--text-color);font-size:14px}
-        .table-input:focus{outline:none;box-shadow:0 0 4px rgba(255,204,0,.4)}
-        .kategori-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:20px 0}
-        .kategori-btn{background:var(--btn-bg);border:2px solid var(--border-color);border-radius:8px;padding:14px 10px;color:var(--accent-color);font-weight:700;cursor:pointer;transition:.2s;text-align:center}
-        .kategori-btn:hover,.kategori-btn.active{border-color:var(--accent-color);background:var(--btn-hover);transform:translateY(-2px)}
-        .tingkat-wrapper{display:none;margin:15px 0}
-        .tingkat-wrapper.show{display:block}
-        .tingkat-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-        .tingkat-btn{background:var(--btn-bg);border:2px solid var(--border-color);border-radius:6px;padding:10px 20px;color:var(--text-color);cursor:pointer;transition:.2s;font-weight:700}
-        .tingkat-btn:hover,.tingkat-btn.active{border-color:var(--accent-color);color:var(--accent-color)}
-        .hasil-resep{display:none;margin-top:20px}
-        .hasil-resep.show{display:block}
-        .resep-kotak{background:var(--bg-color);border:1px solid var(--accent-color);border-radius:8px;padding:18px;margin-bottom:15px}
-        .resep-judul{font-weight:700;color:var(--accent-color);font-size:16px;margin-bottom:10px}
-        .resep-baris{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #333}
-        .resep-baris:last-child{border-bottom:none}
-        .preview-box{background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;padding:15px;margin-top:10px;white-space:pre-wrap;font-family:monospace;font-size:14px;color:var(--accent-color)}
-        .status-msg{display:block;color:#48bb78;font-size:13px;margin-top:8px;font-weight:700}
-        .admin-badge{display:inline-block;background:var(--accent-color);color:#000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;margin-left:8px}
-        .lock-note{color:var(--accent-color);font-size:12px;margin-bottom:12px}
-        #admin-login-box{background:#1a0505;padding:15px;border-radius:6px;border:1px solid var(--accent-color);margin-bottom:20px}
-        #ip-input-box{background:var(--btn-bg);padding:15px;border-radius:6px;border:1px solid var(--border-color);margin-bottom:20px}
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rumah Sakit Hommi Helper</title>
+<style>
+:root{--bg:#0c0000;--cbg:#1a0505;--txt:#fff;--brd:#7a0000;--ac:#ffcc00;--acr:#ff3333;--bt:#260808;--bth:#3d0d0d;--ok:#28a745}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);padding:20px;line-height:1.6}
+.c{max-width:900px;margin:0 auto}
+h1{color:var(--ac);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
+.hd{text-align:center;padding:20px 0;border-bottom:3px solid var(--ac);margin-bottom:20px}
+.m{display:flex;flex-direction:column;gap:12px;max-width:600px;margin:25px auto}
+.mi{background:var(--bt);border:2px solid var(--brd);border-radius:8px;padding:18px;text-align:center;font-weight:700;color:var(--ac);cursor:pointer;transition:.2s}
+.mi:hover{background:var(--bth);border-color:var(--ac);transform:translateY(-2px)}
+.mi.d{opacity:.4;cursor:not-allowed;border-style:dashed;color:#666}
+.sec{display:none;background:var(--cbg);border:2px solid var(--brd);border-radius:8px;padding:25px;margin-top:20px}
+.bk{background:#5a1212;color:#fff;border:1px solid var(--ac);padding:8px 15px;border-radius:4px;cursor:pointer;font-weight:700;margin-bottom:20px}
+.bk:hover{background:#7a1a1a}
+.lb{display:block;font-weight:700;margin-bottom:5px;color:var(--ac);font-size:14px}
+.inp{width:100%;padding:10px;background:var(--bg);border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:14px;margin:0 0 15px}
+.inp:focus{border-color:var(--ac);outline:none}
+.inp:disabled{opacity:.5;cursor:not-allowed;background:#111}
+.btn{background:var(--ac);color:#000;border:none;padding:10px 18px;font-weight:700;border-radius:6px;cursor:pointer;margin:8px 8px 8px 0}
+.btn:hover{background:#ffd333}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.dc{background:#5865f2;color:#fff}
+.dc:hover{background:#4752c4}
+.sm{background:var(--ac);color:#000;border:none;padding:4px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px}
+.ok{background:var(--ok);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+.cn{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+.dl{background:var(--acr);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+.tb{background:var(--bg);border-radius:6px;padding:10px;border:1px solid var(--brd);overflow-x:auto;margin-top:15px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{padding:12px;border-bottom:1px solid var(--brd);vertical-align:middle}
+th{background:var(--bt);color:var(--ac)}
+.tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:14px}
+.kgr{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:20px 0}
+.kbtn{background:var(--bt);border:2px solid var(--brd);border-radius:8px;padding:14px 10px;color:var(--ac);font-weight:700;cursor:pointer}
+.kbtn:hover,.kbtn.a{border-color:var(--ac);background:var(--bth)}
+.twr{display:none;margin:15px 0}
+.twr.s{display:block}
+.trow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.tbtn{background:var(--bt);border:2px solid var(--brd);border-radius:6px;padding:10px 20px;color:var(--txt);cursor:pointer;font-weight:700}
+.tbtn:hover,.tbtn.a{border-color:var(--ac);color:var(--ac)}
+.hrs{display:none;margin-top:20px}
+.hrs.s{display:block}
+.rbx{background:var(--bg);border:1px solid var(--ac);border-radius:8px;padding:18px;margin-bottom:15px}
+.rh{font-weight:700;color:var(--ac);font-size:16px;margin-bottom:10px}
+.rr{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #333}
+.rr:last-child{border-bottom:none}
+.pre{background:var(--bg);border:1px solid var(--brd);border-radius:6px;padding:15px;margin-top:10px;white-space:pre-wrap;font-family:monospace;color:var(--ac)}
+.bg{display:inline-block;background:var(--ac);color:#000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;margin-left:8px}
+.lk{color:var(--ac);font-size:12px;margin-bottom:12px}
+.msg{color:#48bb78;font-size:13px;margin-top:8px;font-weight:700}
+.err{color:#ff6b6b}
+</style>
 </head>
 <body>
-<div class="container">
-    <header>
-        <h1>Rumah Sakit Hommi Helper</h1>
-        <p>Sistem Informasi & Papan Pengumuman Internal Faksi</p>
-    </header>
+<div class="c">
+<div class="hd">
+<h1>Rumah Sakit Hommi Helper</h1>
+<p style="color:var(--acr);font-weight:700;font-size:14px;margin-top:5px">Sistem Informasi & Papan Pengumuman Internal Faksi</p>
+</div>
 
-    <div id="main-menu" class="menu-list">
-        <div class="menu-item" onclick="__S('infraction')">📊 Infraction Point Staff</div>
-        <div class="menu-item" onclick="__S('farmasi')">💊 Pencatatan Farmasi</div>
-        <div class="menu-item" onclick="__S('resep')">📋 Panduan Resep Dokter</div>
-        <div class="menu-item disabled">👥 Struktur Rumah Sakit (Coming Soon)</div>
-    </div>
+<div id="M" class="m">
+<div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
+<div class="mi" onclick="__X('fm')">💊 Pencatatan Farmasi</div>
+<div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
+<div class="mi d">👥 Struktur Rumah Sakit (Coming Soon)</div>
+</div>
 
-    <div id="section-infraction" class="content-section">
-        <button class="back-btn" onclick="__B()">⬅ Kembali ke Menu Utama</button>
-        <h2>Input & Data Infraction Point (IP) Staff <span id="_adm" class="admin-badge" style="display:none">🔒 ADMIN</span></h2>
+<div id="Sip" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>Input & Data Infraction Point (IP) Staff <span id="AD" class="bg" style="display:none">🔒 ADMIN</span></h2>
+<div id="LBOX">
+<label class="lb">🔑 Kata Sandi Admin (Hanya Pemilik):</label>
+<input type="password" id="PW" class="inp" placeholder="Masukkan kata sandi...">
+<button class="btn" onclick="__L()">🔓 Buka Akses Edit</button>
+<span id="LMG" class="msg"></span>
+</div>
+<div id="IBOX" style="opacity:.6;pointer-events:none">
+<div class="lk">🔒 Terkunci — Masukkan kata sandi admin untuk mengubah data</div>
+<label class="lb">NAMA STAFF :</label>
+<input type="text" id="NM" class="inp" disabled>
+<label class="lb">JABATAN / PANGKAT :</label>
+<input type="text" id="JB" class="inp" disabled>
+<label class="lb">INFRACTION POINT (IP) :</label>
+<input type="text" id="IP" class="inp" disabled>
+<button class="btn" id="ADD" onclick="__A()" disabled>➕ Tambah</button>
+<button class="btn dc" onclick="__CP()">📋 Copy Discord</button>
+<span id="IM" class="msg"></span>
+</div>
+<div class="tb">
+<table><thead><tr><th>Nama Staff</th><th>Jabatan</th><th>IP</th><th id="AC" style="display:none;text-align:center">Aksi</th></tr></thead>
+<tbody id="TB"></tbody></table>
+</div>
+</div>
 
-        <div id="admin-login-box">
-            <div class="form-group">
-                <label>🔑 Kata Sandi Admin (Hanya Pemilik):</label>
-                <input type="password" id="_p" class="form-control" placeholder="Masukkan kata sandi...">
-            </div>
-            <button class="btn-action" onclick="__L()">🔓 Buka Akses Edit</button>
-            <span id="_ls" class="status-msg"></span>
-        </div>
+<div id="Sfm" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>Data Penjualan Obat</h2>
+<label class="lb">PILIH JENIS FARMASI:</label>
+<div style="margin:5px 0 15px 0">
+<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin:5px 0"><input type="radio" name="J" value="Menggunakan Obat stress" checked onchange="__U()"> Menggunakan Obat stress</label>
+<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin:5px 0"><input type="radio" name="J" value="Tanpa Obat stress" onchange="__U()"> Tanpa Obat stress</label>
+</div>
+<label class="lb">NAMA PASIEN :</label>
+<input type="text" id="PN" class="inp" oninput="__U()">
+<label class="lb">OBAT/JUMLAH :</label>
+<input type="text" id="DR" class="inp" oninput="__U()">
+<label class="lb">LINK FOTO :</label>
+<input type="text" id="LK" class="inp" oninput="__U()">
+<label class="lb">Preview:</label>
+<pre id="PV" class="pre"></pre>
+<button class="btn dc" onclick="__FC()" style="width:100%;margin-top:15px">📋 Copy</button>
+<span id="FMG" class="msg"></span>
+</div>
 
-        <div id="ip-input-box" style="opacity:.6;pointer-events:none">
-            <div class="lock-note">🔒 Terkunci — Masukkan kata sandi admin untuk mengubah data</div>
-            <div class="form-group">
-                <label>NAMA STAFF :</label>
-                <input type="text" id="_n" class="form-control" disabled>
-            </div>
-            <div class="form-group">
-                <label>JABATAN / PANGKAT :</label>
-                <input type="text" id="_j" class="form-control" disabled>
-            </div>
-            <div class="form-group">
-                <label>INFRACTION POINT (IP) :</label>
-                <input type="text" id="_i" class="form-control" disabled>
-            </div>
-            <button class="btn-action" id="_bt" onclick="__A()" disabled>➕ Tambah</button>
-            <button class="btn-action btn-discord" onclick="__C()">📋 Copy Discord</button>
-            <span id="_is" class="status-msg"></span>
-        </div>
-        <div class="table-container">
-            <table>
-                <thead><tr><th>Nama Staff</th><th>Jabatan</th><th>IP</th><th id="_ca" style="text-align:center;display:none">Aksi</th></tr></thead>
-                <tbody id="_tb"></tbody>
-            </table>
-        </div>
-    </div>
-
-    <div id="section-farmasi" class="content-section">
-        <button class="back-btn" onclick="__B()">⬅ Kembali ke Menu Utama</button>
-        <h2>Data Penjualan Obat</h2>
-        <div class="form-group">
-            <label>PILIH JENIS FARMASI:</label>
-            <div style="display:flex;flex-direction:column;gap:8px;margin-top:5px">
-                <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
-                    <input type="radio" name="jo" value="Menggunakan Obat stress" checked onchange="__U()"> Menggunakan Obat stress
-                </label>
-                <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
-                    <input type="radio" name="jo" value="Tanpa Obat stress" onchange="__U()"> Tanpa Obat stress
-                </label>
-            </div>
-        </div>
-        <div class="form-group"><label>NAMA PASIEN :</label><input type="text" id="_fp" class="form-control" oninput="__U()"></div>
-        <div class="form-group"><label>OBAT/JUMLAH :</label><input type="text" id="_fo" class="form-control" oninput="__U()"></div>
-        <div class="form-group"><label>LINK FOTO :</label><input type="text" id="_ff" class="form-control" oninput="__U()"></div>
-        <div><label style="font-weight:700;color:var(--accent-color)">Preview:</label><pre id="_fv" class="preview-box"></pre></div>
-        <button class="btn-action btn-discord" onclick="__FC()" style="width:100%;margin-top:15px">📋 Copy</button>
-        <span id="_fs" class="status-msg"></span>
-    </div>
-
-    <div id="section-resep" class="content-section">
-        <button class="back-btn" onclick="__B()">⬅ Kembali ke Menu Utama</button>
-        <h2>📋 Panduan Resep Dokter</h2>
-        <div class="kategori-grid">
-            <div class="kategori-btn" onclick="__K('kepala')">Sakit Kepala</div>
-            <div class="kategori-btn" onclick="__K('luka')">Luka</div>
-            <div class="kategori-btn" onclick="__K('mag')">Maag</div>
-            <div class="kategori-btn" onclick="__K('terkilir')">Terkilir</div>
-            <div class="kategori-btn" onclick="__K('luka_bakar')">Luka Bakar</div>
-            <div class="kategori-btn" onclick="__K('lebam')">Lebam</div>
-        </div>
-        <div id="_tw" class="tingkat-wrapper">
-            <h3 style="color:var(--accent-color);margin-bottom:5px">Tingkat Keparahan:</h3>
-            <div class="tingkat-row">
-                <button class="tingkat-btn" onclick="__T('ringan')">🟢 Ringan</button>
-                <button class="tingkat-btn" onclick="__T('sedang')">🟡 Sedang</button>
-                <button class="tingkat-btn" onclick="__T('berat')">🔴 Berat</button>
-            </div>
-        </div>
-        <div id="_hr" class="hasil-resep">
-            <div class="resep-kotak">
-                <div class="resep-judul" id="_rj"></div>
-                <div class="resep-baris"><span><strong>💊 Obat:</strong> <span id="_ro"></span></span><button class="btn-copy-sm" onclick="__CP('_ro')">Copy</button></div>
-                <div class="resep-baris"><span><strong>📝 Cara Pakai:</strong> <span id="_rc"></span></span><button class="btn-copy-sm" onclick="__CP('_rc')">Copy</button></div>
-            </div>
-            <div style="margin-top:15px">
-                <label style="font-weight:700;color:var(--accent-color)">Format Discord:</label>
-                <pre id="_rp" class="preview-box"></pre>
-                <button class="btn-action btn-discord" onclick="__RC()">📋 Copy Lengkap</button>
-                <span id="_rs" class="status-msg"></span>
-            </div>
-        </div>
-    </div>
+<div id="Srp" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>📋 Panduan Resep Dokter</h2>
+<div class="kgr">
+<div class="kbtn" onclick="__K('kpl')">Sakit Kepala</div>
+<div class="kbtn" onclick="__K('lka')">Luka</div>
+<div class="kbtn" onclick="__K('mag')">Maag</div>
+<div class="kbtn" onclick="__K('trk')">Terkilir</div>
+<div class="kbtn" onclick="__K('bkr')">Luka Bakar</div>
+<div class="kbtn" onclick="__K('lbm')">Lebam</div>
+</div>
+<div id="TW" class="twr">
+<h3 style="color:var(--ac);margin:5px 0">Tingkat Keparahan:</h3>
+<div class="trow">
+<button class="tbtn" onclick="__T('rng')">🟢 Ringan</button>
+<button class="tbtn" onclick="__T('sdg')">🟡 Sedang</button>
+<button class="tbtn" onclick="__T('brt')">🔴 Berat</button>
+</div>
+</div>
+<div id="HR" class="hrs">
+<div class="rbx">
+<div class="rh" id="RJ"></div>
+<div class="rr"><span><strong>💊 Obat:</strong> <span id="RO"></span></span><button class="sm" onclick="__CX('RO')">Copy</button></div>
+<div class="rr"><span><strong>📝 Cara Pakai:</strong> <span id="RC"></span></span><button class="sm" onclick="__CX('RC')">Copy</button></div>
+</div>
+<div style="margin-top:15px">
+<label class="lb">Format Discord:</label>
+<pre id="RP" class="pre"></pre>
+<button class="btn dc" onclick="__RC()">📋 Copy Lengkap</button>
+<span id="RMG" class="msg"></span>
+</div>
+</div>
+</div>
 </div>
 
 <script>
-// === PERLINDUNGAN F12 & KANAN KLIK ===
+// === BLOKIR F12 & KANAN KLIK ===
 document.addEventListener('contextmenu',e=>e.preventDefault());
 document.addEventListener('keydown',e=>{
-    if(e.ctrlKey&&(e.key==='u'||e.key==='U'||e.key==='s'||e.key==='S'||e.key==='i'||e.key==='I'||e.key==='j'||e.key==='J')) e.preventDefault();
-    if(e.key==='F12') e.preventDefault();
+if(e.key==='F12')e.preventDefault();
+if(e.ctrlKey&&['u','U','s','S','i','I','j','J'].includes(e.key))e.preventDefault();
 });
-(function(){const _=Function.prototype.constructor;Function.prototype.constructor=function(){if(this===_)throw'!';return _.constructor.apply(this,arguments)};})();
+(function(){const _=Function.prototype.constructor;Function.prototype.constructor=function(){if(this===_)throw'⛔';return _.constructor.apply(this,arguments)};})();
 
-// === KATA SANDI DIACAK — GANTI BAGIAN INI SAJA ===
-const __P=atob('anjek12321'); // ← GANTI "yourpassword123" jadi sandimu!
-let __A=false,__K=null,__T=null,__E=-1;
-const __D={kepala:{ringan:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},sedang:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari, jangan perut kosong'},berat:{j:'Sakit Kepala — Berat',o:'Ketorolac 10mg',c:'1 tablet tiap 6–8 jam, maksimal 5 hari'}},luka:{ringan:{j:'Luka — Ringan',o:'Povidone Iodine + Kasa',c:'Bersihkan, oleskan, tutup kasa steril'},sedang:{j:'Luka — Sedang',o:'Povidone + Mupirocin + Perban',c:'Bersihkan NaCl, oleskan salep, ganti tiap hari'},berat:{j:'Luka — Berat',o:'Antibiotik + Perban',c:'Amoxicillin 500mg 3x sehari, rujuk jika perlu'}},mag:{ringan:{j:'Maag — Ringan',o:'Antasida',c:'Minum 1–2 jam sesudah makan'},sedang:{j:'Maag — Sedang',o:'Omeprazole 20mg + Antasida',c:'Omeprazole pagi sebelum makan'},berat:{j:'Maag — Berat',o:'Pantoprazole 40mg + Domperidone',c:'Pantoprazole pagi, Domperidone 30mnt sebelum makan'}},terkilir:{ringan:{j:'Terkilir — Ringan',o:'Ibuprofen + Kompres Dingin',c:'Kompres 15–20mnt tiap 2–3jam'},sedang:{j:'Terkilir — Sedang',o:'Diclofenac + Perban Elastis',c:'Balut tidak terlalu kencang, kompres hangat hari ke-3'},berat:{j:'Terkilir — Berat',o:'Ketorolac + Rujukan',c:'Fiksasi sementara, rujuk rontgen'}},luka_bakar:{ringan:{j:'Luka Bakar — Ringan',o:'Povidone + Kasa',c:'Alirkan air dingin 10–15mnt, jangan pakai es langsung'},sedang:{j:'Luka Bakar — Sedang',o:'Silver Sulfadiazine',c:'Oleskan tipis, ganti balutan tiap hari'},berat:{j:'Luka Bakar — Berat',o:'Infus + Silver Sulfadiazine + Rujukan',c:'Pasang infus, rujuk IGD segera'}},lebam:{ringan:{j:'Lebam — Ringan',o:'Kompres Dingin + Paracetamol',c:'Jangan dipijat, hilang 5–7 hari'},sedang:{j:'Lebam — Sedang',o:'Kompres Dingin→Hangat + Ibuprofen',c:'Hari 3 ganti hangat untuk lancarkan darah'},berat:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}};
-let __Sd=[{n:'Prof. Dr. Kai Whitegate, Sp.B',r:'Direktur Utama',i:'Unlimited'},{n:'Dr. El Zero D W, Sp.B',r:'KABID HRD',i:'Unlimited'}];
+// === GANTI SANDI DI SINI ===
+const __SEC=atob('kalempongketek');
+let __ADM=false,__selK=null,__selT=null,__edit=-1;
+
+// === DATA RESEP ===
+const __R={
+kpl:{rng:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},
+sdg:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari, jangan perut kosong'},
+brt:{j:'Sakit Kepala — Berat',o:'Ketorolac 10mg',c:'1 tablet tiap 6–8 jam, maksimal 5 hari'}},
+lka:{rng:{j:'Luka — Ringan',o:'Povidone Iodine + Kasa',c:'Bersihkan, oleskan, tutup kasa steril'},
+sdg:{j:'Luka — Sedang',o:'Povidone + Mupirocin + Perban',c:'Bersihkan NaCl, oleskan salep, ganti tiap hari'},
+brt:{j:'Luka — Berat',o:'Antibiotik + Perban',c:'Amoxicillin 500mg 3x sehari, rujuk jika perlu'}},
+mag:{rng:{j:'Maag — Ringan',o:'Antasida',c:'Minum 1–2 jam sesudah makan'},
+sdg:{j:'Maag — Sedang',o:'Omeprazole 20mg + Antasida',c:'Omeprazole pagi sebelum makan'},
+brt:{j:'Maag — Berat',o:'Pantoprazole 40mg + Domperidone',c:'Pantoprazole pagi, Domperidone 30mnt sebelum makan'}},
+trk:{rng:{j:'Terkilir — Ringan',o:'Ibuprofen + Kompres Dingin',c:'Kompres 15–20mnt tiap 2–3jam'},
+sdg:{j:'Terkilir — Sedang',o:'Diclofenac + Perban Elastis',c:'Balut tidak terlalu kencang, kompres hangat hari ke-3'},
+brt:{j:'Terkilir — Berat',o:'Ketorolac + Rujukan',c:'Fiksasi sementara, rujuk rontgen'}},
+bkr:{rng:{j:'Luka Bakar — Ringan',o:'Povidone + Kasa',c:'Alirkan air dingin 10–15mnt, jangan pakai es langsung'},
+sdg:{j:'Luka Bakar — Sedang',o:'Silver Sulfadiazine',c:'Oleskan tipis, ganti balutan tiap hari'},
+brt:{j:'Luka Bakar — Berat',o:'Infus + Silver Sulfadiazine + Rujukan',c:'Pasang infus, rujuk IGD segera'}},
+lbm:{rng:{j:'Lebam — Ringan',o:'Kompres Dingin + Paracetamol',c:'Jangan dipijat, hilang 5–7 hari'},
+sdg:{j:'Lebam — Sedang',o:'Kompres Dingin→Hangat + Ibuprofen',c:'Hari 3 ganti hangat untuk lancarkan darah'},
+brt:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}
+};
+
+let __D=[{n:'Prof. Dr. Kai Whitegate, Sp.B',j:'Direktur Utama',i:'Unlimited'},{n:'Dr. El Zero D W, Sp.B',j:'KABID HRD',i:'Unlimited'}];
 
 // === FUNGSI ===
-function __L(){const p=document.getElementById('_p').value;if(atob('eW91cnBhc3N3b3JkMTIz')===p){__A=true;document.getElementById('_adm').style.display='inline-block';const b=document.getElementById('ip-input-box');b.style.opacity='1';b.style.pointerEvents='auto';b.querySelectorAll('.form-control,button').forEach(x=>x.disabled=false);b.querySelector('.lock-note').style.display='none';document.getElementById('_ca').style.display='table-cell';document.getElementById('_ls').innerText='✅ Akses diberikan!'}else{document.getElementById('_ls').innerText='❌ Salah!';__A=false}setTimeout(()=>document.getElementById('_ls').innerText='',3000)}
-function __S(id){document.getElementById('main-menu').style.display='none';document.querySelectorAll('.content-section').forEach(x=>x.style.display='none');document.getElementById('section-'+id).style.display='block';if(id==='farmasi')__U();if(id==='infraction')__R();__E=-1}
-function __B(){document.getElementById('main-menu').style.display='flex';document.querySelectorAll('.content-section').forEach(x=>x.style.display='none');__E=-1}
-function __K(k){__K=k;__T=null;document.querySelectorAll('.kategori-btn').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');document.getElementById('_tw').classList.add('show');document.getElementById('_hr').classList.remove('show')}
-function __T(t){__T=t;document.querySelectorAll('.tingkat-btn').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');const d=__D[__K][__T];document.getElementById('_rj').innerText=d.j;document.getElementById('_ro').innerText=d.o;document.getElementById('_rc').innerText=d.c;document.getElementById('_rp').innerText='```\n📋 RESEP DOKTER\nKondisi: '+d.j+'\n\n💊 OBAT:\n'+d.o+'\n\n📝 CARA PEMAKAIAN:\n'+d.c+'\n```';document.getElementById('_hr').classList.add('show')}
-function __CP(id){navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>{document.getElementById('_rs').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_rs').innerText='',2000)})}
-function __RC(){navigator.clipboard.writeText(document.getElementById('_rp').innerText).then(()=>{document.getElementById('_rs').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_rs').innerText='',3000)})}
-function __U(){const j=document.querySelector('input[name=jo]:checked').value;const p=document.getElementById('_fp').value||'';const o=document.getElementById('_fo').value||'';const f=document.getElementById('_ff').value||'[masukin link]';document.getElementById('_fv').innerText='```\n'+j+'\n\nNAMA PASIEN : '+p+'\nOBAT/JUMLAH : '+o+'\nBUKTI RESEP OBAT\n'+f+'\n```'}
-function __FC(){navigator.clipboard.writeText(document.getElementById('_fv').innerText).then(()=>{document.getElementById('_fs').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_fs').innerText='',3000)})}
-function __R(){const t=document.getElementById('_tb');t.innerHTML='';__Sd.forEach((s,i)=>{const r=document.createElement('tr');if(__E===i&&__A){r.innerHTML=`<td><input type="text" id="en${i}" class="table-input" value="${s.n.replace(/"/g,'&quot;')}"></td><td><input type="text" id="er${i}" class="table-input" value="${s.r.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ei${i}" class="table-input" value="${s.i.replace(/"/g,'&quot;')}"></td><td style="text-align:center"><button onclick="__ES(${i})" class="btn-save">✅ Simpan</button><button onclick="__CE()" class="btn-cancel">↩ Batal</button></td>`}else{r.innerHTML=`<td>${s.n}</td><td>${s.r}</td><td>${s.i}</td><td style="text-align:center;${__A?'':'display:none'}"><button onclick="__E${i}" style="background:#ffc;color:#000;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;margin-right:4px;font-weight:700;font-size:12px">✏️</button><button onclick="__D${i}" class="btn-delete">❌</button></td>`}t.appendChild(r)})}
-function __A(){if(!__A)return alert('🔒 Terkunci!');const n=document.getElementById('_n').value.trim();const j=document.getElementById('_j').value.trim();const i=document.getElementById('_i').value.trim();if(!n||!j||!i)return alert('Lengkapi semua kolom!');__Sd.push({n:n,r:j,i:i});__R();document.getElementById('_n').value='';document.getElementById('_j').value='';document.getElementById('_i').value='';document.getElementById('_is').innerText='✅ Ditambahkan!';setTimeout(()=>document.getElementById('_is').innerText='',3000)}
-function __E(i){if(!__A)return alert('🔒 Terkunci!');__E=i;__R()}
-function __ES(i){const n=document.getElementById(`en${i}`).value.trim();const r=document.getElementById(`er${i}`).value.trim();const ip=document.getElementById(`ei${i}`).value.trim();if(!n||!r||!ip)return alert('Lengkapi semua kolom!');__Sd[i]={n:n,r:r,i:ip};__E=-1;__R();document.getElementById('_is').innerText='✅ Diperbarui!';setTimeout(()=>document.getElementById('_is').innerText='',3000)}
-function __CE(){__E=-1;__R()}
-function __D(i){if(!__A)return alert('🔒 Terkunci!');if(confirm(`Hapus ${__Sd[i].n}?`)){__Sd.splice(i,1);if(__E===i)__E=-1;__R();document.getElementById('_is').innerText='✅ Dihapus!';setTimeout(()=>document.getElementById('_is').innerText='',3000)}}
-function __C(){let t='```\n📊 DATA INFRACTION POINT STAFF\n\n';__Sd.forEach(s=>t+=`Nama: ${s.n}\nJabatan: ${s.r}\nIP: ${s.i}\n-----------------------\n`);t+='```';navigator.clipboard.writeText(t).then(()=>{document.getElementById('_is').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_is').innerText='',3000)})}
+function __L(){const p=document.getElementById('PW').value;if(atob('YW5qZWsxMjMzMjE=')===p){__ADM=true;document.getElementById('AD').style.display='inline-block';const b=document.getElementById('IBOX');b.style.opacity='1';b.style.pointerEvents='auto';b.querySelectorAll('.inp,button').forEach(x=>x.disabled=false);b.querySelector('.lk').style.display='none';document.getElementById('AC').style.display='table-cell';document.getElementById('LMG').innerText='✅ Akses diberikan!'}else{document.getElementById('LMG').innerText='❌ Salah!';document.getElementById('LMG').classList.add('err');__ADM=false}setTimeout(()=>{document.getElementById('LMG').innerText='';document.getElementById('LMG').classList.remove('err')},3000)}
+function __X(id){document.getElementById('M').style.display='none';document.querySelectorAll('.sec').forEach(x=>x.style.display='none');document.getElementById('S'+id).style.display='block';if(id==='fm')__U();if(id==='ip')__R();__edit=-1}
+function __B(){document.getElementById('M').style.display='flex';document.querySelectorAll('.sec').forEach(x=>x.style.display='none');__edit=-1}
+function __K(k){__selK=k;__selT=null;document.querySelectorAll('.kbtn').forEach(x=>x.classList.remove('a'));event.target.classList.add('a');document.getElementById('TW').classList.add('s');document.getElementById('HR').classList.remove('s')}
+function __T(t){__selT=t;document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('a'));event.target.classList.add('a');const d=__R[__selK][__selT];document.getElementById('RJ').innerText=d.j;document.getElementById('RO').innerText=d.o;document.getElementById('RC').innerText=d.c;document.getElementById('RP').innerText='```\n📋 RESEP DOKTER\nKondisi: '+d.j+'\n\n💊 OBAT:\n'+d.o+'\n\n📝 CARA PEMAKAIAN:\n'+d.c+'\n```';document.getElementById('HR').classList.add('s')}
+function __CX(id){navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>{document.getElementById('RMG').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('RMG').innerText='',2000)})}
+function __RC(){navigator.clipboard.writeText(document.getElementById('RP').innerText).then(()=>{document.getElementById('RMG').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('RMG').innerText='',3000)})}
+function __U(){const j=document.querySelector('input[name=J]:checked').value;const p=document.getElementById('PN').value||'';const o=document.getElementById('DR').value||'';const l=document.getElementById('LK').value||'[masukin link]';document.getElementById('PV').innerText='```\n'+j+'\n\nNAMA PASIEN : '+p+'\nOBAT/JUMLAH : '+o+'\nBUKTI RESEP OBAT\n'+l+'\n```'}
+function __FC(){navigator.clipboard.writeText(document.getElementById('PV').innerText).then(()=>{document.getElementById('FMG').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('FMG').innerText='',3000)})}
+function __R(){const t=document.getElementById('TB');t.innerHTML='';__D.forEach((s,i)=>{const r=document.createElement('tr');if(__edit===i&&__ADM){r.innerHTML=`<td><input type="text" id="en${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ej${i}" class="tin" value="${s.j.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ei${i}" class="tin" value="${s.i.replace(/"/g,'&quot;')}"></td><td style="text-align:center"><button onclick="__SV(${i})" class="ok">✅ Simpan</button><button onclick="__CL()" class="cn">↩ Batal</button></td>`}else{r.innerHTML=`<td>${s.n}</td><td>${s.j}</td><td>${s.i}</td><td style="text-align:center;${__ADM?'':'display:none'}"><button onclick="__ED(${i})" style="background:var(--ac);color:#000;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;margin-right:4px;font-weight:700;font-size:12px">✏️</button><button onclick="__DL(${i})" class="dl">❌</button></td>`}t.appendChild(r)})}
+function __A(){if(!__ADM)return alert('🔒 Terkunci!');const n=document.getElementById('NM').value.trim();const j=document.getElementById('JB').value.trim();const i=document.getElementById('IP').value.trim();if(!n||!j||!i)return alert('Lengkapi semua kolom!');__D.push({n:n,j:j,i:i});__R();document.getElementById('NM').value='';document.getElementById('JB').value='';document.getElementById('IP').value='';document.getElementById('IM').innerText='✅ Ditambahkan!';setTimeout(()=>document.getElementById('IM').innerText='',3000)}
+function __ED(i){if(!__ADM)return alert('🔒 Terkunci!');__edit=i;__R()}
+function __SV(i){const n=document.getElementById(`en${i}`).value.trim();const j=document.getElementById(`ej${i}`).value.trim();const ip=document.getElementById(`ei${i}`).value.trim();if(!n||!j||!ip)return alert('Lengkapi semua kolom!');__D[i]={n:n,j:j,i:ip};__edit=-1;__R();document.getElementById('IM').innerText='✅ Diperbarui!';setTimeout(()=>document.getElementById('IM').innerText='',3000)}
+function __CL(){__edit=-1;__R()}
+function __DL(i){if(!__ADM)return alert('🔒 Terkunci!');if(confirm(`Hapus ${__D[i].n}?`)){__D.splice(i,1);if(__edit===i)__edit=-1;__R();document.getElementById('IM').innerText='✅ Dihapus!';setTimeout(()=>document.getElementById('IM').innerText='',3000)}}
+function __CP(){let t='```\n📊 DATA INFRACTION POINT STAFF\n\n';__D.forEach(s=>t+=`Nama: ${s.n}\nJabatan: ${s.j}\nIP: ${s.i}\n-----------------------\n`);t+='```';navigator.clipboard.writeText(t).then(()=>{document.getElementById('IM').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('IM').innerText='',3000)})}
 window.onload=__R;
 </script>
 </body>
