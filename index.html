@@ -1,61 +1,195 @@
-<!-- START: BAGIAN FARMASI -->
-<div class="farmasi-section" style="margin-top: 20px; padding: 15px; border: 1px solid #ccc; border-radius: 8px; font-family: sans-serif;">
-    <h3 style="margin-top: 0; color: #333;">💊 Farmasi</h3>
-    
-    <!-- Pilihan Jenis -->
-    <div style="margin-bottom: 15px;">
-        <label style="font-weight: bold; display: block; margin-bottom: 5px;">Pilih Jenis:</label>
-        <label style="margin-right: 15px; cursor: pointer;">
-            <input type="radio" name="jenis_obat" value="Menggunakan Obat stress" checked onchange="updateFormat()"> 1. Menggunakan Obat stress
-        </label>
-        <label style="cursor: pointer;">
-            <input type="radio" name="jenis_obat" value="Tanpa Obat strees" onchange="updateFormat()"> 2. Tanpa Obat strees
-        </label>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rumah Sakit Hommi Helper</title>
+    <style>
+        body {
+            background-color: #0d1117;
+            color: #fff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 40px 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 { font-size: 28px; margin-bottom: 5px; }
+        .subtitle { color: #8b949e; font-size: 14px; margin-bottom: 30px; }
+        
+        /* Style Tombol Menu Utama */
+        .btn-menu {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 15px;
+            background-color: #161b22;
+            color: #fff;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: background 0.2s;
+            text-align: center;
+        }
+        .btn-menu:hover { background-color: #21262d; }
+        .btn-disabled {
+            background-color: #0d1117;
+            color: #484f58;
+            border: 1px solid #21262d;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* Style Konten Halaman */
+        .page-content { display: none; text-align: left; }
+        .btn-back { background: none; border: none; color: #8b949e; cursor: pointer; font-size: 14px; margin-bottom: 20px; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-back:hover { color: #58a6ff; }
+        h2 { border-bottom: 1px solid #30363d; padding-bottom: 10px; margin-bottom: 20px; font-size: 22px; }
+
+        /* Style Form Farmasi */
+        .form-box {
+            background: #161b22;
+            padding: 20px;
+            border-radius: 6px;
+            border: 1px solid #30363d;
+            margin-bottom: 20px;
+        }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: #c9d1d9; font-size: 14px; }
+        .form-control {
+            width: 100%;
+            padding: 10px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+            color: #fff;
+            box-sizing: border-box;
+        }
+        .form-control:focus { border-color: #58a6ff; outline: none; }
+        .radio-group { display: flex; flex-direction: column; gap: 10px; }
+        .radio-label { cursor: pointer; display: flex; align-items: center; gap: 10px; color: #c9d1d9; }
+        
+        /* Preview & Salin */
+        .preview-box { background: #0d1117; color: #58a6ff; padding: 15px; border-radius: 6px; border: 1px solid #30363d; white-space: pre-wrap; font-family: monospace; font-size: 14px; margin-bottom: 15px; }
+        .btn-copy { background-color: #238636; color: white; border: none; padding: 12px; border-radius: 6px; font-weight: bold; cursor: pointer; width: 100%; font-size: 15px; text-align: center; }
+        .btn-copy:hover { background-color: #2ea043; }
+
+        /* Style Tabel Infraction */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; background: #161b22; border-radius: 6px; overflow: hidden; border: 1px solid #30363d; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #30363d; }
+        th { background-color: #1f242c; color: #f0f6fc; font-weight: 600; }
+        td { color: #c9d1d9; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Rumah Sakit Hommi Helper</h1>
+    <div class="subtitle">Sistem Informasi & Papan Pengumuman Internal Faksi</div>
+
+    <!-- 1. MENU UTAMA -->
+    <div id="menu-utama">
+        <button class="btn-menu" onclick="bukaHalaman('farmasi')">💊 Pencatatan Farmasi</button>
+        <button class="btn-menu" onclick="bukaHalaman('infraction')">📊 Infraction Point Staff</button>
+        <button class="btn-menu btn-disabled" disabled>👥 Struktur Rumah Sakit (Coming Soon)</button>
     </div>
 
-    <!-- Formulir Input -->
-    <div style="margin-bottom: 10px;">
-        <label style="display: block; font-weight: bold; margin-bottom: 2px;">NAMA PASIEN :</label>
-        <input type="text" id="nama_pasien" placeholder="Masukkan nama pasien" style="width: 100%; padding: 8px; box-sizing: border-box;" oninput="updateFormat()">
+    <!-- 2. HALAMAN PENCATATAN FARMASI -->
+    <div id="halaman-farmasi" class="page-content">
+        <button class="btn-back" onclick="bukaHalaman('utama')">⬅ Kembali ke Menu Utama</button>
+        <h2>Data Penjualan Obat</h2>
+        
+        <div class="form-box">
+            <div class="form-group">
+                <label>PILIH JENIS FARMASI:</label>
+                <div class="radio-group">
+                    <label class="radio-label">
+                        <input type="radio" name="jenis_obat" value="Menggunakan Obat stress" checked onchange="updateFormat()" style="accent-color: #238636;"> 1. Menggunakan Obat stress
+                    </label>
+                    <label class="radio-label">
+                        <input type="radio" name="jenis_obat" value="Tanpa Obat strees" onchange="updateFormat()" style="accent-color: #238636;"> 2. Tanpa Obat strees
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-box">
+            <div class="form-group">
+                <label>NAMA PASIEN :</label>
+                <input type="text" id="nama_pasien" class="form-control" placeholder="Masukkan nama pasien" oninput="updateFormat()">
+            </div>
+            <div class="form-group">
+                <label>OBAT / JUMLAH :</label>
+                <input type="text" id="obat_jumlah" class="form-control" placeholder="Contoh: Paracetamol / 5" oninput="updateFormat()">
+            </div>
+            <div class="form-group">
+                <label>BUKTI RESEP OBAT (Link Foto) :</label>
+                <input type="text" id="bukti_foto" class="form-control" placeholder="Masukkan link foto bukti resep" oninput="updateFormat()">
+            </div>
+        </div>
+
+        <div style="margin-bottom: 5px;">
+            <label style="font-weight: bold; color: #8b949e; font-size: 14px;">Preview Format Discord:</label>
+        </div>
+        <pre id="discord_preview" class="preview-box"></pre>
+        
+        <button class="btn-copy" onclick="copyToClipboard()">📋 Copy untuk Discord</button>
+        <span id="copy_status" style="display: block; text-align: center; color: #56d364; font-size: 13px; margin-top: 8px; font-weight: bold;"></span>
     </div>
 
-    <div style="margin-bottom: 10px;">
-        <label style="display: block; font-weight: bold; margin-bottom: 2px;">OBAT / JUMLAH :</label>
-        <input type="text" id="obat_jumlah" placeholder="Contoh: Paracetamol / 5" style="width: 100%; padding: 8px; box-sizing: border-box;" oninput="updateFormat()">
-    </div>
-
-    <div style="margin-bottom: 15px;">
-        <label style="display: block; font-weight: bold; margin-bottom: 2px;">BUKTI RESEP OBAT (Link Foto) :</label>
-        <input type="text" id="bukti_foto" placeholder="Masukkan link foto (cth: https://...)" style="width: 100%; padding: 8px; box-sizing: border-box;" oninput="updateFormat()">
-    </div>
-
-    <!-- Hasil Preview & Tombol Copy -->
-    <div style="margin-top: 15px;">
-        <label style="display: block; font-weight: bold; margin-bottom: 5px;">Preview Format Discord:</label>
-        <pre id="discord_preview" style="background: #2f3136; color: #fff; padding: 10px; border-radius: 5px; white-space: pre-wrap; font-family: monospace; font-size: 14px; margin-bottom: 10px;">```
-[Jenis]
-
-NAMA PASIEN : 
-OBAT/JUMLAH : 
-BUKTI RESEP OBAT
-[Link]
-```</pre>
-        <button onclick="copyToClipboard()" style="background-color: #5865F2; color: white; border: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; cursor: pointer; width: 100%;">
-            📋 Copy untuk Discord
-        </button>
-        <span id="copy_status" style="display: block; text-align: center; color: green; font-size: 12px; margin-top: 5px; font-weight: bold;"></span>
+    <!-- 3. HALAMAN INFRACTION POINT STAFF -->
+    <div id="halaman-infraction" class="page-content">
+        <button class="btn-back" onclick="bukaHalaman('utama')">⬅ Kembali ke Menu Utama</button>
+        <h2>Data Infraction Point (IP) Staff</h2>
+        
+        <table>
+            <thead>
+                <tr>
+                    <th>Nama Staff</th>
+                    <th>Pangkat / Jabatan</th>
+                    <th>Infraction Point</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Anda bisa menambahkan baris data staff di bawah ini jika diperlukan -->
+                <tr>
+                    <td>-</td>
+                    <td>-</td>
+                    <td>0</td>
+                </tr>
+            </tbody>
+        </table>
     </div>
 </div>
 
 <script>
+function bukaHalaman(halaman) {
+    // Sembunyikan semua halaman terlebih dahulu
+    document.getElementById('menu-utama').style.display = 'none';
+    document.getElementById('halaman-farmasi').style.display = 'none';
+    document.getElementById('halaman-infraction').style.display = 'none';
+
+    // Tampilkan halaman yang dipilih
+    if (halaman === 'utama') {
+        document.getElementById('menu-utama').style.display = 'block';
+    } else if (halaman === 'farmasi') {
+        document.getElementById('halaman-farmasi').style.display = 'block';
+        updateFormat();
+    } else if (halaman === 'infraction') {
+        document.getElementById('halaman-infraction').style.display = 'block';
+    }
+}
+
 function updateFormat() {
-    // Mengambil nilai input
     const jenis = document.querySelector('input[name="jenis_obat"]:checked').value;
-    const nama = document.getElementById('nama_pasien').value;
-    const obat = document.getElementById('obat_jumlah').value;
+    const nama = document.getElementById('nama_pasien').value || '';
+    const obat = document.getElementById('obat_jumlah').value || '';
     const foto = document.getElementById('bukti_foto').value || '[masukin link]';
 
-    // Menyusun teks dengan format markdown Discord (``` diawal dan diakhir)
     const formatTeks = "```\n" + 
                        jenis + "\n\n" +
                        "NAMA PASIEN : " + nama + "\n" +
@@ -64,38 +198,20 @@ function updateFormat() {
                        foto + "\n" +
                        "```";
 
-    // Update tampilan preview di website
     document.getElementById('discord_preview').innerText = formatTeks;
 }
 
 function copyToClipboard() {
     const textToCopy = document.getElementById('discord_preview').innerText;
-    
-    // Proses copy ke clipboard browser
     navigator.clipboard.writeText(textToCopy).then(() => {
         const status = document.getElementById('copy_status');
-        status.innerText = "✅ Berhasil dicopy! Tinggal paste ke Discord.";
+        status.innerText = "✅ Berhasil dicopy! Tinggal paste (CTRL+V) ke Discord.";
         setTimeout(() => { status.innerText = ""; }, 3000);
     }).catch(err => {
-        alert("Gagal menyalin teks otomatis, silakan blok teks di preview dan copy manual.");
+        alert("Gagal menyalin otomatis, silakan blok teks di preview dan copy manual.");
     });
 }
-
-// Jalankan fungsi pertama kali agar preview langsung terisi default
-window.addEventListener('DOMContentLoaded', updateFormat);
 </script>
-<!-- END: BAGIAN FARMASI -->
-```
 
-### Keunggulan Fitur Kode Ini:
-* **Real-time Preview:** Kotak hitam di bawah formulir akan otomatis berubah mengikuti apa yang sedang diketik oleh staf medis secara langsung.
-* **Auto-Format Discord:** Teks otomatis dibungkus dengan \`\`\` sehingga saat masuk ke Discord bentuknya langsung berupa kotak *code block* abu-abu yang rapi.
-* **One-Click Copy:** Tombol "Copy untuk Discord" menggunakan sistem clipboard modern, sekali klik teks langsung siap ditempel (`CTRL + V`) ke Discord.
-
-<FollowUp>
-Silakan dicoba pasang kodenya terlebih dahulu. Jika Anda ingin melakukan penyesuaian seperti:
-* Mengubah **warna tombol atau tampilan kotak** agar lebih cocok dengan tema warna website asli Anda?
-* Menambahkan kolom inputan lain (misalnya **Nama Medis** atau **Tanggal**)?
-
-Beri tahu saya jika ada bagian kode yang ingin disesuaikan lagi!
-</FollowUp>
+</body>
+</html>
