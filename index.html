@@ -47,8 +47,7 @@
 
         /* Bagian Konten */
         .content-section { display: none; background-color: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; padding: 25px; margin-top: 20px; }
-        .content-section h2 { margin-top: 0; border-bottom: 2px solid var(--border-color); padding-bottom: 10px; color: var(--accent-color); }
-
+        .content-section.locked { opacity: 0.85; }
         .back-btn { background-color: #5a1212; color: white; border: 1px solid var(--accent-color); padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
         .back-btn:hover { background-color: #7a1a1a; }
 
@@ -59,9 +58,11 @@
             border-radius: 6px; color: var(--text-color); font-size: 14px;
         }
         .form-control:focus { border-color: var(--accent-color); outline: none; }
+        .form-control:disabled { opacity: 0.5; cursor: not-allowed; background-color: #111; }
 
         .btn-action { background-color: var(--accent-color); color: black; border: none; padding: 10px 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-right: 8px; margin-top: 8px; }
         .btn-action:hover { background-color: #ffdd33; }
+        .btn-action:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
         .btn-discord { background-color: #5865F2; color: white; }
         .btn-discord:hover { background-color: #4752c4; }
         .btn-copy-sm { background-color: var(--accent-color); color: black; border: none; padding: 4px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 8px; }
@@ -118,6 +119,8 @@
             white-space: pre-wrap; font-family: monospace; font-size: 14px; color: var(--accent-color);
         }
         .status-msg { display: block; color: #48bb78; font-size: 13px; margin-top: 8px; font-weight: bold; }
+        .admin-badge { display: inline-block; background: var(--accent-color); color: black; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 8px; }
+        .lock-note { color: #ffcc00; font-size: 12px; margin-bottom: 12px; }
     </style>
 </head>
 <body>
@@ -138,21 +141,36 @@
     <!-- === INFRACTION POINT === -->
     <div id="section-infraction" class="content-section">
         <button class="back-btn" onclick="backToMenu()">⬅ Kembali ke Menu Utama</button>
-        <h2>Input & Data Infraction Point (IP) Staff</h2>
-        <div style="background: var(--btn-bg); padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 20px;">
+        <h2>Input & Data Infraction Point (IP) Staff 
+            <span id="admin-badge" class="admin-badge" style="display:none;">🔒 ADMIN</span>
+        </h2>
+
+        <!-- Bagian Login Admin -->
+        <div id="admin-login-box" style="background: #1a0505; padding: 15px; border-radius: 6px; border: 1px solid var(--accent-color); margin-bottom: 20px;">
+            <div class="form-group">
+                <label>🔑 Kata Sandi Admin (Hanya Pemilik):</label>
+                <input type="password" id="admin-password" class="form-control" placeholder="Masukkan kata sandi untuk mengedit data...">
+            </div>
+            <button class="btn-action" onclick="loginAdmin()">🔓 Buka Akses Edit</button>
+            <span id="login-status" class="status-msg"></span>
+        </div>
+
+        <!-- Bagian Input Data (Terkunci sampai login) -->
+        <div id="ip-input-box" style="background: var(--btn-bg); padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 20px; opacity: 0.6; pointer-events: none;">
+            <div class="lock-note">🔒 Terkunci — Masukkan kata sandi admin untuk menambah/mengubah data</div>
             <div class="form-group">
                 <label>INPUT NAMA STAFF :</label>
-                <input type="text" id="ip_nama" class="form-control" placeholder="Contoh: Dr. Michael">
+                <input type="text" id="ip_nama" class="form-control" placeholder="Contoh: Dr. Michael" disabled>
             </div>
             <div class="form-group">
                 <label>JABATAN / PANGKAT :</label>
-                <input type="text" id="ip_jabatan" class="form-control" placeholder="Contoh: Dokter Umum">
+                <input type="text" id="ip_jabatan" class="form-control" placeholder="Contoh: Dokter Umum" disabled>
             </div>
             <div class="form-group">
                 <label>INFRACTION POINT (IP) :</label>
-                <input type="text" id="ip_jumlah" class="form-control" placeholder="Contoh: 10 IP / Unlimited">
+                <input type="text" id="ip_jumlah" class="form-control" placeholder="Contoh: 10 IP / Unlimited" disabled>
             </div>
-            <button class="btn-action" onclick="tambahStaff()">➕ Tambah ke Tabel Sementara</button>
+            <button class="btn-action" id="btn-tambah" onclick="tambahStaff()" disabled>➕ Tambah ke Tabel Sementara</button>
             <button class="btn-action btn-discord" onclick="copyStaffDiscord()">📋 Get Code for Discord</button>
             <span id="ip_status" class="status-msg"></span>
         </div>
@@ -160,7 +178,7 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Nama Staff</th><th>Pangkat / Jabatan</th><th>Infraction Point</th><th style="text-align:center;">Aksi</th>
+                        <th>Nama Staff</th><th>Pangkat / Jabatan</th><th>Infraction Point</th><th id="col-aksi" style="text-align:center; display:none;">Aksi</th>
                     </tr>
                 </thead>
                 <tbody id="staff-table-body"></tbody>
@@ -255,6 +273,10 @@
 </div>
 
 <script>
+// === PENGATURAN ADMIN ===
+const ADMIN_PASSWORD = "anjek12321"; // Ganti dengan kata sandi kamu sendiri!
+let isAdmin = false;
+
 // === DATA OBAT & CARA PEMAKAIAN ===
 const dataResep = {
     kepala: {
@@ -364,24 +386,49 @@ const dataResep = {
 let aktifKategori = null;
 let aktifTingkat = null;
 
-// === FUNGSI ===
+// === FUNGSI LOGIN ADMIN ===
+function loginAdmin() {
+    const input = document.getElementById('admin-password').value;
+    if (input === ADMIN_PASSWORD) {
+        isAdmin = true;
+        unlockAdminArea();
+        document.getElementById('login-status').innerText = "✅ Akses diberikan! Kamu sekarang sebagai Admin.";
+    } else {
+        document.getElementById('login-status').innerText = "❌ Kata sandi salah!";
+        isAdmin = false;
+    }
+    setTimeout(() => document.getElementById('login-status').innerText = "", 3000);
+}
+
+function unlockAdminArea() {
+    // Tampilkan badge admin
+    document.getElementById('admin-badge').style.display = 'inline-block';
+    // Aktifkan input form
+    const inputBox = document.getElementById('ip-input-box');
+    inputBox.style.opacity = '1';
+    inputBox.style.pointerEvents = 'auto';
+    inputBox.querySelectorAll('.form-control, button').forEach(el => el.disabled = false);
+    // Sembunyikan catatan kunci
+    inputBox.querySelector('.lock-note').style.display = 'none';
+    // Tampilkan kolom Aksi di tabel
+    document.getElementById('col-aksi').style.display = 'table-cell';
+    renderTable();
+}
+
+// === FUNGSI RESEP ===
 function pilihKategori(kategori) {
     aktifKategori = kategori;
     aktifTingkat = null;
-    // Tandai aktif
     document.querySelectorAll('.kategori-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
-    // Tampilkan pilihan tingkat
     document.getElementById('tingkat-wrapper').classList.add('show');
     document.getElementById('hasil-resep').classList.remove('show');
 }
 
 function pilihTingkat(tingkat) {
     aktifTingkat = tingkat;
-    // Tandai aktif
     document.querySelectorAll('.tingkat-btn').forEach(b => b.classList.remove('active'));
     event.target.classList.add('active');
-    // Tampilkan hasil
     tampilkanHasil();
 }
 
@@ -391,7 +438,6 @@ function tampilkanHasil() {
     document.getElementById('obat-nama').innerText = d.obat;
     document.getElementById('obat-cara').innerText = d.cara;
     
-    // Format Discord
     const teks = `\`\`\`
 📋 RESEP DOKTER
 Kondisi: ${d.judul}
@@ -439,7 +485,7 @@ function renderTable() {
     const tb = document.getElementById('staff-table-body'); tb.innerHTML = '';
     staffDatabase.forEach((s, i) => {
         const tr = document.createElement('tr');
-        if (editingIndex === i) {
+        if (editingIndex === i && isAdmin) {
             tr.innerHTML = `
                 <td><input type="text" id="edit-name-${i}" class="table-input" value="${escapeHtml(s.name)}"></td>
                 <td><input type="text" id="edit-rank-${i}" class="table-input" value="${escapeHtml(s.rank)}"></td>
@@ -453,7 +499,7 @@ function renderTable() {
                 <td>${escapeHtml(s.name)}</td>
                 <td>${escapeHtml(s.rank)}</td>
                 <td>${escapeHtml(s.ip)}</td>
-                <td style="text-align:center;">
+                <td style="text-align:center; ${isAdmin ? '' : 'display:none;'}">
                     <button onclick="editStaff(${i})" style="background:#ffcc00; color:black; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-right:4px; font-weight:bold; font-size:12px;">✏️ Edit</button>
                     <button onclick="hapusStaff(${i})" class="btn-delete">❌ Hapus</button>
                 </td>`;
@@ -463,6 +509,7 @@ function renderTable() {
 }
 
 function tambahStaff() {
+    if (!isAdmin) return alert("🔒 Hanya Admin yang bisa menambah data!");
     const n = document.getElementById('ip_nama').value.trim();
     const j = document.getElementById('ip_jabatan').value.trim();
     const ip = document.getElementById('ip_jumlah').value.trim();
@@ -476,8 +523,12 @@ function tambahStaff() {
     setTimeout(() => document.getElementById('ip_status').innerText = "", 3000);
 }
 
-function editStaff(i) { editingIndex = i; renderTable(); }
+function editStaff(i) {
+    if (!isAdmin) return alert("🔒 Hanya Admin yang bisa mengedit!");
+    editingIndex = i; renderTable();
+}
 function simpanEdit(i) {
+    if (!isAdmin) return;
     const n = document.getElementById(`edit-name-${i}`).value.trim();
     const j = document.getElementById(`edit-rank-${i}`).value.trim();
     const ip = document.getElementById(`edit-ip-${i}`).value.trim();
@@ -489,6 +540,7 @@ function simpanEdit(i) {
 }
 function batalEdit() { editingIndex = -1; renderTable(); }
 function hapusStaff(i) {
+    if (!isAdmin) return alert("🔒 Hanya Admin yang bisa menghapus!");
     if (confirm(`Hapus ${staffDatabase[i].name}?`)) {
         staffDatabase.splice(i, 1);
         if (editingIndex === i) editingIndex = -1;
@@ -535,6 +587,7 @@ function openSection(id) {
     document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
     document.getElementById(`section-${id}`).style.display = 'block';
     if (id === 'farmasi') updateFarmasiFormat();
+    if (id === 'infraction') renderTable();
     editingIndex = -1;
 }
 function backToMenu() {
