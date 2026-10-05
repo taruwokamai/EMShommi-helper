@@ -76,7 +76,7 @@ th{background:var(--bt);color:var(--ac)}
 <h2>Input & Data Infraction Point (IP) Staff <span id="AD" class="bg" style="display:none">🔒 ADMIN</span></h2>
 <div id="LBOX">
 <label class="lb">🔑 Kata Sandi Admin (Hanya Pemilik):</label>
-<input type="password" id="PW" class="inp" placeholder="kalempongketek">
+<input type="password" id="PW" class="inp" placeholder="Masukkan kata sandi...">
 <button class="btn" onclick="__L()">🔓 Buka Akses Edit</button>
 <span id="LMG" class="msg"></span>
 </div>
@@ -202,7 +202,7 @@ let __D = [
 
 function __L() {
     const p = document.getElementById('PW').value;
-    if (atob('YW5qZWsxMjMzMjE=') === p) {
+    if (atob('kalempongketek') === p) {
         __ADM = true;
         document.getElementById('AD').style.display = 'inline-block';
         const b = document.getElementById('IBOX');
