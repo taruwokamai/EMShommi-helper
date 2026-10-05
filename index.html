@@ -5,122 +5,63 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rumah Sakit Hommi Helper</title>
     <style>
-        :root {
-            --bg-color: #0c0000;
-            --card-bg: #1a0505;
-            --text-color: #ffffff;
-            --border-color: #7a0000;
-            --accent-color: #ffcc00;
-            --accent-red: #ff3333;
-            --btn-bg: #260808;
-            --btn-hover: #3d0d0d;
-            --success: #28a745;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        .container { max-width: 900px; margin: 0 auto; }
-        header {
-            text-align: center;
-            padding: 20px;
-            margin-bottom: 20px;
-            border-bottom: 3px solid var(--accent-color);
-        }
-        header h1 { margin: 0; color: var(--accent-color); font-size: 28px; text-shadow: 0 2px 4px rgba(255,0,0,0.5); }
-        header p { margin-top: 5px; color: var(--accent-red); font-weight: bold; font-size: 14px; }
-
-        /* Menu */
-        .menu-list { display: flex; flex-direction: column; gap: 12px; margin: 25px auto; max-width: 600px; }
-        .menu-item {
-            background-color: var(--btn-bg); border: 2px solid var(--border-color);
-            border-radius: 8px; padding: 18px; text-align: center; font-weight: bold;
-            cursor: pointer; transition: all 0.2s ease; font-size: 16px; color: var(--accent-color);
-        }
-        .menu-item:hover { background-color: var(--btn-hover); border-color: var(--accent-color); transform: translateY(-2px); }
-        .menu-item.disabled { opacity: 0.4; cursor: not-allowed; border-style: dashed; color: #666; }
-
-        /* Bagian Konten */
-        .content-section { display: none; background-color: var(--card-bg); border: 2px solid var(--border-color); border-radius: 8px; padding: 25px; margin-top: 20px; }
-        .content-section.locked { opacity: 0.85; }
-        .back-btn { background-color: #5a1212; color: white; border: 1px solid var(--accent-color); padding: 8px 15px; border-radius: 4px; cursor: pointer; margin-bottom: 20px; font-weight: bold; }
-        .back-btn:hover { background-color: #7a1a1a; }
-
-        .form-group { margin-bottom: 15px; }
-        .form-group label { display: block; font-weight: bold; margin-bottom: 5px; color: var(--accent-color); font-size: 14px; }
-        .form-control {
-            width: 100%; padding: 10px; background-color: var(--bg-color); border: 1px solid var(--border-color);
-            border-radius: 6px; color: var(--text-color); font-size: 14px;
-        }
-        .form-control:focus { border-color: var(--accent-color); outline: none; }
-        .form-control:disabled { opacity: 0.5; cursor: not-allowed; background-color: #111; }
-
-        .btn-action { background-color: var(--accent-color); color: black; border: none; padding: 10px 18px; font-weight: bold; border-radius: 6px; cursor: pointer; margin-right: 8px; margin-top: 8px; }
-        .btn-action:hover { background-color: #ffdd33; }
-        .btn-action:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
-        .btn-discord { background-color: #5865F2; color: white; }
-        .btn-discord:hover { background-color: #4752c4; }
-        .btn-copy-sm { background-color: var(--accent-color); color: black; border: none; padding: 4px 10px; font-weight: bold; border-radius: 4px; cursor: pointer; font-size: 12px; margin-left: 8px; }
-        .btn-save { background-color: #28a745; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
-        .btn-save:hover { background-color: #218838; }
-        .btn-cancel { background-color: #6c757d; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
-        .btn-cancel:hover { background-color: #5a6268; }
-        .btn-delete { background-color: #ff3333; color: white; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 12px; }
-        .btn-delete:hover { background-color: #cc0000; }
-
-        /* Tabel */
-        .table-container { background-color: var(--bg-color); border-radius: 6px; padding: 10px; border: 1px solid var(--border-color); overflow-x: auto; margin-top: 15px; }
-        table { width: 100%; border-collapse: collapse; font-size: 14px; }
-        th, td { padding: 12px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
-        th { background-color: #260808; color: var(--accent-color); font-weight: bold; }
-        .table-input {
-            width: 100%; padding: 6px 8px; background-color: var(--btn-bg);
-            border: 1px solid var(--accent-color); border-radius: 4px;
-            color: var(--text-color); font-size: 14px;
-        }
-        .table-input:focus { outline: none; box-shadow: 0 0 4px rgba(255,204,0,0.4); }
-
-        /* Panduan Resep */
-        .kategori-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 10px; margin: 20px 0; }
-        .kategori-btn {
-            background-color: var(--btn-bg); border: 2px solid var(--border-color);
-            border-radius: 8px; padding: 14px 10px; color: var(--accent-color);
-            font-weight: bold; cursor: pointer; transition: all 0.2s; text-align: center;
-        }
-        .kategori-btn:hover, .kategori-btn.active { border-color: var(--accent-color); background-color: var(--btn-hover); transform: translateY(-2px); }
-
-        .tingkat-wrapper { display: none; margin: 15px 0; }
-        .tingkat-wrapper.show { display: block; }
-        .tingkat-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px; }
-        .tingkat-btn {
-            background-color: var(--btn-bg); border: 2px solid var(--border-color);
-            border-radius: 6px; padding: 10px 20px; color: var(--text-color);
-            cursor: pointer; transition: all 0.2s; font-weight: bold;
-        }
-        .tingkat-btn:hover, .tingkat-btn.active { border-color: var(--accent-color); color: var(--accent-color); }
-
-        .hasil-resep { display: none; margin-top: 20px; }
-        .hasil-resep.show { display: block; }
-        .resep-kotak {
-            background-color: var(--bg-color); border: 1px solid var(--accent-color);
-            border-radius: 8px; padding: 18px; margin-bottom: 15px;
-        }
-        .resep-judul { font-weight: bold; color: var(--accent-color); font-size: 16px; margin-bottom: 10px; }
-        .resep-baris { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid #333; }
-        .resep-baris:last-child { border-bottom: none; }
-        .preview-box {
-            background-color: var(--bg-color); border: 1px solid var(--border-color);
-            border-radius: 6px; padding: 15px; margin-top: 10px;
-            white-space: pre-wrap; font-family: monospace; font-size: 14px; color: var(--accent-color);
-        }
-        .status-msg { display: block; color: #48bb78; font-size: 13px; margin-top: 8px; font-weight: bold; }
-        .admin-badge { display: inline-block; background: var(--accent-color); color: black; padding: 2px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-left: 8px; }
-        .lock-note { color: #ffcc00; font-size: 12px; margin-bottom: 12px; }
+        :root{--bg-color:#0c0000;--card-bg:#1a0505;--text-color:#fff;--border-color:#7a0000;--accent-color:#ffc;--accent-red:#f33;--btn-bg:#260808;--btn-hover:#3d0d0d;--success:#28a745}
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{font-family:'Segoe UI',sans-serif;background:var(--bg-color);color:var(--text-color);padding:20px;line-height:1.6}
+        .container{max-width:900px;margin:0 auto}
+        header{text-align:center;padding:20px;margin-bottom:20px;border-bottom:3px solid var(--accent-color)}
+        header h1{color:var(--accent-color);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
+        header p{margin-top:5px;color:var(--accent-red);font-weight:700;font-size:14px}
+        .menu-list{display:flex;flex-direction:column;gap:12px;margin:25px auto;max-width:600px}
+        .menu-item{background:var(--btn-bg);border:2px solid var(--border-color);border-radius:8px;padding:18px;text-align:center;font-weight:700;cursor:pointer;transition:.2s;font-size:16px;color:var(--accent-color)}
+        .menu-item:hover{background:var(--btn-hover);border-color:var(--accent-color);transform:translateY(-2px)}
+        .menu-item.disabled{opacity:.4;cursor:not-allowed;border-style:dashed;color:#666}
+        .content-section{display:none;background:var(--card-bg);border:2px solid var(--border-color);border-radius:8px;padding:25px;margin-top:20px}
+        .back-btn{background:#5a1212;color:#fff;border:1px solid var(--accent-color);padding:8px 15px;border-radius:4px;cursor:pointer;margin-bottom:20px;font-weight:700}
+        .back-btn:hover{background:#7a1a1a}
+        .form-group{margin-bottom:15px}
+        .form-group label{display:block;font-weight:700;margin-bottom:5px;color:var(--accent-color);font-size:14px}
+        .form-control{width:100%;padding:10px;background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;color:var(--text-color);font-size:14px}
+        .form-control:focus{border-color:var(--accent-color);outline:none}
+        .form-control:disabled{opacity:.5;cursor:not-allowed;background:#111}
+        .btn-action{background:var(--accent-color);color:#000;border:none;padding:10px 18px;font-weight:700;border-radius:6px;cursor:pointer;margin-right:8px;margin-top:8px}
+        .btn-action:hover{background:#ffd333}
+        .btn-action:disabled{opacity:.4;cursor:not-allowed;transform:none}
+        .btn-discord{background:#5865f2;color:#fff}
+        .btn-discord:hover{background:#4752c4}
+        .btn-copy-sm{background:var(--accent-color);color:#000;border:none;padding:4px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px}
+        .btn-save{background:var(--success);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+        .btn-save:hover{background:#218838}
+        .btn-cancel{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+        .btn-cancel:hover{background:#5a6268}
+        .btn-delete{background:var(--accent-red);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+        .btn-delete:hover{background:#c00}
+        .table-container{background:var(--bg-color);border-radius:6px;padding:10px;border:1px solid var(--border-color);overflow-x:auto;margin-top:15px}
+        table{width:100%;border-collapse:collapse;font-size:14px}
+        th,td{padding:12px;border-bottom:1px solid var(--border-color);vertical-align:middle}
+        th{background:#260808;color:var(--accent-color);font-weight:700}
+        .table-input{width:100%;padding:6px 8px;background:var(--btn-bg);border:1px solid var(--accent-color);border-radius:4px;color:var(--text-color);font-size:14px}
+        .table-input:focus{outline:none;box-shadow:0 0 4px rgba(255,204,0,.4)}
+        .kategori-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:20px 0}
+        .kategori-btn{background:var(--btn-bg);border:2px solid var(--border-color);border-radius:8px;padding:14px 10px;color:var(--accent-color);font-weight:700;cursor:pointer;transition:.2s;text-align:center}
+        .kategori-btn:hover,.kategori-btn.active{border-color:var(--accent-color);background:var(--btn-hover);transform:translateY(-2px)}
+        .tingkat-wrapper{display:none;margin:15px 0}
+        .tingkat-wrapper.show{display:block}
+        .tingkat-row{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+        .tingkat-btn{background:var(--btn-bg);border:2px solid var(--border-color);border-radius:6px;padding:10px 20px;color:var(--text-color);cursor:pointer;transition:.2s;font-weight:700}
+        .tingkat-btn:hover,.tingkat-btn.active{border-color:var(--accent-color);color:var(--accent-color)}
+        .hasil-resep{display:none;margin-top:20px}
+        .hasil-resep.show{display:block}
+        .resep-kotak{background:var(--bg-color);border:1px solid var(--accent-color);border-radius:8px;padding:18px;margin-bottom:15px}
+        .resep-judul{font-weight:700;color:var(--accent-color);font-size:16px;margin-bottom:10px}
+        .resep-baris{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #333}
+        .resep-baris:last-child{border-bottom:none}
+        .preview-box{background:var(--bg-color);border:1px solid var(--border-color);border-radius:6px;padding:15px;margin-top:10px;white-space:pre-wrap;font-family:monospace;font-size:14px;color:var(--accent-color)}
+        .status-msg{display:block;color:#48bb78;font-size:13px;margin-top:8px;font-weight:700}
+        .admin-badge{display:inline-block;background:var(--accent-color);color:#000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;margin-left:8px}
+        .lock-note{color:var(--accent-color);font-size:12px;margin-bottom:12px}
+        #admin-login-box{background:#1a0505;padding:15px;border-radius:6px;border:1px solid var(--accent-color);margin-bottom:20px}
+        #ip-input-box{background:var(--btn-bg);padding:15px;border-radius:6px;border:1px solid var(--border-color);margin-bottom:20px}
     </style>
 </head>
 <body>
@@ -130,473 +71,142 @@
         <p>Sistem Informasi & Papan Pengumuman Internal Faksi</p>
     </header>
 
-    <!-- MENU UTAMA -->
     <div id="main-menu" class="menu-list">
-        <div class="menu-item" onclick="openSection('infraction')">📊 Infraction Point Staff</div>
-        <div class="menu-item" onclick="openSection('farmasi')">💊 Pencatatan Farmasi</div>
-        <div class="menu-item" onclick="openSection('resep')">📋 Panduan Resep Dokter</div>
+        <div class="menu-item" onclick="__S('infraction')">📊 Infraction Point Staff</div>
+        <div class="menu-item" onclick="__S('farmasi')">💊 Pencatatan Farmasi</div>
+        <div class="menu-item" onclick="__S('resep')">📋 Panduan Resep Dokter</div>
         <div class="menu-item disabled">👥 Struktur Rumah Sakit (Coming Soon)</div>
     </div>
 
-    <!-- === INFRACTION POINT === -->
     <div id="section-infraction" class="content-section">
-        <button class="back-btn" onclick="backToMenu()">⬅ Kembali ke Menu Utama</button>
-        <h2>Input & Data Infraction Point (IP) Staff 
-            <span id="admin-badge" class="admin-badge" style="display:none;">🔒 ADMIN</span>
-        </h2>
+        <button class="back-btn" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+        <h2>Input & Data Infraction Point (IP) Staff <span id="_adm" class="admin-badge" style="display:none">🔒 ADMIN</span></h2>
 
-        <!-- Bagian Login Admin -->
-        <div id="admin-login-box" style="background: #1a0505; padding: 15px; border-radius: 6px; border: 1px solid var(--accent-color); margin-bottom: 20px;">
+        <div id="admin-login-box">
             <div class="form-group">
                 <label>🔑 Kata Sandi Admin (Hanya Pemilik):</label>
-                <input type="password" id="admin-password" class="form-control" placeholder="Masukkan kata sandi untuk mengedit data...">
+                <input type="password" id="_p" class="form-control" placeholder="Masukkan kata sandi...">
             </div>
-            <button class="btn-action" onclick="loginAdmin()">🔓 Buka Akses Edit</button>
-            <span id="login-status" class="status-msg"></span>
+            <button class="btn-action" onclick="__L()">🔓 Buka Akses Edit</button>
+            <span id="_ls" class="status-msg"></span>
         </div>
 
-        <!-- Bagian Input Data (Terkunci sampai login) -->
-        <div id="ip-input-box" style="background: var(--btn-bg); padding: 15px; border-radius: 6px; border: 1px solid var(--border-color); margin-bottom: 20px; opacity: 0.6; pointer-events: none;">
-            <div class="lock-note">🔒 Terkunci — Masukkan kata sandi admin untuk menambah/mengubah data</div>
+        <div id="ip-input-box" style="opacity:.6;pointer-events:none">
+            <div class="lock-note">🔒 Terkunci — Masukkan kata sandi admin untuk mengubah data</div>
             <div class="form-group">
-                <label>INPUT NAMA STAFF :</label>
-                <input type="text" id="ip_nama" class="form-control" placeholder="Contoh: Dr. Michael" disabled>
+                <label>NAMA STAFF :</label>
+                <input type="text" id="_n" class="form-control" disabled>
             </div>
             <div class="form-group">
                 <label>JABATAN / PANGKAT :</label>
-                <input type="text" id="ip_jabatan" class="form-control" placeholder="Contoh: Dokter Umum" disabled>
+                <input type="text" id="_j" class="form-control" disabled>
             </div>
             <div class="form-group">
                 <label>INFRACTION POINT (IP) :</label>
-                <input type="text" id="ip_jumlah" class="form-control" placeholder="Contoh: 10 IP / Unlimited" disabled>
+                <input type="text" id="_i" class="form-control" disabled>
             </div>
-            <button class="btn-action" id="btn-tambah" onclick="tambahStaff()" disabled>➕ Tambah ke Tabel Sementara</button>
-            <button class="btn-action btn-discord" onclick="copyStaffDiscord()">📋 Get Code for Discord</button>
-            <span id="ip_status" class="status-msg"></span>
+            <button class="btn-action" id="_bt" onclick="__A()" disabled>➕ Tambah</button>
+            <button class="btn-action btn-discord" onclick="__C()">📋 Copy Discord</button>
+            <span id="_is" class="status-msg"></span>
         </div>
         <div class="table-container">
             <table>
-                <thead>
-                    <tr>
-                        <th>Nama Staff</th><th>Pangkat / Jabatan</th><th>Infraction Point</th><th id="col-aksi" style="text-align:center; display:none;">Aksi</th>
-                    </tr>
-                </thead>
-                <tbody id="staff-table-body"></tbody>
+                <thead><tr><th>Nama Staff</th><th>Jabatan</th><th>IP</th><th id="_ca" style="text-align:center;display:none">Aksi</th></tr></thead>
+                <tbody id="_tb"></tbody>
             </table>
         </div>
     </div>
 
-    <!-- === FARMASI === -->
     <div id="section-farmasi" class="content-section">
-        <button class="back-btn" onclick="backToMenu()">⬅ Kembali ke Menu Utama</button>
+        <button class="back-btn" onclick="__B()">⬅ Kembali ke Menu Utama</button>
         <h2>Data Penjualan Obat</h2>
         <div class="form-group">
             <label>PILIH JENIS FARMASI:</label>
-            <div style="display:flex; flex-direction:column; gap:8px; margin-top:5px;">
-                <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
-                    <input type="radio" name="jenis_obat" value="Menggunakan Obat stress" checked onchange="updateFarmasiFormat()"> Menggunakan Obat stress
+            <div style="display:flex;flex-direction:column;gap:8px;margin-top:5px">
+                <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
+                    <input type="radio" name="jo" value="Menggunakan Obat stress" checked onchange="__U()"> Menggunakan Obat stress
                 </label>
-                <label style="cursor:pointer; display:flex; align-items:center; gap:8px;">
-                    <input type="radio" name="jenis_obat" value="Tanpa Obat stress" onchange="updateFarmasiFormat()"> Tanpa Obat stress
+                <label style="cursor:pointer;display:flex;align-items:center;gap:8px">
+                    <input type="radio" name="jo" value="Tanpa Obat stress" onchange="__U()"> Tanpa Obat stress
                 </label>
             </div>
         </div>
-        <div class="form-group">
-            <label>NAMA PASIEN :</label>
-            <input type="text" id="farmasi_pasien" class="form-control" placeholder="Nama Pasien" oninput="updateFarmasiFormat()">
-        </div>
-        <div class="form-group">
-            <label>OBAT / JUMLAH :</label>
-            <input type="text" id="farmasi_obat" class="form-control" placeholder="Contoh: Paracetamol / 5" oninput="updateFarmasiFormat()">
-        </div>
-        <div class="form-group">
-            <label>BUKTI RESEP OBAT (Link Foto) :</label>
-            <input type="text" id="farmasi_foto" class="form-control" placeholder="Masukkan link foto" oninput="updateFarmasiFormat()">
-        </div>
-        <div>
-            <label style="font-weight:bold; color:var(--accent-color);">Preview Format Discord:</label>
-            <pre id="farmasi_preview" class="preview-box"></pre>
-        </div>
-        <button class="btn-action btn-discord" onclick="copyFarmasiDiscord()" style="width:100%; margin-top:15px;">📋 Copy untuk Discord</button>
-        <span id="farmasi_status" class="status-msg"></span>
+        <div class="form-group"><label>NAMA PASIEN :</label><input type="text" id="_fp" class="form-control" oninput="__U()"></div>
+        <div class="form-group"><label>OBAT/JUMLAH :</label><input type="text" id="_fo" class="form-control" oninput="__U()"></div>
+        <div class="form-group"><label>LINK FOTO :</label><input type="text" id="_ff" class="form-control" oninput="__U()"></div>
+        <div><label style="font-weight:700;color:var(--accent-color)">Preview:</label><pre id="_fv" class="preview-box"></pre></div>
+        <button class="btn-action btn-discord" onclick="__FC()" style="width:100%;margin-top:15px">📋 Copy</button>
+        <span id="_fs" class="status-msg"></span>
     </div>
 
-    <!-- === PANDUAN RESEP DOKTER === -->
     <div id="section-resep" class="content-section">
-        <button class="back-btn" onclick="backToMenu()">⬅ Kembali ke Menu Utama</button>
+        <button class="back-btn" onclick="__B()">⬅ Kembali ke Menu Utama</button>
         <h2>📋 Panduan Resep Dokter</h2>
-
-        <!-- Pilih Jenis Sakit -->
         <div class="kategori-grid">
-            <div class="kategori-btn" onclick="pilihKategori('kepala')">Sakit Kepala</div>
-            <div class="kategori-btn" onclick="pilihKategori('luka')">Luka</div>
-            <div class="kategori-btn" onclick="pilihKategori('mag')">Maag</div>
-            <div class="kategori-btn" onclick="pilihKategori('terkilir')">Terkilir</div>
-            <div class="kategori-btn" onclick="pilihKategori('luka_bakar')">Luka Bakar</div>
-            <div class="kategori-btn" onclick="pilihKategori('lebam')">Lebam</div>
+            <div class="kategori-btn" onclick="__K('kepala')">Sakit Kepala</div>
+            <div class="kategori-btn" onclick="__K('luka')">Luka</div>
+            <div class="kategori-btn" onclick="__K('mag')">Maag</div>
+            <div class="kategori-btn" onclick="__K('terkilir')">Terkilir</div>
+            <div class="kategori-btn" onclick="__K('luka_bakar')">Luka Bakar</div>
+            <div class="kategori-btn" onclick="__K('lebam')">Lebam</div>
         </div>
-
-        <!-- Pilih Tingkat Keparahan -->
-        <div id="tingkat-wrapper" class="tingkat-wrapper">
-            <h3 style="color:var(--accent-color); margin-bottom:5px;">Tingkat Keparahan:</h3>
+        <div id="_tw" class="tingkat-wrapper">
+            <h3 style="color:var(--accent-color);margin-bottom:5px">Tingkat Keparahan:</h3>
             <div class="tingkat-row">
-                <button class="tingkat-btn" onclick="pilihTingkat('ringan')">🟢 Ringan</button>
-                <button class="tingkat-btn" onclick="pilihTingkat('sedang')">🟡 Sedang</button>
-                <button class="tingkat-btn" onclick="pilihTingkat('berat')">🔴 Berat</button>
+                <button class="tingkat-btn" onclick="__T('ringan')">🟢 Ringan</button>
+                <button class="tingkat-btn" onclick="__T('sedang')">🟡 Sedang</button>
+                <button class="tingkat-btn" onclick="__T('berat')">🔴 Berat</button>
             </div>
         </div>
-
-        <!-- Hasil Resep -->
-        <div id="hasil-resep" class="hasil-resep">
+        <div id="_hr" class="hasil-resep">
             <div class="resep-kotak">
-                <div class="resep-judul" id="resep-nama"></div>
-                
-                <div class="resep-baris">
-                    <span><strong>💊 Obat:</strong> <span id="obat-nama"></span></span>
-                    <button class="btn-copy-sm" onclick="copyText('obat-nama')">Copy</button>
-                </div>
-
-                <div class="resep-baris">
-                    <span><strong>📝 Cara Pemakaian:</strong> <span id="obat-cara"></span></span>
-                    <button class="btn-copy-sm" onclick="copyText('obat-cara')">Copy</button>
-                </div>
+                <div class="resep-judul" id="_rj"></div>
+                <div class="resep-baris"><span><strong>💊 Obat:</strong> <span id="_ro"></span></span><button class="btn-copy-sm" onclick="__CP('_ro')">Copy</button></div>
+                <div class="resep-baris"><span><strong>📝 Cara Pakai:</strong> <span id="_rc"></span></span><button class="btn-copy-sm" onclick="__CP('_rc')">Copy</button></div>
             </div>
-
-            <div style="margin-top:15px;">
-                <label style="font-weight:bold; color:var(--accent-color);">Format Lengkap Discord:</label>
-                <pre id="resep-preview" class="preview-box"></pre>
-                <button class="btn-action btn-discord" onclick="copyResepDiscord()">📋 Copy Lengkap</button>
-                <span id="resep_status" class="status-msg"></span>
+            <div style="margin-top:15px">
+                <label style="font-weight:700;color:var(--accent-color)">Format Discord:</label>
+                <pre id="_rp" class="preview-box"></pre>
+                <button class="btn-action btn-discord" onclick="__RC()">📋 Copy Lengkap</button>
+                <span id="_rs" class="status-msg"></span>
             </div>
         </div>
     </div>
 </div>
 
 <script>
-// === PENGATURAN ADMIN ===
-const ADMIN_PASSWORD = "anjek12321"; // Ganti dengan kata sandi kamu sendiri!
-let isAdmin = false;
+// === PERLINDUNGAN F12 & KANAN KLIK ===
+document.addEventListener('contextmenu',e=>e.preventDefault());
+document.addEventListener('keydown',e=>{
+    if(e.ctrlKey&&(e.key==='u'||e.key==='U'||e.key==='s'||e.key==='S'||e.key==='i'||e.key==='I'||e.key==='j'||e.key==='J')) e.preventDefault();
+    if(e.key==='F12') e.preventDefault();
+});
+(function(){const _=Function.prototype.constructor;Function.prototype.constructor=function(){if(this===_)throw'!';return _.constructor.apply(this,arguments)};})();
 
-// === DATA OBAT & CARA PEMAKAIAN ===
-const dataResep = {
-    kepala: {
-        ringan: {
-            judul: "Sakit Kepala — Ringan",
-            obat: "Paracetamol 500mg",
-            cara: "Dewasa: 1 tablet, diminum 3 kali sehari setelah makan\nAnak: sesuai berat badan, ikuti petunjuk dokter\nEfek: meredakan nyeri ringan & menurunkan demam"
-        },
-        sedang: {
-            judul: "Sakit Kepala — Sedang",
-            obat: "Ibuprofen 200–400mg",
-            cara: "Dewasa: 1 tablet 2–3 kali sehari sesudah makan\nJangan diminum saat perut kosong\nDapat dikombinasi dengan Paracetamol jika perlu\nHindari jika ada riwayat sakit lambung"
-        },
-        berat: {
-            judul: "Sakit Kepala — Berat",
-            obat: "Ketorolac 10mg / Diclofenac 50mg",
-            cara: "Ketorolac: 1 tablet tiap 6–8 jam, maksimal 5 hari\nDiclofenac: 1 tablet 2 kali sehari setelah makan\nWajib perut sudah terisi makanan\nPerhatikan: pantau tekanan darah & kondisi lambung"
-        }
-    },
-    luka: {
-        ringan: {
-            judul: "Luka — Ringan / Lecet",
-            obat: "Povidone Iodine + Kasa Steril",
-            cara: "Bersihkan luka dengan air bersih/NaCl 0.9%\nOleskan Povidone Iodine di sekeliling luka\nTutup dengan kasa steril, ganti 1–2 kali sehari\nJangan gunakan kapas langsung ke luka terbuka"
-        },
-        sedang: {
-            judul: "Luka — Sedang / Terbuka",
-            obat: "Povidone Iodine + Mupirocin Salep + Perban",
-            cara: "Bersihkan dengan cairan infus NaCl 0.9%\nOleskan salep Mupirocin tipis saja\nPasang kasa + perban, ganti balutan tiap hari\nPerhatikan tanda infeksi: merah, panas, bernanah"
-        },
-        berat: {
-            judul: "Luka — Berat / Dalam",
-            obat: "Povidone Iodine + Antibiotik Sistemik (Amoxicillin/Ciprofloxacin) + Perban",
-            cara: "Bersihkan luka secara menyeluruh, hentikan pendarahan\nPasang balutan tekanan\nAntibiotik sesuai dosis dewasa: Amoxicillin 500mg 3x sehari\nJika alergi → Ciprofloxacin 500mg 2x sehari\nKontrol ulang dalam 2–3 hari"
-        }
-    },
-    mag: {
-        ringan: {
-            judul: "Maag / Nyeri Lambung — Ringan",
-            obat: "Antasida (Sirup/Tablet Kunyah)",
-            cara: "Diminum 1–2 jam setelah makan atau saat nyeri muncul\nKunyah tablet sampai halus sebelum telan\nSirup: kocok dulu, minum sesuai takaran\nHindari makanan pedas, asam, berkafein"
-        },
-        sedang: {
-            judul: "Maag / GERD — Sedang",
-            obat: "Omeprazole 20mg + Antasida",
-            cara: "Omeprazole: 1 kapsul pagi hari SEBELUM makan\nAntasida: diminum sesudah makan jika nyeri muncul\nMakan porsi kecil tapi sering\nTidur dengan kepala lebih tinggi"
-        },
-        berat: {
-            judul: "Maag / GERD — Berat",
-            obat: "Pantoprazole 40mg + Domperidone 10mg",
-            cara: "Pantoprazole: 1 tablet pagi sebelum makan\nDomperidone: 1 tablet 3x sehari 30 MENIT SEBELUM makan\nJangan berbaring minimal 2 jam setelah makan\nSegera rujuk jika muntah darah / BAB hitam"
-        }
-    },
-    terkilir: {
-        ringan: {
-            judul: "Terkilir / Keseleo — Ringan",
-            obat: "Ibuprofen + Kompres Dingin",
-            cara: "Istirahatkan bagian yang sakit\nKompres es dibungkus kain, tempelkan 15–20 menit tiap 2–3 jam\nIbuprofen 200mg: 1 tablet sesudah makan 2–3x sehari\nAngkat bagian yang terkilir saat beristirahat"
-        },
-        sedang: {
-            judul: "Terkilir / Keseleo — Sedang",
-            obat: "Diclofenac 50mg + Perban Elastis",
-            cara: "Diclofenac 50mg: 1 tablet 2x sehari setelah makan\nBalut dengan perban elastis — tidak terlalu kencang\nKompres dingin hari pertama → kompres hangat hari ke-2 dst\nJangan membebani bagian yang sakit"
-        },
-        berat: {
-            judul: "Terkilir / Patah — Berat",
-            obat: "Ketorolac + Fiksasi / Gips + Rujukan",
-            cara: "Ketorolac 10mg: 1 tablet tiap 6–8 jam, maksimal 5 hari\nPasang fiksasi sementara sebelum dirujuk ke RS\nJangan menggerakkan bagian yang sakit\nSegera foto rontgen untuk memastikan tidak ada patah tulang"
-        }
-    },
-    luka_bakar: {
-        ringan: {
-            judul: "Luka Bakar — Ringan",
-            obat: "Povidone Iodine + Kasa Non-Lengket",
-            cara: "Alirkan air dingin ke area bakar 10–15 menit\nJangan pakai es langsung ke kulit\nOleskan Povidone Iodine tipis\nTutup dengan kasa steril non-lengket\nGanti balutan 1x sehari"
-        },
-        sedang: {
-            judul: "Luka Bakar — Sedang",
-            obat: "Silver Sulfadiazine Salep + Balutan Steril",
-            cara: "Bersihkan lembut dengan air bersih\nOleskan salep Silver Sulfadiazine merata\nTutup dengan kasa steril, ganti 1x sehari\nJangan pecahkan gelembung udara\nPantau suhu tubuh — tanda infeksi"
-        },
-        berat: {
-            judul: "Luka Bakar — Berat",
-            obat: "Cairan Infus (Saline/RL) + Silver Sulfadiazine + Rujukan IGD",
-            cara: "Segera pasang infus jika luas luka >10%\nJangan tutup dengan bahan yang menyerap cairan\nBerikan pereda nyeri: Ketorolac 10mg\nSterilkan area di sekeliling luka\nRUJUK ke IGD/Puskesmas terdekat segera"
-        }
-    },
-    lebam: {
-        ringan: {
-            judul: "Lebam / Memar — Ringan",
-            obat: "Kompres Dingin + Paracetamol",
-            cara: "Kompres dingin 15–20 menit segera setelah benturan\nUlangi tiap 2–3 jam\nParacetamol untuk nyeri jika perlu\nJangan pijat area lebam — memperburuk pendarahan\nBiasanya hilang sendiri 5–7 hari"
-        },
-        sedang: {
-            judul: "Lebam / Memar — Sedang",
-            obat: "Kompres Dingin → Hangat + Ibuprofen",
-            cara: "Hari 1–2: kompres dingin untuk hentikan pendarahan\nHari 3+: ganti kompres hangat untuk lancarkan darah\nIbuprofen 200mg untuk nyeri & radang\nAngkat bagian yang lebam saat berbaring\nPerhatikan jika lebam makin meluas"
-        },
-        berat: {
-            judul: "Lebam / Memar — Berat",
-            obat: "Diclofenac + Kompres + Observasi",
-            cara: "Diclofenac 50mg 2x sehari setelah makan\nKompres bergantian dingin & hangat\nCek tekanan darah & tanda pendarahan lain\nJika lebam muncul tanpa sebab jelas → cek darah\nSegera ke dokter jika ada benjolan keras membesar"
-        }
-    }
-};
+// === KATA SANDI DIACAK — GANTI BAGIAN INI SAJA ===
+const __P=atob('anjek12321'); // ← GANTI "yourpassword123" jadi sandimu!
+let __A=false,__K=null,__T=null,__E=-1;
+const __D={kepala:{ringan:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},sedang:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari, jangan perut kosong'},berat:{j:'Sakit Kepala — Berat',o:'Ketorolac 10mg',c:'1 tablet tiap 6–8 jam, maksimal 5 hari'}},luka:{ringan:{j:'Luka — Ringan',o:'Povidone Iodine + Kasa',c:'Bersihkan, oleskan, tutup kasa steril'},sedang:{j:'Luka — Sedang',o:'Povidone + Mupirocin + Perban',c:'Bersihkan NaCl, oleskan salep, ganti tiap hari'},berat:{j:'Luka — Berat',o:'Antibiotik + Perban',c:'Amoxicillin 500mg 3x sehari, rujuk jika perlu'}},mag:{ringan:{j:'Maag — Ringan',o:'Antasida',c:'Minum 1–2 jam sesudah makan'},sedang:{j:'Maag — Sedang',o:'Omeprazole 20mg + Antasida',c:'Omeprazole pagi sebelum makan'},berat:{j:'Maag — Berat',o:'Pantoprazole 40mg + Domperidone',c:'Pantoprazole pagi, Domperidone 30mnt sebelum makan'}},terkilir:{ringan:{j:'Terkilir — Ringan',o:'Ibuprofen + Kompres Dingin',c:'Kompres 15–20mnt tiap 2–3jam'},sedang:{j:'Terkilir — Sedang',o:'Diclofenac + Perban Elastis',c:'Balut tidak terlalu kencang, kompres hangat hari ke-3'},berat:{j:'Terkilir — Berat',o:'Ketorolac + Rujukan',c:'Fiksasi sementara, rujuk rontgen'}},luka_bakar:{ringan:{j:'Luka Bakar — Ringan',o:'Povidone + Kasa',c:'Alirkan air dingin 10–15mnt, jangan pakai es langsung'},sedang:{j:'Luka Bakar — Sedang',o:'Silver Sulfadiazine',c:'Oleskan tipis, ganti balutan tiap hari'},berat:{j:'Luka Bakar — Berat',o:'Infus + Silver Sulfadiazine + Rujukan',c:'Pasang infus, rujuk IGD segera'}},lebam:{ringan:{j:'Lebam — Ringan',o:'Kompres Dingin + Paracetamol',c:'Jangan dipijat, hilang 5–7 hari'},sedang:{j:'Lebam — Sedang',o:'Kompres Dingin→Hangat + Ibuprofen',c:'Hari 3 ganti hangat untuk lancarkan darah'},berat:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}};
+let __Sd=[{n:'Prof. Dr. Kai Whitegate, Sp.B',r:'Direktur Utama',i:'Unlimited'},{n:'Dr. El Zero D W, Sp.B',r:'KABID HRD',i:'Unlimited'}];
 
-let aktifKategori = null;
-let aktifTingkat = null;
-
-// === FUNGSI LOGIN ADMIN ===
-function loginAdmin() {
-    const input = document.getElementById('admin-password').value;
-    if (input === ADMIN_PASSWORD) {
-        isAdmin = true;
-        unlockAdminArea();
-        document.getElementById('login-status').innerText = "✅ Akses diberikan! Kamu sekarang sebagai Admin.";
-    } else {
-        document.getElementById('login-status').innerText = "❌ Kata sandi salah!";
-        isAdmin = false;
-    }
-    setTimeout(() => document.getElementById('login-status').innerText = "", 3000);
-}
-
-function unlockAdminArea() {
-    // Tampilkan badge admin
-    document.getElementById('admin-badge').style.display = 'inline-block';
-    // Aktifkan input form
-    const inputBox = document.getElementById('ip-input-box');
-    inputBox.style.opacity = '1';
-    inputBox.style.pointerEvents = 'auto';
-    inputBox.querySelectorAll('.form-control, button').forEach(el => el.disabled = false);
-    // Sembunyikan catatan kunci
-    inputBox.querySelector('.lock-note').style.display = 'none';
-    // Tampilkan kolom Aksi di tabel
-    document.getElementById('col-aksi').style.display = 'table-cell';
-    renderTable();
-}
-
-// === FUNGSI RESEP ===
-function pilihKategori(kategori) {
-    aktifKategori = kategori;
-    aktifTingkat = null;
-    document.querySelectorAll('.kategori-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById('tingkat-wrapper').classList.add('show');
-    document.getElementById('hasil-resep').classList.remove('show');
-}
-
-function pilihTingkat(tingkat) {
-    aktifTingkat = tingkat;
-    document.querySelectorAll('.tingkat-btn').forEach(b => b.classList.remove('active'));
-    event.target.classList.add('active');
-    tampilkanHasil();
-}
-
-function tampilkanHasil() {
-    const d = dataResep[aktifKategori][aktifTingkat];
-    document.getElementById('resep-nama').innerText = d.judul;
-    document.getElementById('obat-nama').innerText = d.obat;
-    document.getElementById('obat-cara').innerText = d.cara;
-    
-    const teks = `\`\`\`
-📋 RESEP DOKTER
-Kondisi: ${d.judul}
-
-💊 OBAT:
-${d.obat}
-
-📝 CARA PEMAKAIAN:
-${d.cara}
-\`\`\``;
-    document.getElementById('resep-preview').innerText = teks;
-    document.getElementById('hasil-resep').classList.add('show');
-}
-
-function copyText(idEl) {
-    const teks = document.getElementById(idEl).innerText;
-    navigator.clipboard.writeText(teks).then(() => {
-        const el = document.getElementById('resep_status');
-        el.innerText = "✅ Disalin!";
-        setTimeout(() => el.innerText = "", 2000);
-    });
-}
-
-function copyResepDiscord() {
-    const teks = document.getElementById('resep-preview').innerText;
-    navigator.clipboard.writeText(teks).then(() => {
-        const el = document.getElementById('resep_status');
-        el.innerText = "✅ Format lengkap disalin!";
-        setTimeout(() => el.innerText = "", 3000);
-    });
-}
-
-// === INFRACTION POINT ===
-let staffDatabase = [
-    { name: "Prof. Dr. Kai Whitegate, Sp.B", rank: "Direktur Utama", ip: "Unlimited" },
-    { name: "Dr. El Zero D W, Sp.B", rank: "KABID HRD", ip: "Unlimited" }
-];
-let editingIndex = -1;
-
-function escapeHtml(t) {
-    const d = document.createElement('div'); d.textContent = t; return d.innerHTML;
-}
-
-function renderTable() {
-    const tb = document.getElementById('staff-table-body'); tb.innerHTML = '';
-    staffDatabase.forEach((s, i) => {
-        const tr = document.createElement('tr');
-        if (editingIndex === i && isAdmin) {
-            tr.innerHTML = `
-                <td><input type="text" id="edit-name-${i}" class="table-input" value="${escapeHtml(s.name)}"></td>
-                <td><input type="text" id="edit-rank-${i}" class="table-input" value="${escapeHtml(s.rank)}"></td>
-                <td><input type="text" id="edit-ip-${i}" class="table-input" value="${escapeHtml(s.ip)}"></td>
-                <td style="text-align:center;">
-                    <button onclick="simpanEdit(${i})" class="btn-save">✅ Simpan</button>
-                    <button onclick="batalEdit()" class="btn-cancel">↩ Batal</button>
-                </td>`;
-        } else {
-            tr.innerHTML = `
-                <td>${escapeHtml(s.name)}</td>
-                <td>${escapeHtml(s.rank)}</td>
-                <td>${escapeHtml(s.ip)}</td>
-                <td style="text-align:center; ${isAdmin ? '' : 'display:none;'}">
-                    <button onclick="editStaff(${i})" style="background:#ffcc00; color:black; border:none; padding:5px 10px; border-radius:4px; cursor:pointer; margin-right:4px; font-weight:bold; font-size:12px;">✏️ Edit</button>
-                    <button onclick="hapusStaff(${i})" class="btn-delete">❌ Hapus</button>
-                </td>`;
-        }
-        tb.appendChild(tr);
-    });
-}
-
-function tambahStaff() {
-    if (!isAdmin) return alert("🔒 Hanya Admin yang bisa menambah data!");
-    const n = document.getElementById('ip_nama').value.trim();
-    const j = document.getElementById('ip_jabatan').value.trim();
-    const ip = document.getElementById('ip_jumlah').value.trim();
-    if (!n || !j || !ip) return alert("Isi semua kolom!");
-    staffDatabase.push({name:n, rank:j, ip:ip});
-    renderTable();
-    document.getElementById('ip_nama').value = '';
-    document.getElementById('ip_jabatan').value = '';
-    document.getElementById('ip_jumlah').value = '';
-    document.getElementById('ip_status').innerText = "✅ Data ditambahkan!";
-    setTimeout(() => document.getElementById('ip_status').innerText = "", 3000);
-}
-
-function editStaff(i) {
-    if (!isAdmin) return alert("🔒 Hanya Admin yang bisa mengedit!");
-    editingIndex = i; renderTable();
-}
-function simpanEdit(i) {
-    if (!isAdmin) return;
-    const n = document.getElementById(`edit-name-${i}`).value.trim();
-    const j = document.getElementById(`edit-rank-${i}`).value.trim();
-    const ip = document.getElementById(`edit-ip-${i}`).value.trim();
-    if (!n || !j || !ip) return alert("Semua kolom wajib diisi!");
-    staffDatabase[i] = {name:n, rank:j, ip:ip};
-    editingIndex = -1; renderTable();
-    document.getElementById('ip_status').innerText = "✏️ Data diperbarui!";
-    setTimeout(() => document.getElementById('ip_status').innerText = "", 3000);
-}
-function batalEdit() { editingIndex = -1; renderTable(); }
-function hapusStaff(i) {
-    if (!isAdmin) return alert("🔒 Hanya Admin yang bisa menghapus!");
-    if (confirm(`Hapus ${staffDatabase[i].name}?`)) {
-        staffDatabase.splice(i, 1);
-        if (editingIndex === i) editingIndex = -1;
-        renderTable();
-        document.getElementById('ip_status').innerText = "❌ Data dihapus!";
-        setTimeout(() => document.getElementById('ip_status').innerText = "", 3000);
-    }
-}
-function copyStaffDiscord() {
-    let t = "```\n📊 DATA INFRACTION POINT STAFF\n\n";
-    staffDatabase.forEach(s => t += `Nama: ${s.name}\nJabatan: ${s.rank}\nIP: ${s.ip}\n-----------------------\n`);
-    t += "```";
-    navigator.clipboard.writeText(t).then(() => {
-        document.getElementById('ip_status').innerText = "✅ Disalin ke Discord!";
-        setTimeout(() => document.getElementById('ip_status').innerText = "", 3000);
-    });
-}
-
-// === FARMASI ===
-function updateFarmasiFormat() {
-    const jenis = document.querySelector('input[name="jenis_obat"]:checked').value;
-    const nama = document.getElementById('farmasi_pasien').value || '';
-    const obat = document.getElementById('farmasi_obat').value || '';
-    const foto = document.getElementById('farmasi_foto').value || '[masukin link]';
-    document.getElementById('farmasi_preview').innerText = `\`\`\`
-${jenis}
-
-NAMA PASIEN : ${nama}
-OBAT/JUMLAH : ${obat}
-BUKTI RESEP OBAT
-${foto}
-\`\`\``;
-}
-function copyFarmasiDiscord() {
-    navigator.clipboard.writeText(document.getElementById('farmasi_preview').innerText).then(() => {
-        document.getElementById('farmasi_status').innerText = "✅ Disalin!";
-        setTimeout(() => document.getElementById('farmasi_status').innerText = "", 3000);
-    });
-}
-
-// === NAVIGASI ===
-function openSection(id) {
-    document.getElementById('main-menu').style.display = 'none';
-    document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
-    document.getElementById(`section-${id}`).style.display = 'block';
-    if (id === 'farmasi') updateFarmasiFormat();
-    if (id === 'infraction') renderTable();
-    editingIndex = -1;
-}
-function backToMenu() {
-    document.getElementById('main-menu').style.display = 'flex';
-    document.querySelectorAll('.content-section').forEach(s => s.style.display = 'none');
-    editingIndex = -1;
-}
-
-window.onload = renderTable;
+// === FUNGSI ===
+function __L(){const p=document.getElementById('_p').value;if(atob('eW91cnBhc3N3b3JkMTIz')===p){__A=true;document.getElementById('_adm').style.display='inline-block';const b=document.getElementById('ip-input-box');b.style.opacity='1';b.style.pointerEvents='auto';b.querySelectorAll('.form-control,button').forEach(x=>x.disabled=false);b.querySelector('.lock-note').style.display='none';document.getElementById('_ca').style.display='table-cell';document.getElementById('_ls').innerText='✅ Akses diberikan!'}else{document.getElementById('_ls').innerText='❌ Salah!';__A=false}setTimeout(()=>document.getElementById('_ls').innerText='',3000)}
+function __S(id){document.getElementById('main-menu').style.display='none';document.querySelectorAll('.content-section').forEach(x=>x.style.display='none');document.getElementById('section-'+id).style.display='block';if(id==='farmasi')__U();if(id==='infraction')__R();__E=-1}
+function __B(){document.getElementById('main-menu').style.display='flex';document.querySelectorAll('.content-section').forEach(x=>x.style.display='none');__E=-1}
+function __K(k){__K=k;__T=null;document.querySelectorAll('.kategori-btn').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');document.getElementById('_tw').classList.add('show');document.getElementById('_hr').classList.remove('show')}
+function __T(t){__T=t;document.querySelectorAll('.tingkat-btn').forEach(x=>x.classList.remove('active'));event.target.classList.add('active');const d=__D[__K][__T];document.getElementById('_rj').innerText=d.j;document.getElementById('_ro').innerText=d.o;document.getElementById('_rc').innerText=d.c;document.getElementById('_rp').innerText='```\n📋 RESEP DOKTER\nKondisi: '+d.j+'\n\n💊 OBAT:\n'+d.o+'\n\n📝 CARA PEMAKAIAN:\n'+d.c+'\n```';document.getElementById('_hr').classList.add('show')}
+function __CP(id){navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>{document.getElementById('_rs').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_rs').innerText='',2000)})}
+function __RC(){navigator.clipboard.writeText(document.getElementById('_rp').innerText).then(()=>{document.getElementById('_rs').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_rs').innerText='',3000)})}
+function __U(){const j=document.querySelector('input[name=jo]:checked').value;const p=document.getElementById('_fp').value||'';const o=document.getElementById('_fo').value||'';const f=document.getElementById('_ff').value||'[masukin link]';document.getElementById('_fv').innerText='```\n'+j+'\n\nNAMA PASIEN : '+p+'\nOBAT/JUMLAH : '+o+'\nBUKTI RESEP OBAT\n'+f+'\n```'}
+function __FC(){navigator.clipboard.writeText(document.getElementById('_fv').innerText).then(()=>{document.getElementById('_fs').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_fs').innerText='',3000)})}
+function __R(){const t=document.getElementById('_tb');t.innerHTML='';__Sd.forEach((s,i)=>{const r=document.createElement('tr');if(__E===i&&__A){r.innerHTML=`<td><input type="text" id="en${i}" class="table-input" value="${s.n.replace(/"/g,'&quot;')}"></td><td><input type="text" id="er${i}" class="table-input" value="${s.r.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ei${i}" class="table-input" value="${s.i.replace(/"/g,'&quot;')}"></td><td style="text-align:center"><button onclick="__ES(${i})" class="btn-save">✅ Simpan</button><button onclick="__CE()" class="btn-cancel">↩ Batal</button></td>`}else{r.innerHTML=`<td>${s.n}</td><td>${s.r}</td><td>${s.i}</td><td style="text-align:center;${__A?'':'display:none'}"><button onclick="__E${i}" style="background:#ffc;color:#000;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;margin-right:4px;font-weight:700;font-size:12px">✏️</button><button onclick="__D${i}" class="btn-delete">❌</button></td>`}t.appendChild(r)})}
+function __A(){if(!__A)return alert('🔒 Terkunci!');const n=document.getElementById('_n').value.trim();const j=document.getElementById('_j').value.trim();const i=document.getElementById('_i').value.trim();if(!n||!j||!i)return alert('Lengkapi semua kolom!');__Sd.push({n:n,r:j,i:i});__R();document.getElementById('_n').value='';document.getElementById('_j').value='';document.getElementById('_i').value='';document.getElementById('_is').innerText='✅ Ditambahkan!';setTimeout(()=>document.getElementById('_is').innerText='',3000)}
+function __E(i){if(!__A)return alert('🔒 Terkunci!');__E=i;__R()}
+function __ES(i){const n=document.getElementById(`en${i}`).value.trim();const r=document.getElementById(`er${i}`).value.trim();const ip=document.getElementById(`ei${i}`).value.trim();if(!n||!r||!ip)return alert('Lengkapi semua kolom!');__Sd[i]={n:n,r:r,i:ip};__E=-1;__R();document.getElementById('_is').innerText='✅ Diperbarui!';setTimeout(()=>document.getElementById('_is').innerText='',3000)}
+function __CE(){__E=-1;__R()}
+function __D(i){if(!__A)return alert('🔒 Terkunci!');if(confirm(`Hapus ${__Sd[i].n}?`)){__Sd.splice(i,1);if(__E===i)__E=-1;__R();document.getElementById('_is').innerText='✅ Dihapus!';setTimeout(()=>document.getElementById('_is').innerText='',3000)}}
+function __C(){let t='```\n📊 DATA INFRACTION POINT STAFF\n\n';__Sd.forEach(s=>t+=`Nama: ${s.n}\nJabatan: ${s.r}\nIP: ${s.i}\n-----------------------\n`);t+='```';navigator.clipboard.writeText(t).then(()=>{document.getElementById('_is').innerText='✅ Disalin!';setTimeout(()=>document.getElementById('_is').innerText='',3000)})}
+window.onload=__R;
 </script>
 </body>
 </html>
