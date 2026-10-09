@@ -8,7 +8,7 @@
 :root{--bg:#0c0000;--cbg:#1a0505;--txt:#fff;--brd:#7a0000;--ac:#ffcc00;--acr:#ff3333;--bt:#260808;--bth:#3d0d0d;--ok:#28a745}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);padding:20px;line-height:1.6;-webkit-user-select:none;user-select:none}
-.c{max-width:1100px;margin:0 auto}
+.c{max-width:1200px;margin:0 auto}
 h1{color:var(--ac);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
 .hd{text-align:center;padding:20px 0;border-bottom:3px solid var(--ac);margin-bottom:20px}
 .m{display:flex;flex-direction:column;gap:12px;max-width:600px;margin:25px auto}
@@ -36,6 +36,7 @@ select.inp{cursor:pointer}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{padding:10px 8px;border-bottom:1px solid var(--brd);vertical-align:middle;text-align:center}
 th{background:var(--bt);color:var(--ac);white-space:nowrap}
+th.grp{background:#2c0a0a;border:1px solid var(--ac);font-size:14px}
 .tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:13px}
 select.tin{cursor:pointer}
 .kgr{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:20px 0}
@@ -162,12 +163,12 @@ select.tin{cursor:pointer}
 </div>
 </div>
 
-<!-- === BAGIAN DATA STAFF BARU === -->
+<!-- === BAGIAN DATA STAFF === -->
 <div id="Sds" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>👥 Data Staff Rumah Sakit Hommi <span id="AD2" class="bg" style="display:none">🔒 ADMIN</span></h2>
 <div id="LBOX2">
-<label class="lb">🔑 Kata Sandi Admin (Sama):</label>
+<label class="lb">🔑 Kata Sandi Admin:</label>
 <input type="password" id="PW2" class="inp" placeholder="Masukkan kata sandi...">
 <button class="btn" onclick="__L2()">🔓 Buka Akses Edit</button>
 <span id="LMG2" class="msg"></span>
@@ -176,32 +177,40 @@ select.tin{cursor:pointer}
 <div class="lk">🔒 Terkunci — Masukkan kata sandi admin untuk mengubah data</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
 <div>
-<label class="lb">BATCH</label>
-<input type="text" id="dsB" class="inp" disabled placeholder="Contoh: 1">
-</div>
-<div>
 <label class="lb">NAMA LENGKAP</label>
 <input type="text" id="dsN" class="inp" disabled placeholder="Nama Lengkap">
+</div>
+<div>
+<label class="lb">KELOMPOK</label>
+<select id="dsG" class="inp" disabled>
+<option value="">— Pilih Kelompok —</option>
+<option value="manajemen">DIREKSI & MANAJEMEN</option>
+<option value="medis">STAFF MEDIS</option>
+<option value="trainee">TRAINEE</option>
+<option value="nonaktif">RESIGN / PTHD</option>
+</select>
 </div>
 <div>
 <label class="lb">JABATAN / PANGKAT</label>
 <select id="dsJ" class="inp" disabled>
 <option value="">— Pilih Pangkat —</option>
-<option value="CEO">CEO</option>
-<option value="Direktur">Direktur</option>
-<option value="Wakil Direktur">Wakil Direktur</option>
-<option value="Sekben">Sekben</option>
-<option value="Kabid Komdis">Kabid Komdis</option>
-<option value="Komdis">Komdis</option>
-<option value="Kabid HRD">Kabid HRD</option>
-<option value="HRD">HRD</option>
-<option value="Ka. Laboran">Ka. Laboran</option>
-<option value="Manajemen Lab">Manajemen Lab</option>
-<option value="Dokter Spesialis">Dokter Spesialis</option>
-<option value="Dokter Residen">Dokter Residen</option>
-<option value="Dokter Umum">Dokter Umum</option>
-<option value="Co Ass">Co Ass</option>
-<option value="Trainee">Trainee</option>
+<option data-grp="manajemen" value="CEO">CEO</option>
+<option data-grp="manajemen" value="Direktur">Direktur</option>
+<option data-grp="manajemen" value="Wakil Direktur">Wakil Direktur</option>
+<option data-grp="manajemen" value="Sekben">Sekben</option>
+<option data-grp="manajemen" value="Kabid Komdis">Kabid Komdis</option>
+<option data-grp="manajemen" value="Komdis">Komdis</option>
+<option data-grp="manajemen" value="Kabid HRD">Kabid HRD</option>
+<option data-grp="manajemen" value="HRD">HRD</option>
+<option data-grp="manajemen" value="Ka. Laboran">Ka. Laboran</option>
+<option data-grp="manajemen" value="Manajemen Lab">Manajemen Lab</option>
+<option data-grp="medis" value="Dokter Spesialis">Dokter Spesialis</option>
+<option data-grp="medis" value="Dokter Residen">Dokter Residen</option>
+<option data-grp="medis" value="Dokter Umum">Dokter Umum</option>
+<option data-grp="medis" value="Co Ass">Co Ass</option>
+<option data-grp="trainee" value="Trainee">Trainee</option>
+<option data-grp="nonaktif" value="Resign">Resign</option>
+<option data-grp="nonaktif" value="PTHD">PTHD</option>
 </select>
 </div>
 <div>
@@ -244,8 +253,12 @@ select.tin{cursor:pointer}
 <span id="IM2" class="msg"></span>
 </div>
 <div class="tb">
-<table><thead><tr>
-<th>BATCH</th>
+<table>
+<thead>
+<tr>
+<th colspan="9" class="grp">👔 DIREKSI & MANAJEMEN</th>
+</tr>
+<tr id="h-manajemen">
 <th>NAMA</th>
 <th>JABATAN</th>
 <th>STATUS</th>
@@ -254,9 +267,53 @@ select.tin{cursor:pointer}
 <th>NO. HP</th>
 <th>CID</th>
 <th>EMAIL</th>
-<th id="AC2" style="display:none;text-align:center">AKSI</th>
-</tr></thead>
-<tbody id="TB2"></tbody></table>
+<th id="AC2" style="display:none">AKSI</th>
+</tr>
+<tr>
+<th colspan="9" class="grp">⚕️ STAFF MEDIS</th>
+</tr>
+<tr id="h-medis">
+<th>NAMA</th>
+<th>JABATAN</th>
+<th>STATUS</th>
+<th>SP</th>
+<th>JENIS KELAMIN</th>
+<th>NO. HP</th>
+<th>CID</th>
+<th>EMAIL</th>
+<th></th>
+</tr>
+<tr>
+<th colspan="9" class="grp">🎓 TRAINEE</th>
+</tr>
+<tr id="h-trainee">
+<th>NAMA</th>
+<th>JABATAN</th>
+<th>STATUS</th>
+<th>SP</th>
+<th>JENIS KELAMIN</th>
+<th>NO. HP</th>
+<th>CID</th>
+<th>EMAIL</th>
+<th></th>
+</tr>
+<tr>
+<th colspan="9" class="grp">📋 RESIGN / PTHD</th>
+</tr>
+<tr id="h-nonaktif">
+<th>NAMA</th>
+<th>JABATAN</th>
+<th>STATUS</th>
+<th>SP</th>
+<th>JENIS KELAMIN</th>
+<th>NO. HP</th>
+<th>CID</th>
+<th>EMAIL</th>
+<th></th>
+</tr>
+</thead>
+<tbody id="TB2"></tbody>
+</table>
 </div>
 </div>
 
@@ -308,23 +365,8 @@ let __D = [
     {n:'Dr. El Zero D W, Sp.B', j:'KABID HRD', i:'Unlimited'}
 ];
 
-// === DATA STAFF ===
-let __DS = [
-    {b:'1',n:'Ed Forger',j:'CEO',st:'Aktif',sp:'',jk:'Laki-laki',hp:'',cid:'VHX99020',em:''},
-    {b:'1',n:'Valerie Noa W. Vazquez',j:'Direktur',st:'Aktif',sp:'',jk:'Perempuan',hp:'22',cid:'',em:''},
-    {b:'1',n:'Kai Kanata Whitegate',j:'Wakil Direktur',st:'Aktif',sp:'',jk:'Laki-laki',hp:'7533516497',cid:'EHA13638',em:''},
-    {b:'1',n:'Lucas D. Whitegate',j:'Wakil Direktur',st:'Aktif',sp:'',jk:'Laki-laki',hp:'5205111729',cid:'DFGOA23X',em:''},
-    {b:'1',n:'Xienna Whitegate',j:'Wakil Direktur',st:'Aktif',sp:'',jk:'Perempuan',hp:'(602) 757-8865',cid:'WYD35077',em:''},
-    {b:'1',n:'Draco Hidayat Hawkins',j:'Sekben',st:'Aktif',sp:'',jk:'Laki-laki',hp:'3862521369',cid:'KQ30549',em:''},
-    {b:'1',n:'Ellena Norris',j:'Sekben',st:'Aktif',sp:'',jk:'Perempuan',hp:'2053037852',cid:'BIA74534',em:''},
-    {b:'1',n:'Grizzelle D Whitegate',j:'Kabid Komdis',st:'Aktif',sp:'',jk:'Perempuan',hp:'1384523767',cid:'DRW08536',em:''},
-    {b:'1',n:'Ricklona Diazepam',j:'Komdis',st:'Aktif',sp:'',jk:'Laki-laki',hp:'7825999',cid:'CGA47043',em:''},
-    {b:'1',n:'Armel Q. Whitegate',j:'Kabid HRD',st:'Aktif',sp:'',jk:'Laki-laki',hp:'9073222405',cid:'J3D31TYK',em:''},
-    {b:'1',n:'Carellia Jianyx Whitegate',j:'HRD',st:'Aktif',sp:'',jk:'Perempuan',hp:'5202830575',cid:'UQW05658',em:''},
-    {b:'1',n:'Alicia Jasmine Whitegate',j:'HRD',st:'Aktif',sp:'',jk:'Perempuan',hp:'(602)92-5458',cid:'C839W6VF',em:''},
-    {b:'1',n:'Dyyeta O. Kratavwijaya',j:'Ka. Laboran',st:'Aktif',sp:'',jk:'Perempuan',hp:'3512649',cid:'LMT70R7S',em:''},
-    {b:'1',n:'Jeff Banzos',j:'Manajemen Lab',st:'Aktif',sp:'',jk:'Laki-laki',hp:'',cid:'',em:''}
-];
+// === DATA STAFF — KOSONG, SIAP DIISI ===
+let __DS = [];
 
 // === FUNGSI UMUM ===
 function __X(id) {
@@ -342,23 +384,21 @@ function __B() {
 }
 
 // === WARNA HELPER ===
+function _getGroup(j) {
+    const m = {
+        'CEO':'manajemen','Direktur':'manajemen','Wakil Direktur':'manajemen','Sekben':'manajemen','Kabid Komdis':'manajemen','Komdis':'manajemen','Kabid HRD':'manajemen','HRD':'manajemen','Ka. Laboran':'manajemen','Manajemen Lab':'manajemen',
+        'Dokter Spesialis':'medis','Dokter Residen':'medis','Dokter Umum':'medis','Co Ass':'medis',
+        'Trainee':'trainee',
+        'Resign':'nonaktif','PTHD':'nonaktif'
+    };
+    return m[j] || 'manajemen';
+}
 function _clsJab(j) {
     const map = {
-        'CEO':'j-ceo',
-        'Direktur':'j-direktur',
-        'Wakil Direktur':'j-wakildirektur',
-        'Sekben':'j-sekben',
-        'Kabid Komdis':'j-kabidkomdis',
-        'Komdis':'j-komdis',
-        'Kabid HRD':'j-kabidhrd',
-        'HRD':'j-hrd',
-        'Ka. Laboran':'j-kalaboran',
-        'Manajemen Lab':'j-manajemenlab',
-        'Dokter Spesialis':'j-dokterspesialis',
-        'Dokter Residen':'j-dokterresiden',
-        'Dokter Umum':'j-dokterumum',
-        'Co Ass':'j-coass',
-        'Trainee':'j-trainee'
+        'CEO':'j-ceo','Direktur':'j-direktur','Wakil Direktur':'j-wakildirektur','Sekben':'j-sekben','Kabid Komdis':'j-kabidkomdis','Komdis':'j-komdis',
+        'Kabid HRD':'j-kabidhrd','HRD':'j-hrd','Ka. Laboran':'j-kalaboran','Manajemen Lab':'j-manajemenlab',
+        'Dokter Spesialis':'j-dokterspesialis','Dokter Residen':'j-dokterresiden','Dokter Umum':'j-dokterumum','Co Ass':'j-coass','Trainee':'j-trainee',
+        'Resign':'s-resign','PTHD':'s-pthd'
     };
     return map[j] || '';
 }
@@ -460,79 +500,88 @@ function __L2() {
 }
 function __RenderTable2() {
     const t = document.getElementById('TB2'); t.innerHTML = '';
-    __DS.forEach((s, i) => {
-        const r = document.createElement('tr');
-        if (__edit2 === i && __ADM) {
-            r.innerHTML = `<td><input type="text" id="db${i}" class="tin" value="${s.b.replace(/"/g,'&quot;')}"></td>
-            <td><input type="text" id="dn${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td>
-            <td><select id="dj${i}" class="tin">
-            <option value="">— Pilih —</option>
-            <option ${s.j==='CEO'?'selected':''}>CEO</option>
-            <option ${s.j==='Direktur'?'selected':''}>Direktur</option>
-            <option ${s.j==='Wakil Direktur'?'selected':''}>Wakil Direktur</option>
-            <option ${s.j==='Sekben'?'selected':''}>Sekben</option>
-            <option ${s.j==='Kabid Komdis'?'selected':''}>Kabid Komdis</option>
-            <option ${s.j==='Komdis'?'selected':''}>Komdis</option>
-            <option ${s.j==='Kabid HRD'?'selected':''}>Kabid HRD</option>
-            <option ${s.j==='HRD'?'selected':''}>HRD</option>
-            <option ${s.j==='Ka. Laboran'?'selected':''}>Ka. Laboran</option>
-            <option ${s.j==='Manajemen Lab'?'selected':''}>Manajemen Lab</option>
-            <option ${s.j==='Dokter Spesialis'?'selected':''}>Dokter Spesialis</option>
-            <option ${s.j==='Dokter Residen'?'selected':''}>Dokter Residen</option>
-            <option ${s.j==='Dokter Umum'?'selected':''}>Dokter Umum</option>
-            <option ${s.j==='Co Ass'?'selected':''}>Co Ass</option>
-            <option ${s.j==='Trainee'?'selected':''}>Trainee</option>
-            </select></td>
-            <td><select id="dst${i}" class="tin">
-            <option value="">— Pilih —</option>
-            <option ${s.st==='Aktif'?'selected':''}>Aktif</option>
-            <option ${s.st==='Tidak Aktif'?'selected':''}>Tidak Aktif</option>
-            <option ${s.st==='Resign'?'selected':''}>Resign</option>
-            <option ${s.st==='PTHD'?'selected':''}>PTHD</option>
-            </select></td>
-            <td><input type="text" id="dsp${i}" class="tin" value="${s.sp.replace(/"/g,'&quot;')}"></td>
-            <td><select id="djk${i}" class="tin">
-            <option value="">— Pilih —</option>
-            <option ${s.jk==='Laki-laki'?'selected':''}>Laki-laki</option>
-            <option ${s.jk==='Perempuan'?'selected':''}>Perempuan</option>
-            </select></td>
-            <td><input type="text" id="dhp${i}" class="tin" value="${s.hp.replace(/"/g,'&quot;')}"></td>
-            <td><input type="text" id="dcid${i}" class="tin" value="${s.cid.replace(/"/g,'&quot;')}"></td>
-            <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>
-            <td style="text-align:center"><button onclick="__SV2(${i})" class="ok">✅ Simpan</button><button onclick="__CL2()" class="cn">↩ Batal</button></td>`;
-        } else {
-            r.innerHTML = `<td>${s.b}</td>
-            <td style="text-align:left">${s.n}</td>
-            <td><span class="${_clsJab(s.j)}">${s.j}</span></td>
-            <td><span class="${_clsStatus(s.st)}">${s.st||'-'}</span></td>
-            <td>${s.sp||'-'}</td>
-            <td><span class="${_clsJK(s.jk)}">${s.jk||'-'}</span></td>
-            <td>${s.hp||'-'}</td>
-            <td>${s.cid||'-'}</td>
-            <td>${s.em||'-'}</td>
-            <td style="text-align:center;${__ADM?'':'display:none'}">
-            <button onclick="__ED2(${i})" style="background:var(--ac);color:#000;border:none;padding:5px 8px;border-radius:4px;cursor:pointer;margin-right:4px;font-weight:700;font-size:12px">✏️</button>
-            <button onclick="__DL2(${i})" class="dl">🗑️</button>
-            </td>`;
-        }
-        t.appendChild(r);
+    ['manajemen','medis','trainee','nonaktif'].forEach(grp => {
+        __DS.filter(s => s.g === grp).forEach((s, idx) => {
+            const i = __DS.indexOf(s);
+            const r = document.createElement('tr');
+            if (__edit2 === i && __ADM) {
+                r.innerHTML = `<td><input type="text" id="dn${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td>
+                <td><select id="dj${i}" class="tin">
+                <option value="">— Pilih —</option>
+                <option ${s.j==='CEO'?'selected':''}>CEO</option>
+                <option ${s.j==='Direktur'?'selected':''}>Direktur</option>
+                <option ${s.j==='Wakil Direktur'?'selected':''}>Wakil Direktur</option>
+                <option ${s.j==='Sekben'?'selected':''}>Sekben</option>
+                <option ${s.j==='Kabid Komdis'?'selected':''}>Kabid Komdis</option>
+                <option ${s.j==='Komdis'?'selected':''}>Komdis</option>
+                <option ${s.j==='Kabid HRD'?'selected':''}>Kabid HRD</option>
+                <option ${s.j==='HRD'?'selected':''}>HRD</option>
+                <option ${s.j==='Ka. Laboran'?'selected':''}>Ka. Laboran</option>
+                <option ${s.j==='Manajemen Lab'?'selected':''}>Manajemen Lab</option>
+                <option ${s.j==='Dokter Spesialis'?'selected':''}>Dokter Spesialis</option>
+                <option ${s.j==='Dokter Residen'?'selected':''}>Dokter Residen</option>
+                <option ${s.j==='Dokter Umum'?'selected':''}>Dokter Umum</option>
+                <option ${s.j==='Co Ass'?'selected':''}>Co Ass</option>
+                <option ${s.j==='Trainee'?'selected':''}>Trainee</option>
+                <option ${s.j==='Resign'?'selected':''}>Resign</option>
+                <option ${s.j==='PTHD'?'selected':''}>PTHD</option>
+                </select></td>
+                <td><select id="dst${i}" class="tin">
+                <option value="">— Pilih —</option>
+                <option ${s.st==='Aktif'?'selected':''}>Aktif</option>
+                <option ${s.st==='Tidak Aktif'?'selected':''}>Tidak Aktif</option>
+                <option ${s.st==='Resign'?'selected':''}>Resign</option>
+                <option ${s.st==='PTHD'?'selected':''}>PTHD</option>
+                </select></td>
+                <td><input type="text" id="dsp${i}" class="tin" value="${s.sp.replace(/"/g,'&quot;')}"></td>
+                <td><select id="djk${i}" class="tin">
+                <option value="">— Pilih —</option>
+                <option ${s.jk==='Laki-laki'?'selected':''}>Laki-laki</option>
+                <option ${s.jk==='Perempuan'?'selected':''}>Perempuan</option>
+                </select></td>
+                <td><input type="text" id="dhp${i}" class="tin" value="${s.hp.replace(/"/g,'&quot;')}"></td>
+                <td><input type="text" id="dcid${i}" class="tin" value="${s.cid.replace(/"/g,'&quot;')}"></td>
+                <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>
+                <td style="text-align:center;${__ADM?'':'display:none'}"><button onclick="__SV2(${i})" class="ok">✅</button> <button onclick="__CL2()" class="cn">↩</button></td>`;
+            } else {
+                r.innerHTML = `<td style="text-align:left">${s.n}</td>
+                <td><span class="${_clsJab(s.j)}">${s.j}</span></td>
+                <td><span class="${_clsStatus(s.st)}">${s.st||'-'}</span></td>
+                <td>${s.sp||'-'}</td>
+                <td><span class="${_clsJK(s.jk)}">${s.jk||'-'}</span></td>
+                <td>${s.hp||'-'}</td>
+                <td>${s.cid||'-'}</td>
+                <td>${s.em||'-'}</td>
+                <td style="text-align:center;${__ADM?'':'display:none'}">
+                <button onclick="__ED2(${i})" style="background:var(--ac);color:#000;border:none;padding:4px 8px;border-radius:4px;cursor:pointer;margin-right:2px;font-weight:700;font-size:12px">✏️</button>
+                <button onclick="__DL2(${i})" class="dl">🗑️</button>
+                </td>`;
+            }
+            t.appendChild(r);
+        });
     });
 }
 function __A2() {
     if (!__ADM) return alert('🔒 Terkunci!');
     const get = id => document.getElementById(id).value.trim();
-    const b=get('dsB'),n=get('dsN'),j=get('dsJ'),st=get('dsSt'),sp=get('dsSP'),jk=get('dsJK'),hp=get('dsHP'),cid=get('dsCID'),em=get('dsEM');
-    if (!b||!n||!j||!st||!jk) return alert('Lengkapi kolom wajib (Batch, Nama, Jabatan, Status, Jenis Kelamin)!');
-    __DS.push({b,n,j,st,sp,jk,hp,cid,em}); __RenderTable2();
-    ['dsB','dsN','dsJ','dsSt','dsSP','dsJK','dsHP','dsCID','dsEM'].forEach(id=>document.getElementById(id).value='');
+    const g=get('dsG'),n=get('dsN'),j=get('dsJ'),st=get('dsSt'),sp=get('dsSP'),jk=get('dsJK'),hp=get('dsHP'),cid=get('dsCID'),em=get('dsEM');
+    if (!g||!n||!j||!st||!jk) return alert('Lengkapi kolom wajib!');
+    __DS.push({g,_n,j,st,sp,jk,hp,cid,em});
+    // Auto-group Resign/PTHD ke kolom nonaktif
+    const realG = (st==='Resign'||st==='PTHD') ? 'nonaktif' : g;
+    __DS[__DS.length-1].g = realG;
+    __RenderTable2();
+    ['dsN','dsG','dsJ','dsSt','dsSP','dsJK','dsHP','dsCID','dsEM'].forEach(id=>document.getElementById(id).value='');
     document.getElementById('IM2').innerText='✅ Ditambahkan!'; setTimeout(()=>document.getElementById('IM2').innerText='',3000);
 }
 function __ED2(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit2=i; __RenderTable2(); }
 function __SV2(i) {
     const get = id => document.getElementById(id).value.trim();
-    const b=get('db'+i),n=get('dn'+i),j=get('dj'+i),st=get('dst'+i),sp=get('dsp'+i),jk=get('djk'+i),hp=get('dhp'+i),cid=get('dcid'+i),em=get('dem'+i);
-    if (!b||!n||!j||!st||!jk) return alert('Lengkapi kolom wajib!');
-    __DS[i]={b,n,j,st,sp,jk,hp,cid,em}; __edit2=-1; __RenderTable2();
+    const n=get('dn'+i),j=get('dj'+i),st=get('dst'+i),sp=get('dsp'+i),jk=get('djk'+i),hp=get('dhp'+i),cid=get('dcid'+i),em=get('dem'+i);
+    if (!n||!j||!st||!jk) return alert('Lengkapi kolom wajib!');
+    const realG = (st==='Resign'||st==='PTHD') ? 'nonaktif' : _getGroup(j);
+    __DS[i]={g:realG,n,j,st,sp,jk,hp,cid,em};
+    __edit2=-1; __RenderTable2();
     document.getElementById('IM2').innerText='✅ Diperbarui!'; setTimeout(()=>document.getElementById('IM2').innerText='',3000);
 }
 function __CL2() { __edit2=-1; __RenderTable2(); }
@@ -545,7 +594,13 @@ function __DL2(i) {
 }
 function __CP2() {
     let t='```\n👥 DATA STAFF RUMAH SAKIT HOMMI\n\n';
-    __DS.forEach(s => t += `Batch: ${s.b}\nNama: ${s.n}\nJabatan: ${s.j}\nStatus: ${s.st}\nSP: ${s.sp||'-'}\nJenis Kelamin: ${s.jk}\nNo. HP: ${s.hp||'-'}\nCID: ${s.cid||'-'}\nEmail: ${s.em||'-'}\n----------------------------------------\n`);
+    ['manajemen','medis','trainee','nonaktif'].forEach(grp=>{
+        const label = {manajemen:'👔 DIREKSI & MANAJEMEN',medis:'⚕️ STAFF MEDIS',trainee:'🎓 TRAINEE',nonaktif:'📋 RESIGN / PTHD'}[grp];
+        t += `${'═'.repeat(35)}\n${label}\n${'═'.repeat(35)}\n`;
+        __DS.filter(s=>s.g===grp).forEach(s=>{
+            t += `Nama: ${s.n}\nJabatan: ${s.j}\nStatus: ${s.st}\nSP: ${s.sp||'-'}\nJenis Kelamin: ${s.jk}\nNo. HP: ${s.hp||'-'}\nCID: ${s.cid||'-'}\nEmail: ${s.em||'-'}\n─────────────────────────────\n`;
+        });
+    });
     t+='```';
     navigator.clipboard.writeText(t).then(()=>{document.getElementById('IM2').innerText='✅ Disalin!'; setTimeout(()=>document.getElementById('IM2').innerText='',3000);});
 }
