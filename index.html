@@ -63,14 +63,11 @@ th{background:var(--bt);color:var(--ac)}
 <h1>Rumah Sakit Hommi Helper</h1>
 <p style="color:var(--acr);font-weight:700;font-size:14px;margin-top:5px">Sistem Informasi & Papan Pengumuman Internal Faksi</p>
 </div>
-
 <div id="M" class="m">
 <div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
-<div class="mi" onclick="__X('fm')">💊 Pencatatan Farmasi</div>
 <div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
 <div class="mi d">👥 Struktur Rumah Sakit (Coming Soon)</div>
 </div>
-
 <div id="Sip" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>Input & Data Infraction Point (IP) Staff <span id="AD" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -97,27 +94,6 @@ th{background:var(--bt);color:var(--ac)}
 <tbody id="TB"></tbody></table>
 </div>
 </div>
-
-<div id="Sfm" class="sec">
-<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
-<h2>Data Penjualan Obat</h2>
-<label class="lb">PILIH JENIS FARMASI:</label>
-<div style="margin:5px 0 15px 0">
-<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin:5px 0"><input type="radio" name="J" value="Menggunakan Obat stress" checked onchange="__U()"> Menggunakan Obat stress</label>
-<label style="display:flex;align-items:center;gap:8px;cursor:pointer;margin:5px 0"><input type="radio" name="J" value="Tanpa Obat stress" onchange="__U()"> Tanpa Obat stress</label>
-</div>
-<label class="lb">NAMA PASIEN :</label>
-<input type="text" id="PN" class="inp" oninput="__U()">
-<label class="lb">OBAT/JUMLAH :</label>
-<input type="text" id="DR" class="inp" oninput="__U()">
-<label class="lb">LINK FOTO :</label>
-<input type="text" id="LK" class="inp" oninput="__U()">
-<label class="lb">Preview:</label>
-<pre id="PV" class="pre"></pre>
-<button class="btn dc" onclick="__FC()" style="width:100%;margin-top:15px">📋 Copy</button>
-<span id="FMG" class="msg"></span>
-</div>
-
 <div id="Srp" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>📋 Panduan Resep Dokter</h2>
@@ -152,7 +128,6 @@ th{background:var(--bt);color:var(--ac)}
 </div>
 </div>
 </div>
-
 <script>
 // === PENGAMANAN HALAMAN (BLOKIR KLIK KANAN, F12, INSPECT) ===
 document.addEventListener('contextmenu', e => e.preventDefault());
@@ -162,8 +137,7 @@ document.addEventListener('keydown', e => {
         return false;
     }
 });
-
-// Deteksi Developer Tools (Opsional tambahan)
+// Deteksi Developer Tools
 setInterval(() => {
     const widthThreshold = window.outerWidth - window.innerWidth > 160;
     const heightThreshold = window.outerHeight - window.innerHeight > 160;
@@ -171,9 +145,7 @@ setInterval(() => {
         document.body.innerHTML = "<h2 style='text-align:center;color:red;margin-top:20vh;'>⛔ Akses Ditolak: Developer Tools Terdeteksi!</h2>";
     }
 }, 1000);
-
 let __ADM = false, __selK = null, __selT = null, __edit = -1;
-
 const __R = {
     kpl:{rng:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},
     sdg:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari, jangan perut kosong'},
@@ -194,12 +166,10 @@ const __R = {
     sdg:{j:'Lebam — Sedang',o:'Kompres Dingin→Hangat + Ibuprofen',c:'Hari 3 ganti hangat untuk lancarkan darah'},
     brt:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}
 };
-
 let __D = [
     {n:'Prof. Dr. Kai Whitegate, Sp.B', j:'Direktur Utama', i:'Unlimited'},
     {n:'Dr. El Zero D W, Sp.B', j:'KABID HRD', i:'Unlimited'}
 ];
-
 function __L() {
     const p = document.getElementById('PW').value;
     if (atob('YW5qZWsxMjMzMjE=') === p) {
@@ -222,22 +192,18 @@ function __L() {
         document.getElementById('LMG').classList.remove('err');
     }, 3000);
 }
-
 function __X(id) {
     document.getElementById('M').style.display = 'none';
     document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
     document.getElementById('S' + id).style.display = 'block';
-    if (id === 'fm') __U();
     if (id === 'ip') __RenderTable();
     __edit = -1;
 }
-
 function __B() {
     document.getElementById('M').style.display = 'flex';
     document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
     __edit = -1;
 }
-
 function __K(k) {
     __selK = k;
     __selT = null;
@@ -246,7 +212,6 @@ function __K(k) {
     document.getElementById('TW').classList.add('s');
     document.getElementById('HR').classList.remove('s');
 }
-
 function __T(t) {
     __selT = t;
     document.querySelectorAll('.tbtn').forEach(x => x.classList.remove('a'));
@@ -258,50 +223,31 @@ function __T(t) {
     document.getElementById('RP').innerText = '```\n📋 RESEP DOKTER\nKondisi: ' + d.j + '\n\n💊 OBAT:\n' + d.o + '\n\n📝 CARA PEMAKAIAN:\n' + d.c + '\n```';
     document.getElementById('HR').classList.add('s');
 }
-
 function __CX(id) {
     navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
         document.getElementById('RMG').innerText = '✅ Disalin!';
         setTimeout(() => document.getElementById('RMG').innerText = '', 2000);
     });
 }
-
 function __RC() {
     navigator.clipboard.writeText(document.getElementById('RP').innerText).then(() => {
         document.getElementById('RMG').innerText = '✅ Disalin!';
         setTimeout(() => document.getElementById('RMG').innerText = '', 3000);
     });
 }
-
-function __U() {
-    const j = document.querySelector('input[name=J]:checked').value;
-    const p = document.getElementById('PN').value || '';
-    const o = document.getElementById('DR').value || '';
-    const l = document.getElementById('LK').value || '[masukin link]';
-    document.getElementById('PV').innerText = '```\n' + j + '\n\nNAMA PASIEN : ' + p + '\nOBAT/JUMLAH : ' + o + '\nBUKTI RESEP OBAT\n' + l + '\n```';
-}
-
-function __FC() {
-    navigator.clipboard.writeText(document.getElementById('PV').innerText).then(() => {
-        document.getElementById('FMG').innerText = '✅ Disalin!';
-        setTimeout(() => document.getElementById('FMG').innerText = '', 3000);
-    });
-}
-
 function __RenderTable() {
     const t = document.getElementById('TB');
     t.innerHTML = '';
     __D.forEach((s, i) => {
         const r = document.createElement('tr');
         if (__edit === i && __ADM) {
-            r.innerHTML = `<td><input type="text" id="en${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ej${i}" class="tin" value="${s.j.replace(/_/g,'&quot;')}"></td><td><input type="text" id="ei${i}" class="tin" value="${s.i.replace(/"/g,'&quot;')}"></td><td style="text-align:center"><button onclick="__SV(${i})" class="ok">✅ Simpan</button><button onclick="__CL()" class="cn">↩ Batal</button></td>`;
+            r.innerHTML = `<td><input type="text" id="en${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ej${i}" class="tin" value="${s.j.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ei${i}" class="tin" value="${s.i.replace(/"/g,'&quot;')}"></td><td style="text-align:center"><button onclick="__SV(${i})" class="ok">✅ Simpan</button><button onclick="__CL()" class="cn">↩ Batal</button></td>`;
         } else {
-            r.innerHTML = `<td>${s.n}</td><td>${s.j}</td><td>${s.i}</td><td style="text-align:center;${__ADM?'':'display:none'}"><button onclick="__ED(${i})" style="background:var(--ac);color:#000;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;margin-right:4px;font-weight:700;font-size:12px">✏️</button><button onclick="__DL(${i})" class="dl">❌</button></td>`;
+            r.innerHTML = `<td>${s.n}</td><td>${s.j}</td><td>${s.i}</td><td style="text-align:center;${__ADM?'':'display:none'}"><button onclick="__ED(${i})" style="background:var(--ac);color:#000;border:none;padding:5px 10px;border-radius:4px;cursor:pointer;margin-right:4px;font-weight:700;font-size:12px">✏️ Edit</button><button onclick="__DL(${i})" class="dl">🗑️ Hapus</button></td>`;
         }
         t.appendChild(r);
     });
 }
-
 function __A() {
     if (!__ADM) return alert('🔒 Terkunci!');
     const n = document.getElementById('NM').value.trim();
@@ -316,13 +262,11 @@ function __A() {
     document.getElementById('IM').innerText = '✅ Ditambahkan!';
     setTimeout(() => document.getElementById('IM').innerText = '', 3000);
 }
-
 function __ED(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
     __edit = i;
     __RenderTable();
 }
-
 function __SV(i) {
     const n = document.getElementById(`en${i}`).value.trim();
     const j = document.getElementById(`ej${i}`).value.trim();
@@ -334,15 +278,13 @@ function __SV(i) {
     document.getElementById('IM').innerText = '✅ Diperbarui!';
     setTimeout(() => document.getElementById('IM').innerText = '', 3000);
 }
-
 function __CL() {
     __edit = -1;
     __RenderTable();
 }
-
 function __DL(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
-    if (confirm(`Hapus ${__D[i].n}?`)) {
+    if (confirm('Are you sure you want to delete this entry?')) {
         __D.splice(i, 1);
         if (__edit === i) __edit = -1;
         __RenderTable();
@@ -350,7 +292,6 @@ function __DL(i) {
         setTimeout(() => document.getElementById('IM').innerText = '', 3000);
     }
 }
-
 function __CP() {
     let t = '```\n📊 DATA INFRACTION POINT STAFF\n\n';
     __D.forEach(s => t += `Nama: ${s.n}\nJabatan: ${s.j}\nIP: ${s.i}\n-----------------------\n`);
@@ -360,7 +301,6 @@ function __CP() {
         setTimeout(() => document.getElementById('IM').innerText = '', 3000);
     });
 }
-
 window.onload = __RenderTable;
 </script>
 </body>
