@@ -3,297 +3,651 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rumah Sakit Hommi — Data Staff</title>
+<title>Rumah Sakit Hommi Helper</title>
 <style>
-:root{
-  --bg:#1a0000; --cbg:#2b0a0a; --txt:#fff;
-  --ac:#ffcc00; --ok:#28a745; --err:#ff3333;
-  --btn:#330f0f; --btnh:#4d1818; --brd:#8b0000;
-}
-*{margin:0;padding:0;box-sizing:border-box}
-body{
-  font-family:'Segoe UI',sans-serif;
-  background:var(--bg);color:var(--txt);
-  padding:20px;line-height:1.6;
-}
-.container{max-width:1100px;margin:0 auto}
-h1{color:var(--ac);margin-bottom:20px}
-.back{
-  background:var(--btn);color:var(--ac);border:1px solid var(--ac);
-  padding:8px 16px;border-radius:6px;cursor:pointer;
-  font-weight:700;margin-bottom:20px
-}
-.back:hover{background:var(--btnh)}
-.pass-box{margin-bottom:20px}
-.inp{
-  width:100%;max-width:400px;padding:10px;background:#111;
-  border:1px solid var(--brd);border-radius:6px;color:#fff;
-  margin:6px 0
-}
-.btn{
-  background:var(--ac);color:#000;border:none;padding:10px 18px;
-  border-radius:6px;font-weight:700;cursor:pointer;margin:4px
-}
+:root{--bg:#1a0000;--cbg:#2b0a0a;--txt:#fff;--brd:#8b0000;--ac:#ffcc00;--acr:#ff3333;--bt:#330f0f;--bth:#4d1818;--ok:#28a745;--info:#0099cc}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);padding:20px;line-height:1.6;-webkit-user-select:none;user-select:none}
+.c{max-width:1200px;margin:0 auto}
+h1{color:var(--ac);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
+.hd{text-align:center;padding:20px 0;border-bottom:3px solid var(--ac);margin-bottom:20px}
+.m{display:flex;flex-direction:column;gap:12px;max-width:600px;margin:25px auto}
+.mi{background:var(--bt);border:2px solid var(--brd);border-radius:8px;padding:18px;text-align:center;font-weight:700;color:var(--ac);cursor:pointer;transition:.2s}
+.mi:hover{background:var(--bth);border-color:var(--ac);transform:translateY(-2px)}
+.mi.d{opacity:.4;cursor:not-allowed;border-style:dashed;color:#666}
+.sec{display:none;background:var(--cbg);border:2px solid var(--brd);border-radius:8px;padding:25px;margin-top:20px}
+.bk{background:#5a1212;color:#fff;border:1px solid var(--ac);padding:8px 15px;border-radius:4px;cursor:pointer;font-weight:700;margin-bottom:20px}
+.bk:hover{background:#7a1a1a}
+.lb{display:block;font-weight:700;margin-bottom:5px;color:var(--ac);font-size:14px}
+.inp{width:100%;padding:10px;background:var(--bg);border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:14px;margin:0 0 15px}
+.inp:focus{border-color:var(--ac);outline:none}
+.inp:disabled{opacity:.5;cursor:not-allowed;background:#111}
+select.inp{cursor:pointer}
+.btn{background:var(--ac);color:#000;border:none;padding:10px 18px;font-weight:700;border-radius:6px;cursor:pointer;margin:8px 8px 8px 0}
 .btn:hover{background:#ffd333}
 .btn:disabled{opacity:.4;cursor:not-allowed}
-.btn-sm{padding:4px 8px;font-size:11px;margin:2px;border-radius:4px}
-.btn-up{background:var(--ok);color:#fff}
-.btn-dn{background:var(--ac);color:#000}
-.btn-del{background:var(--err);color:#fff}
-.grid-form{
-  display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
-  gap:10px;margin-bottom:20px
-}
-label{font-weight:700;color:var(--ac);font-size:13px}
-table{width:100%;border-collapse:collapse;margin:15px 0}
-th,td{
-  padding:10px 8px;text-align:left;border-bottom:1px solid #442222;
-  font-size:13px
-}
-th{background:var(--btn);color:var(--ac)}
-.group-head{
-  background:#2a1500;color:var(--ac);font-weight:700;
-  padding:10px;border-radius:6px;margin-top:20px
-}
-.tag{
-  padding:2px 6px;border-radius:4px;font-weight:700;font-size:11px
-}
-.m{background:#b91e1e;color:#fff}
-.md{background:#00887a;color:#fff}
-.t{background:#666;color:#fff}
-.n{background:#333;color:#fff;border:1px solid #555}
-.aktif{background:#28a745;color:#fff}
-.resign{background:#444;color:#fff}
-.msg{margin:10px 0;font-weight:700}
-.ok-msg{color:var(--ok)}
-.err-msg{color:var(--err)}
+.dc{background:#5865f2;color:#fff}
+.dc:hover{background:#4752c4}
+.sm{background:var(--ac);color:#000;border:none;padding:4px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin-left:4px}
+.ok{background:var(--ok);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+.info{background:var(--info);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+.cn{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+.dl{background:var(--acr);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
+.tb{background:var(--bg);border-radius:6px;padding:10px;border:1px solid var(--ac);overflow-x:auto;margin-top:15px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 8px;border-bottom:1px solid #442222;vertical-align:middle;text-align:center}
+th{background:var(--bt);color:var(--ac);white-space:nowrap}
+th.grp{background:#3d1010;border:1px solid var(--ac);font-size:14px;color:var(--ac);text-align:left;padding-left:12px}
+.tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:13px}
+select.tin{cursor:pointer}
+.kgr{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:20px 0}
+.kbtn{background:var(--bt);border:2px solid var(--brd);border-radius:8px;padding:14px 10px;color:var(--ac);font-weight:700;cursor:pointer}
+.kbtn:hover,.kbtn.a{border-color:var(--ac);background:var(--bth)}
+.twr{display:none;margin:15px 0}
+.twr.s{display:block}
+.trow{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+.tbtn{background:var(--bt);border:2px solid var(--brd);border-radius:6px;padding:10px 20px;color:var(--txt);cursor:pointer;font-weight:700}
+.tbtn:hover,.tbtn.a{border-color:var(--ac);color:var(--ac)}
+.hrs{display:none;margin-top:20px}
+.hrs.s{display:block}
+.rbx{background:var(--bg);border:1px solid var(--ac);border-radius:8px;padding:18px;margin-bottom:15px}
+.rh{font-weight:700;color:var(--ac);font-size:16px;margin-bottom:10px}
+.rr{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid #333}
+.rr:last-child{border-bottom:none}
+.pre{background:var(--bg);border:1px solid var(--brd);border-radius:6px;padding:15px;margin-top:10px;white-space:pre-wrap;font-family:monospace;color:var(--ac)}
+.bg{display:inline-block;background:var(--ac);color:#000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;margin-left:8px}
+.lk{color:var(--ac);font-size:12px;margin-bottom:12px}
+.msg{color:#48bb78;font-size:13px;margin-top:8px;font-weight:700}
+.err{color:#ff6b6b}
+.move-box{background:#2a1500;border:1px solid var(--ac);border-radius:6px;padding:10px;margin:8px 0}
+.move-btn{margin:3px;font-size:11px;padding:4px 8px}
+.clickable-name{cursor:pointer;color:var(--ac);text-decoration:underline}
+.clickable-name:hover{color:#ffd333}
+
+.j-ceo{background:#b91e1e;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-direktur{background:#d66000;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-wakildirektur{background:#e6a000;color:#000;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-sekben{background:#007a52;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-kabidkomdis{background:#5c3d91;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-komdis{background:#7c5dc9;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-kabidhrd{background:#005ea8;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-hrd{background:#0091d6;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-kalaboran{background:#8b5a2b;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-manajemenlab{background:#a06633;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-dokterspesialis{background:#00887a;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-dokterresiden{background:#00998a;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-dokterumum{background:#00aa99;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-coass{background:#22a870;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-trainee{background:#666;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+
+.s-aktif{background:#28a745;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.s-tidakaktif{background:#dc3545;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.s-resign{background:#222;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid #555}
+.s-pthd{background:#ffc107;color:#000;font-weight:700;padding:2px 6px;border-radius:4px}
+
+.g-laki{background:#007bff;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.g-perempuan{background:#e83e8c;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
 </style>
 </head>
 <body>
-<div class="container">
-  <button class="back" onclick="location.reload()">⬅ Kembali</button>
-  <h1>👥 Data Staff Rumah Sakit Hommi</h1>
+<div class="c">
+<div class="hd">
+<h1>Rumah Sakit Hommi Helper</h1>
+<p style="color:var(--acr);font-weight:700;font-size:14px;margin-top:5px">Sistem Informasi & Papan Pengumuman Internal Faksi</p>
+</div>
+<div id="M" class="m">
+<div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
+<div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
+<div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
+<div class="mi d">Struktur Rumah Sakit (Coming Soon)</div>
+</div>
 
-  <div class="pass-box">
-    <label>Kata Sandi Admin:</label><br>
-    <input type="password" id="pw" class="inp" placeholder="Masukkan sandi...">
-    <button class="btn" onclick="login()">🔓 Buka Akses</button>
-    <span id="msg-pass" class="msg"></span>
-  </div>
+<div id="Sip" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>Input & Data Infraction Point (IP) Staff <span id="AD" class="bg" style="display:none">🔒 ADMIN</span></h2>
+<div id="LBOX">
+<label class="lb">🔑 Kata Sandi Admin:</label>
+<input type="password" id="PW" class="inp" placeholder="Masukkan kata sandi...">
+<button class="btn" onclick="__L()">🔓 Buka Akses Edit</button>
+<span id="LMG" class="msg"></span>
+</div>
+<div id="IBOX" style="opacity:.6;pointer-events:none">
+<div class="lk">🔒 Terkunci — Masukkan kata sandi admin</div>
+<label class="lb">NAMA STAFF :</label>
+<input type="text" id="NM" class="inp" disabled>
+<label class="lb">JABATAN / PANGKAT :</label>
+<input type="text" id="JB" class="inp" disabled>
+<label class="lb">INFRACTION POINT (IP) :</label>
+<input type="text" id="IP" class="inp" disabled>
+<button class="btn" id="ADD" onclick="__A()" disabled>➕ Tambah</button>
+<button class="btn dc" onclick="__CP()">📋 Copy Discord</button>
+<span id="IM" class="msg"></span>
+</div>
+<div class="tb">
+<table>
+<thead>
+<tr>
+<th>Nama Staff</th>
+<th>Jabatan</th>
+<th>IP</th>
+<th id="AC" style="display:none">AKSI</th>
+</tr>
+</thead>
+<tbody id="TB"></tbody>
+</table>
+</div>
+</div>
 
-  <div id="form-area" style="opacity:.4;pointer-events:none">
-    <div class="grid-form">
-      <div><label>BATCH</label><input type="text" id="f-batch" class="inp" placeholder="001"></div>
-      <div><label>NAMA LENGKAP</label><input type="text" id="f-nama" class="inp" placeholder="Nama"></div>
-      <div><label>JABATAN</label>
-        <select id="f-jabatan" class="inp">
-          <option value="">— Pilih —</option>
-          <option value="CEO">CEO</option>
-          <option value="Direktur">Direktur</option>
-          <option value="Wakil Direktur">Wakil Direktur</option>
-          <option value="Sekben">Sekben</option>
-          <option value="Kabid Komdis">Kabid Komdis</option>
-          <option value="Komdis">Komdis</option>
-          <option value="Kabid HRD">Kabid HRD</option>
-          <option value="HRD">HRD</option>
-          <option value="Manajemen Lab">Manajemen Lab</option>
-          <option value="Dokter Spesialis">Dokter Spesialis</option>
-          <option value="Dokter Umum">Dokter Umum</option>
-          <option value="Co Ass">Co Ass</option>
-          <option value="Trainee">Trainee</option>
-          <option value="Resign">Resign</option>
-          <option value="PTHD">PTHD</option>
-        </select>
-      </div>
-      <div><label>STATUS</label>
-        <select id="f-status" class="inp">
-          <option value="">— Pilih —</option>
-          <option value="Aktif">Aktif</option>
-          <option value="Tidak Aktif">Tidak Aktif</option>
-          <option value="Resign">Resign</option>
-          <option value="PTHD">PTHD</option>
-        </select>
-      </div>
-      <div><label>JENIS KELAMIN</label>
-        <select id="f-jk" class="inp">
-          <option value="">— Pilih —</option>
-          <option value="Laki-laki">Laki-laki</option>
-          <option value="Perempuan">Perempuan</option>
-        </select>
-      </div>
-      <div><label>NO. HP</label><input type="text" id="f-hp" class="inp" placeholder="08xx"></div>
-      <div><label>CID</label><input type="text" id="f-cid" class="inp" placeholder="Kode"></div>
-      <div><label>KETERANGAN</label><input type="text" id="f-ket" class="inp" placeholder="-"></div>
-    </div>
-    <button class="btn" onclick="tambah()">➕ Tambah Staff</button>
-    <button class="btn" onclick="copyAll()">📋 Copy Discord</button>
-    <span id="msg-form" class="msg"></span>
-  </div>
+<div id="Srp" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>📋 Panduan Resep Dokter</h2>
+<div class="kgr">
+<div class="kbtn" onclick="__K('kpl')">Sakit Kepala</div>
+<div class="kbtn" onclick="__K('lka')">Luka</div>
+<div class="kbtn" onclick="__K('mag')">Maag</div>
+<div class="kbtn" onclick="__K('trk')">Terkilir</div>
+<div class="kbtn" onclick="__K('bkr')">Luka Bakar</div>
+<div class="kbtn" onclick="__K('lbm')">Lebam</div>
+</div>
+<div id="TW" class="twr">
+<h3 style="color:var(--ac);margin:5px 0">Tingkat Keparahan:</h3>
+<div class="trow">
+<button class="tbtn" onclick="__T('rng')">🟢 Ringan</button>
+<button class="tbtn" onclick="__T('sdg')">🟡 Sedang</button>
+<button class="tbtn" onclick="__T('brt')">🔴 Berat</button>
+</div>
+</div>
+<div id="HR" class="hrs">
+<div class="rbx">
+<div class="rh" id="RJ"></div>
+<div class="rr"><span><strong>💊 Obat:</strong> <span id="RO"></span></span><button class="sm" onclick="__CX('RO')">Copy</button></div>
+<div class="rr"><span><strong>📝 Cara Pakai:</strong> <span id="RC"></span></span><button class="sm" onclick="__CX('RC')">Copy</button></div>
+</div>
+<div style="margin-top:15px">
+<label class="lb">Format Discord:</label>
+<pre id="RP" class="pre"></pre>
+<button class="btn dc" onclick="__RC()">📋 Copy Lengkap</button>
+<span id="RMG" class="msg"></span>
+</div>
+</div>
+</div>
 
-  <div id="list-area"></div>
+<div id="Sds" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>👥 Data Staff Rumah Sakit Hommi <span id="AD2" class="bg" style="display:none">🔒 ADMIN</span></h2>
+<div id="LBOX2">
+<label class="lb">🔑 Kata Sandi Admin:</label>
+<input type="password" id="PW2" class="inp" placeholder="Masukkan kata sandi...">
+<button class="btn" onclick="__L2()">🔓 Buka Akses Edit</button>
+<span id="LMG2" class="msg"></span>
+</div>
+<div id="IBOX2" style="opacity:.6;pointer-events:none">
+<div class="lk">🔒 Terkunci — Masukkan kata sandi admin</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+<div><label class="lb">BATCH</label><input type="text" id="dsB" class="inp" disabled placeholder="Contoh: 001"></div>
+<div><label class="lb">NAMA LENGKAP</label><input type="text" id="dsN" class="inp" disabled placeholder="Nama Lengkap"></div>
+<div><label class="lb">JABATAN / PANGKAT</label>
+<select id="dsJ" class="inp" disabled>
+<option value="">— Pilih Pangkat —</option>
+<option value="CEO">CEO</option>
+<option value="Direktur">Direktur</option>
+<option value="Wakil Direktur">Wakil Direktur</option>
+<option value="Sekben">Sekben</option>
+<option value="Kabid Komdis">Kabid Komdis</option>
+<option value="Komdis">Komdis</option>
+<option value="Kabid HRD">Kabid HRD</option>
+<option value="HRD">HRD</option>
+<option value="Ka. Laboran">Ka. Laboran</option>
+<option value="Manajemen Lab">Manajemen Lab</option>
+<option value="Dokter Spesialis">Dokter Spesialis</option>
+<option value="Dokter Residen">Dokter Residen</option>
+<option value="Dokter Umum">Dokter Umum</option>
+<option value="Co Ass">Co Ass</option>
+<option value="Trainee">Trainee</option>
+<option value="Resign">Resign</option>
+<option value="PTHD">PTHD</option>
+</select>
+</div>
+<div><label class="lb">STATUS</label>
+<select id="dsSt" class="inp" disabled>
+<option value="">— Pilih Status —</option>
+<option value="Aktif">Aktif</option>
+<option value="Tidak Aktif">Tidak Aktif</option>
+<option value="Resign">Resign</option>
+<option value="PTHD">PTHD</option>
+</select>
+</div>
+<div><label class="lb">SP / KETERANGAN</label><input type="text" id="dsSP" class="inp" disabled placeholder="-"></div>
+<div><label class="lb">JENIS KELAMIN</label>
+<select id="dsJK" class="inp" disabled>
+<option value="">— Pilih —</option>
+<option value="Laki-laki">Laki-laki</option>
+<option value="Perempuan">Perempuan</option>
+</select>
+</div>
+<div><label class="lb">NO. HP</label><input type="text" id="dsHP" class="inp" disabled placeholder="08xx / 62xx"></div>
+<div><label class="lb">CID</label><input type="text" id="dsCID" class="inp" disabled placeholder="Kode CID"></div>
+<div><label class="lb">EMAIL</label><input type="text" id="dsEM" class="inp" disabled placeholder="Email"></div>
+</div>
+<button class="btn" id="ADD2" onclick="__A2()" disabled>➕ Tambah Staff</button>
+<button class="btn dc" onclick="__CP2()">📋 Copy Semua ke Discord</button>
+<span id="IM2" class="msg"></span>
+</div>
+<div class="tb">
+<table>
+<thead>
+<tr><th colspan="9" class="grp">👔 DIREKSI & MANAJEMEN</th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
+<tr><th colspan="9" class="grp">⚕️ STAFF MEDIS</th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
+<tr><th colspan="9" class="grp">🎓 TRAINEE</th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
+<tr><th colspan="9" class="grp">📋 RESIGN / PTHD</th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
+</thead>
+<tbody id="TB2"></tbody>
+</table>
+</div>
+</div>
 </div>
 
 <script>
-const SANDI = 'EMShommioyeoye';
-let admin = false;
-let data = [];
+document.addEventListener('contextmenu', e => e.preventDefault());
+document.addEventListener('keydown', e => {
+    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) || (e.ctrlKey && ['u','U','s','S','i','I','j','J'].includes(e.key))) {
+        e.preventDefault();
+        return false;
+    }
+});
 
-function simpan(){
-  localStorage.setItem('rs-staff', JSON.stringify(data));
-}
-function muat(){
-  const d = localStorage.getItem('rs-staff');
-  if(d) data = JSON.parse(d);
-}
-muat();
+// === SANDI ===
+const ADMIN_PASS = 'EMShommioyeoye';
 
-function login(){
-  if(document.getElementById('pw').value === SANDI){
-    admin = true;
-    document.getElementById('form-area').style.opacity = '1';
-    document.getElementById('form-area').style.pointerEvents = 'auto';
-    msg('msg-pass', '✅ Akses dibuka!', true);
-    render();
-  }else{
-    msg('msg-pass', '❌ Sandi salah!', false);
-  }
-}
+let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1;
 
-function getGrup(j){
-  const manajemen = ['CEO','Direktur','Wakil Direktur','Sekben','Kabid Komdis','Komdis','Kabid HRD','HRD','Manajemen Lab'];
-  const medis = ['Dokter Spesialis','Dokter Umum','Co Ass'];
-  if(manajemen.includes(j)) return {id:'m', nama:'👔 DIREKSI & MANAJEMEN', cls:'m'};
-  if(medis.includes(j)) return {id:'md', nama:'⚕️ STAFF MEDIS', cls:'md'};
-  if(j==='Trainee') return {id:'t', nama:'🎓 TRAINEE', cls:'t'};
-  return {id:'n', nama:'📋 RESIGN / PTHD', cls:'n'};
-}
-
-function tambah(){
-  const batch = document.getElementById('f-batch').value.trim();
-  const nama = document.getElementById('f-nama').value.trim();
-  const jabatan = document.getElementById('f-jabatan').value;
-  const status = document.getElementById('f-status').value;
-  const jk = document.getElementById('f-jk').value;
-  const hp = document.getElementById('f-hp').value.trim();
-  const cid = document.getElementById('f-cid').value.trim();
-  const ket = document.getElementById('f-ket').value.trim() || '-';
-
-  if(!batch || !nama || !jabatan || !status || !jk){
-    msg('msg-form', '❌ Lengkapi semua kolom wajib!', false);
-    return;
-  }
-
-  data.push({batch, nama, jabatan, status, jk, hp, cid, ket});
-  simpan(); render();
-
-  // reset form
-  ['batch','nama','jabatan','status','jk','hp','cid','ket'].forEach(id=>{
-    document.getElementById('f-'+id).value = '';
-  });
-  msg('msg-form', '✅ Berhasil ditambahkan!', true);
+// ==============================================
+// LOGIKA PENGELOMPOKAN JABATAN YANG FLEKSIBEL
+// ==============================================
+function _getGroupByJabatan(j) {
+    if (!j) return 'manajemen';
+    const text = j.toLowerCase();
+    
+    // Jika mengandung kata kunci Resign atau PTHD
+    if (text.includes('resign') || text.includes('pthd')) return 'nonaktif';
+    
+    // Jika mengandung kata kunci Trainee / Co Ass
+    if (text.includes('trainee')) return 'trainee';
+    if (text.includes('co ass') || text.includes('coass')) return 'medis';
+    
+    // Jika mengandung unsur medis/dokter
+    if (text.includes('dokter') || text.includes('spesialis') || text.includes('residen') || text.includes('umum')) return 'medis';
+    
+    // Sisanya masuk Manajemen & Direksi (CEO, Direktur, Wakil, Sekben, Komdis, HRD, Laboran, dll)
+    return 'manajemen';
 }
 
-function naik(i){
-  if(i<=0) return;
-  [data[i-1], data[i]] = [data[i], data[i-1]];
-  simpan(); render();
-}
-function turun(i){
-  if(i>=data.length-1) return;
-  [data[i], data[i+1]] = [data[i+1], data[i]];
-  simpan(); render();
-}
-function hapus(i){
-  if(confirm('Yakin hapus?')){
-    data.splice(i,1);
-    simpan(); render();
-  }
-}
+// === DATA RESEP DOKTER ===
+const __R = {
+    kpl:{rng:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},
+    sdg:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari, jangan perut kosong'},
+    brt:{j:'Sakit Kepala — Berat',o:'Ketorolac 10mg',c:'1 tablet tiap 6–8 jam, maksimal 5 hari'}},
+    lka:{rng:{j:'Luka — Ringan',o:'Povidone Iodine + Kasa',c:'Bersihkan, oleskan, tutup kasa steril'},
+    sdg:{j:'Luka — Sedang',o:'Povidone + Mupirocin + Perban',c:'Bersihkan NaCl, oleskan salep, ganti tiap hari'},
+    brt:{j:'Luka — Berat',o:'Antibiotik + Perban',c:'Amoxicillin 500mg 3x sehari, rujuk jika perlu'}},
+    mag:{rng:{j:'Maag — Ringan',o:'Antasida',c:'Minum 1–2 jam sesudah makan'},
+    sdg:{j:'Maag — Sedang',o:'Omeprazole 20mg + Antasida',c:'Omeprazole pagi sebelum makan'},
+    brt:{j:'Maag — Berat',o:'Pantoprazole 40mg + Domperidone',c:'Pantoprazole pagi, Domperidone 30mnt sebelum makan'}},
+    trk:{rng:{j:'Terkilir — Ringan',o:'Ibuprofen + Kompres Dingin',c:'Kompres 15–20mnt tiap 2–3jam'},
+    sdg:{j:'Terkilir — Sedang',o:'Diclofenac + Perban Elastis',c:'Balut tidak terlalu kencang, kompres hangat hari ke-3'},
+    brt:{j:'Terkilir — Berat',o:'Ketorolac + Rujukan',c:'Fiksasi sementara, rujuk rontgen'}},
+    bkr:{rng:{j:'Luka Bakar — Ringan',o:'Povidone + Kasa',c:'Alirkan air dingin 10–15mnt, jangan pakai es langsung'},
+    sdg:{j:'Luka Bakar — Sedang',o:'Silver Sulfadiazine',c:'Oleskan tipis, ganti balutan tiap hari'},
+    brt:{j:'Luka Bakar — Berat',o:'Infus + Silver Sulfadiazine + Rujukan',c:'Pasang infus, rujuk IGD segera'}},
+    lbm:{rng:{j:'Lebam — Ringan',o:'Kompres Dingin + Paracetamol',c:'Jangan dipijat, hilang 5–7 hari'},
+    sdg:{j:'Lebam — Sedang',o:'Kompres Dingin→Hangat + Ibuprofen',c:'Hari 3 ganti hangat untuk lancarkan darah'},
+    brt:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}
+};
 
-function render(){
-  const area = document.getElementById('list-area');
-  area.innerHTML = '';
-
-  const grup = {
-    m: data.filter(d=>getGrup(d.jabatan).id==='m'),
-    md: data.filter(d=>getGrup(d.jabatan).id==='md'),
-    t: data.filter(d=>getGrup(d.jabatan).id==='t'),
-    n: data.filter(d=>getGrup(d.jabatan).id==='n')
-  };
-
-  Object.entries(grup).forEach(([key, list])=>{
-    if(!list.length) return;
-    const info = getGrup(list[0].jabatan);
-    area.innerHTML += `<div class="group-head">${info.nama}</div>`;
-    area.innerHTML += `
-      <table>
-        <tr>
-          <th style="width:60px">Urutan</th>
-          <th>BATCH</th>
-          <th>NAMA</th>
-          <th>JABATAN</th>
-          <th>STATUS</th>
-          <th>JK</th>
-          <th>HP</th>
-          <th>CID</th>
-          <th>KETERANGAN</th>
-          <th style="width:80px">Hapus</th>
-        </tr>
-        ${list.map(d=>{
-          const idx = data.indexOf(d);
-          return `
-            <tr>
-              <td>
-                ${admin ? `
-                  <button class="btn-sm btn-up" onclick="naik(${idx})">⬆</button>
-                  <button class="btn-sm btn-dn" onclick="turun(${idx})">⬇</button>
-                ` : ''}
-              </td>
-              <td>${d.batch}</td>
-              <td>${d.nama}</td>
-              <td><span class="tag ${getGrup(d.jabatan).cls}">${d.jabatan}</span></td>
-              <td><span class="tag ${d.status==='Aktif'?'aktif':'resign'}">${d.status}</span></td>
-              <td>${d.jk}</td>
-              <td>${d.hp||'-'}</td>
-              <td>${d.cid||'-'}</td>
-              <td>${d.ket}</td>
-              <td>${admin ? `<button class="btn-sm btn-del" onclick="hapus(${idx})">🗑</button>` : ''}</td>
-            </tr>
-          `;
-        }).join('')}
-      </table>
-    `;
-  });
+// === PENYIMPANAN KE BROWSER ===
+function __SimpanData() {
+    localStorage.setItem('rs_ip_data', JSON.stringify(__D));
+    localStorage.setItem('rs_staff_data', JSON.stringify(__DS));
+}
+function __MuatData() {
+    const ipSimpan = localStorage.getItem('rs_ip_data');
+    const staffSimpan = localStorage.getItem('rs_staff_data');
+    if (ipSimpan) __D = JSON.parse(ipSimpan);
+    else __D = [{n:'Prof. Dr. Kai Whitegate, Sp.B',j:'Direktur Utama',i:'Unlimited'},{n:'Dr. El Zero D W, Sp.B',j:'KABID HRD',i:'Unlimited'}];
+    
+    if (staffSimpan) {
+        __DS = JSON.parse(staffSimpan);
+        // Pastikan kelompok tersinkronisasi dengan jabatan yang ada
+        __DS.forEach(s => {
+            if (!s.g || s.g === 'nonaktif' && !['resign','pthd'].includes(s.j.toLowerCase())) {
+                s.g = _getGroupByJabatan(s.j);
+            }
+        });
+    } else {
+        __DS = [];
+    }
 }
 
-function copyAll(){
-  let txt = '```\n👥 DATA STAFF RS HOMMI\n';
-  const grup = {
-    '👔 DIREKSI & MANAJEMEN': data.filter(d=>getGrup(d.jabatan).id==='m'),
-    '⚕️ STAFF MEDIS': data.filter(d=>getGrup(d.jabatan).id==='md'),
-    '🎓 TRAINEE': data.filter(d=>getGrup(d.jabatan).id==='t'),
-    '📋 RESIGN / PTHD': data.filter(d=>getGrup(d.jabatan).id==='n')
-  };
-  Object.entries(grup).forEach(([judul, list])=>{
-    if(!list.length) return;
-    txt += `\n${'═'.repeat(35)}\n${judul}\n${'═'.repeat(35)}\n`;
-    list.forEach(d=>{
-      txt += `BATCH: ${d.batch}\nNama: ${d.nama}\nJabatan: ${d.jabatan}\nStatus: ${d.status}\nJenis Kelamin: ${d.jk}\nHP: ${d.hp||'-'}\nCID: ${d.cid||'-'}\nKeterangan: ${d.ket}\n──────────────────────\n`;
+let __D = [];
+let __DS = [];
+__MuatData();
+
+function __X(id) {
+    document.getElementById('M').style.display = 'none';
+    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
+    document.getElementById('S'+id).style.display = 'block';
+    if (id === 'ip') __RenderTable();
+    if (id === 'ds') __RenderTable2();
+    __edit = __edit2 = -1;
+}
+function __B() {
+    document.getElementById('M').style.display = 'flex';
+    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
+    __edit = __edit2 = -1;
+}
+
+function _clsJab(j) {
+    const m = {'CEO':'j-ceo','Direktur':'j-direktur','Wakil Direktur':'j-wakildirektur','Sekben':'j-sekben','Kabid Komdis':'j-kabidkomdis','Komdis':'j-komdis','Kabid HRD':'j-kabidhrd','HRD':'j-hrd','Ka. Laboran':'j-kalaboran','Manajemen Lab':'j-manajemenlab','Dokter Spesialis':'j-dokterspesialis','Dokter Residen':'j-dokterresiden','Dokter Umum':'j-dokterumum','Co Ass':'j-coass','Trainee':'j-trainee'};
+    return m[j] || 'j-direktur';
+}
+function _clsStatus(s) {
+    const m = {'Aktif':'s-aktif','Tidak Aktif':'s-tidakaktif','Resign':'s-resign','PTHD':'s-pthd'};
+    return m[s] || '';
+}
+function _clsJK(g) {
+    return g==='Laki-laki'?'g-laki':g==='Perempuan'?'g-perempuan':'';
+}
+
+// === BAGIAN IP ===
+function __L() {
+    if (document.getElementById('PW').value === ADMIN_PASS) {
+        __ADM = true;
+        document.getElementById('AD').style.display = 'inline-block';
+        const b = document.getElementById('IBOX');
+        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
+        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
+        b.querySelector('.lk').style.display = 'none';
+        document.getElementById('AC').style.display = 'table-cell';
+        document.getElementById('LMG').innerText = '✅ Akses diberikan!';
+    } else {
+        document.getElementById('LMG').innerText = '❌ Kata sandi salah!';
+        document.getElementById('LMG').classList.add('err');
+    }
+    setTimeout(() => { document.getElementById('LMG').innerText = ''; document.getElementById('LMG').classList.remove('err'); }, 3000);
+}
+function __RenderTable() {
+    const t = document.getElementById('TB'); t.innerHTML = '';
+    __D.forEach((s, i) => {
+        const r = document.createElement('tr');
+        if (__edit === i && __ADM) {
+            r.innerHTML = `<td><input type="text" id="en${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ej${i}" class="tin" value="${s.j.replace(/"/g,'&quot;')}"></td><td><input type="text" id="ei${i}" class="tin" value="${s.i.replace(/"/g,'&quot;')}"></td><td><button onclick="__SV(${i})" class="ok">✅ Simpan</button> <button onclick="__CL()" class="cn">↩ Batal</button></td>`;
+        } else {
+            r.innerHTML = `<td>${s.n}</td><td>${s.j}</td><td>${s.i}</td><td style="text-align:center;${__ADM?'':'display:none'}"><button onclick="__ED(${i})" class="sm">✏️ Edit</button> <button onclick="__DL(${i})" class="dl">🗑️ Hapus</button></td>`;
+        }
+        t.appendChild(r);
     });
-  });
-  txt += '```';
-  navigator.clipboard.writeText(txt).then(()=>{
-    msg('msg-form', '✅ Disalin ke papan klip!', true);
-  });
+}
+function __A() {
+    if (!__ADM) return alert('🔒 Terkunci!');
+    const n = document.getElementById('NM').value.trim(), j = document.getElementById('JB').value.trim(), ip = document.getElementById('IP').value.trim();
+    if (!n || !j || !ip) return alert('Lengkapi semua kolom!');
+    __D.push({n,j,i:ip}); __SimpanData(); __RenderTable();
+    document.getElementById('NM').value = document.getElementById('JB').value = document.getElementById('IP').value = '';
+    document.getElementById('IM').innerText = '✅ Ditambahkan!';
+    setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
+}
+function __ED(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit = i; __RenderTable(); }
+function __SV(i) {
+    const n = document.getElementById(`en${i}`).value.trim(), j = document.getElementById(`ej${i}`).value.trim(), ip = document.getElementById(`ei${i}`).value.trim();
+    if (!n || !j || !ip) return alert('Lengkapi semua kolom!');
+    __D[i] = {n,j,i:ip}; __SimpanData(); __edit = -1; __RenderTable();
+    document.getElementById('IM').innerText = '✅ Diperbarui!';
+    setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
+}
+function __CL() { __edit = -1; __RenderTable(); }
+function __DL(i) {
+    if (!__ADM) return alert('🔒 Terkunci!');
+    if (confirm('Yakin hapus?')) { __D.splice(i,1); __SimpanData(); __edit = -1; __RenderTable(); }
+}
+function __CP() {
+    let t = '```\n📊 DATA INFRACTION POINT\n\n';
+    __D.forEach(s => t += `Nama: ${s.n}\nJabatan: ${s.j}\nIP: ${s.i}\n─────────────────────────────\n`);
+    t += '```';
+    navigator.clipboard.writeText(t).then(() => {
+        document.getElementById('IM').innerText = '✅ Disalin!';
+        setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
+    });
 }
 
-function msg(el, teks, ok){
-  document.getElementById(el).innerText = teks;
-  document.getElementById(el).className = `msg ${ok?'ok-msg':'err-msg'}`;
-  setTimeout(()=>document.getElementById(el).innerText='', 3000);
+// === BAGIAN RESEP ===
+function __K(k) { __selK = k; __selT = null; document.querySelectorAll('.kbtn').forEach(x => x.classList.remove('a')); event.target.classList.add('a'); document.getElementById('TW').classList.add('s'); document.getElementById('HR').classList.remove('s'); }
+function __T(t) {
+    __selT = t; document.querySelectorAll('.tbtn').forEach(x => x.classList.remove('a')); event.target.classList.add('a');
+    const d = __R[__selK][t];
+    document.getElementById('RJ').innerText = d.j;
+    document.getElementById('RO').innerText = d.o;
+    document.getElementById('RC').innerText = d.c;
+    document.getElementById('RP').innerText = '```\n📋 RESEP DOKTER\n' + d.j + '\n\n💊 Obat: ' + d.o + '\n\n📝 Cara Pakai: ' + d.c + '\n```';
+    document.getElementById('HR').classList.add('s');
+}
+function __CX(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); }
+function __RC() {
+    navigator.clipboard.writeText(document.getElementById('RP').innerText).then(() => {
+        document.getElementById('RMG').innerText = '✅ Disalin!';
+        setTimeout(() => { document.getElementById('RMG').innerText = ''; }, 3000);
+    });
 }
 
-render();
+// === BAGIAN DATA STAFF ===
+function __L2() {
+    if (document.getElementById('PW2').value === ADMIN_PASS) {
+        __ADM = true;
+        document.getElementById('AD2').style.display = 'inline-block';
+        const b = document.getElementById('IBOX2');
+        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
+        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
+        b.querySelector('.lk').style.display = 'none';
+        document.getElementById('LMG2').innerText = '✅ Akses diberikan!';
+        __RenderTable2();
+    } else {
+        document.getElementById('LMG2').innerText = '❌ Kata sandi salah!';
+        document.getElementById('LMG2').classList.add('err');
+    }
+    setTimeout(() => { document.getElementById('LMG2').innerText = ''; document.getElementById('LMG2').classList.remove('err'); }, 3000);
+}
+
+function __RenderTable2() {
+    const t = document.getElementById('TB2'); t.innerHTML = '';
+    
+    ['manajemen','medis','trainee','nonaktif'].forEach(grp => {
+        const groupList = __DS.filter(s => {
+            const calculatedGrp = _getGroupByJabatan(s.j);
+            return (s.g || calculatedGrp) === grp;
+        });
+        
+        groupList.forEach((s) => {
+            const i = __DS.indexOf(s);
+            const r = document.createElement('tr');
+            
+            if (__edit2 === i && __ADM) {
+                r.innerHTML = `
+                <td><input type="text" id="db${i}" class="tin" value="${s.b.replace(/"/g,'&quot;')}"></td>
+                <td><input type="text" id="dn${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td>
+                <td><select id="dj${i}" class="tin">
+                <option value="">— Pilih —</option>
+                <option ${s.j==='CEO'?'selected':''}>CEO</option>
+                <option ${s.j==='Direktur'?'selected':''}>Direktur</option>
+                <option ${s.j==='Wakil Direktur'?'selected':''}>Wakil Direktur</option>
+                <option ${s.j==='Sekben'?'selected':''}>Sekben</option>
+                <option ${s.j==='Kabid Komdis'?'selected':''}>Kabid Komdis</option>
+                <option ${s.j==='Komdis'?'selected':''}>Komdis</option>
+                <option ${s.j==='Kabid HRD'?'selected':''}>Kabid HRD</option>
+                <option ${s.j==='HRD'?'selected':''}>HRD</option>
+                <option ${s.j==='Ka. Laboran'?'selected':''}>Ka. Laboran</option>
+                <option ${s.j==='Manajemen Lab'?'selected':''}>Manajemen Lab</option>
+                <option ${s.j==='Dokter Spesialis'?'selected':''}>Dokter Spesialis</option>
+                <option ${s.j==='Dokter Residen'?'selected':''}>Dokter Residen</option>
+                <option ${s.j==='Dokter Umum'?'selected':''}>Dokter Umum</option>
+                <option ${s.j==='Co Ass'?'selected':''}>Co Ass</option>
+                <option ${s.j==='Trainee'?'selected':''}>Trainee</option>
+                <option ${s.j==='Resign'?'selected':''}>Resign</option>
+                <option ${s.j==='PTHD'?'selected':''}>PTHD</option>
+                </select></td>
+                <td><select id="dst${i}" class="tin">
+                <option value="">— Pilih Status —</option>
+                <option ${s.st==='Aktif'?'selected':''}>Aktif</option>
+                <option ${s.st==='Tidak Aktif'?'selected':''}>Tidak Aktif</option>
+                <option ${s.st==='Resign'?'selected':''}>Resign</option>
+                <option ${s.st==='PTHD'?'selected':''}>PTHD</option>
+                </select></td>
+                <td><input type="text" id="dsp${i}" class="tin" value="${s.sp.replace(/"/g,'&quot;')}"></td>
+                <td><select id="djk${i}" class="tin">
+                <option value="">— Pilih —</option>
+                <option ${s.jk==='Laki-laki'?'selected':''}>Laki-laki</option>
+                <option ${s.jk==='Perempuan'?'selected':''}>Perempuan</option>
+                </select></td>
+                <td><input type="text" id="dhp${i}" class="tin" value="${s.hp.replace(/"/g,'&quot;')}"></td>
+                <td><input type="text" id="dcid${i}" class="tin" value="${s.cid.replace(/"/g,'&quot;')}"></td>
+                <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>`;
+                
+                const trAction = document.createElement('tr');
+                trAction.innerHTML = `<td colspan="9" style="background:#220505;text-align:left;padding:12px;">
+                    <div class="move-box">
+                      <div style="font-size:11px;color:var(--ac);margin-bottom:4px">📦 Pindah Kategori Manual:</div>
+                      <button class="info move-btn" onclick="__MV(${i},'manajemen')">Manajemen</button>
+                      <button class="info move-btn" onclick="__MV(${i},'medis')">Medis</button>
+                      <button class="info move-btn" onclick="__MV(${i},'trainee')">Trainee</button>
+                      <button class="info move-btn" onclick="__MV(${i},'nonaktif')">Resign/PTHD</button>
+                    </div>
+                    <button onclick="__SV2(${i})" class="ok">✅ Simpan</button>
+                    <button onclick="__CL2()" class="cn">↩ Batal</button>
+                    <button onclick="__DL2(${i})" class="dl" style="float:right">🗑️ Hapus Data</button>
+                </td>`;
+                t.appendChild(r);
+                t.appendChild(trAction);
+            } else {
+                const nameHtml = __ADM ? `<span class="clickable-name" onclick="__ED2(${i})" title="Klik untuk Edit/Pindah/Hapus">${s.n}</span>` : s.n;
+                r.innerHTML = `
+                <td><strong>${s.b}</strong></td>
+                <td style="text-align:left">${nameHtml}</td>
+                <td><span class="${_clsJab(s.j)}">${s.j}</span></td>
+                <td><span class="${_clsStatus(s.st)}">${s.st||'-'}</span></td>
+                <td>${s.sp||'-'}</td>
+                <td><span class="${_clsJK(s.jk)}">${s.jk||'-'}</span></td>
+                <td>${s.hp||'-'}</td>
+                <td>${s.cid||'-'}</td>
+                <td>${s.em||'-'}</td>`;
+                t.appendChild(r);
+            }
+        });
+    });
+}
+
+function __A2() {
+    if (!__ADM) return alert('🔒 Terkunci!');
+    const b = document.getElementById('dsB').value.trim();
+    const n = document.getElementById('dsN').value.trim();
+    const j = document.getElementById('dsJ').value;
+    const st = document.getElementById('dsSt').value;
+    const sp = document.getElementById('dsSP').value.trim();
+    const jk = document.getElementById('dsJK').value;
+    const hp = document.getElementById('dsHP').value.trim();
+    const cid = document.getElementById('dsCID').value.trim();
+    const em = document.getElementById('dsEM').value.trim();
+    
+    if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
+    
+    const g = _getGroupByJabatan(j);
+    
+    __DS.push({b, n, g, j, st, sp, jk, hp, cid, em});
+    __SimpanData();
+    __RenderTable2();
+    
+    document.getElementById('dsB').value = '';
+    document.getElementById('dsN').value = '';
+    document.getElementById('dsJ').value = '';
+    document.getElementById('dsSt').value = '';
+    document.getElementById('dsSP').value = '';
+    document.getElementById('dsJK').value = '';
+    document.getElementById('dsHP').value = '';
+    document.getElementById('dsCID').value = '';
+    document.getElementById('dsEM').value = '';
+    
+    document.getElementById('IM2').innerText = '✅ Ditambahkan ke kategori: ' + g;
+    setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
+}
+
+function __ED2(i) { 
+    if (!__ADM) return alert('🔒 Terkunci!'); 
+    __edit2 = i; 
+    __RenderTable2(); 
+}
+
+function __MV(i, targetGrp) {
+    if (!confirm(`Pindahkan ke kategori:\n${targetGrp==='manajemen'?'👔 Direksi & Manajemen':targetGrp==='medis'?'⚕️ Staff Medis':targetGrp==='trainee'?'🎓 Trainee':'📋 Resign/PTHD'}`)) return;
+    __DS[i].g = targetGrp;
+    __SimpanData();
+    __edit2 = -1;
+    __RenderTable2();
+    document.getElementById('IM2').innerText = '✅ Berhasil dipindahkan!';
+    setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
+}
+
+function __SV2(i) {
+    const b = document.getElementById('db'+i).value.trim();
+    const n = document.getElementById('dn'+i).value.trim();
+    const j = document.getElementById('dj'+i).value;
+    const st = document.getElementById('dst'+i).value;
+    const sp = document.getElementById('dsp'+i).value.trim();
+    const jk = document.getElementById('djk'+i).value;
+    const hp = document.getElementById('dhp'+i).value.trim();
+    const cid = document.getElementById('dcid'+i).value.trim();
+    const em = document.getElementById('dem'+i).value.trim();
+    
+    if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
+    
+    // Otomatis update group berdasarkan pilihan jabatan baru
+    const g = _getGroupByJabatan(j);
+    
+    __DS[i] = {b, n, g, j, st, sp, jk, hp, cid, em};
+    __SimpanData();
+    __edit2 = -1;
+    __RenderTable2();
+    document.getElementById('IM2').innerText = '✅ Data diperbarui!';
+    setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
+}
+
+function __CL2() { __edit2 = -1; __RenderTable2(); }
+
+function __DL2(i) {
+    if (!__ADM) return alert('🔒 Terkunci!');
+    if (confirm('Yakin hapus data staff ini?')) {
+        __DS.splice(i,1);
+        __SimpanData();
+        __edit2 = -1;
+        __RenderTable2();
+    }
+}
+
+function __CP2() {
+    let t = '```\n👥 DATA STAFF RUMAH SAKIT HOMMI\n';
+    ['manajemen','medis','trainee','nonaktif'].forEach(grp => {
+        const label = {manajemen:'👔 DIREKSI & MANAJEMEN',medis:'⚕️ STAFF MEDIS',trainee:'🎓 TRAINEE',nonaktif:'📋 RESIGN / PTHD'}[grp];
+        t += `\n${'═'.repeat(35)}\n${label}\n${'═'.repeat(35)}\n`;
+        __DS.filter(s => (s.g || _getGroupByJabatan(s.j)) === grp).forEach(s => {
+            t += `BATCH: ${s.b}\nNama: ${s.n}\nJabatan: ${s.j}\nStatus: ${s.st}\nSP: ${s.sp||'-'}\nJenis Kelamin: ${s.jk}\nNo. HP: ${s.hp||'-'}\nCID: ${s.cid||'-'}\nEmail: ${s.em||'-'}\n─────────────────────────────\n`;
+        });
+    });
+    t += '```';
+    navigator.clipboard.writeText(t).then(() => {
+        document.getElementById('IM2').innerText = '✅ Disalin!';
+        setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
+    });
+}
 </script>
 </body>
 </html>
