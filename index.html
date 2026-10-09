@@ -249,9 +249,12 @@ document.addEventListener('keydown', e => {
     }
 });
 
-let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1;
-const ADMIN_PASS = atob('YW5qZWsxMjMzMjE=');
+// === SANDI BARU ===
+const ADMIN_PASS = 'EMShommioyeoye';
 
+let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1;
+
+// === TENTUKAN KELOMPOK BERDASARKAN JABATAN — TIDAK DIUBAH OTOMATIS ===
 function _getGroupByJabatan(j) {
     const manajemen = ['CEO','Direktur','Wakil Direktur','Sekben','Kabid Komdis','Komdis','Kabid HRD','HRD','Ka. Laboran','Manajemen Lab'];
     const medis = ['Dokter Spesialis','Dokter Residen','Dokter Umum','Co Ass'];
@@ -264,6 +267,7 @@ function _getGroupByJabatan(j) {
     return 'manajemen';
 }
 
+// === DATA RESEP DOKTER ===
 const __R = {
     kpl:{rng:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},
     sdg:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari, jangan perut kosong'},
@@ -285,11 +289,26 @@ const __R = {
     brt:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}
 };
 
-let __D = [
-    {n:'Prof. Dr. Kai Whitegate, Sp.B', j:'Direktur Utama', i:'Unlimited'},
-    {n:'Dr. El Zero D W, Sp.B', j:'KABID HRD', i:'Unlimited'}
-];
+// === PENYIMPANAN KE BROWSER — TETAP ADA WALAU DITUTUP ===
+function __SimpanData() {
+    localStorage.setItem('rs_ip_data', JSON.stringify(__D));
+    localStorage.setItem('rs_staff_data', JSON.stringify(__DS));
+}
+function __MuatData() {
+    const ipSimpan = localStorage.getItem('rs_ip_data');
+    const staffSimpan = localStorage.getItem('rs_staff_data');
+    if (ipSimpan) __D = JSON.parse(ipSimpan);
+    else __D = [
+        {n:'Prof. Dr. Kai Whitegate, Sp.B', j:'Direktur Utama', i:'Unlimited'},
+        {n:'Dr. El Zero D W, Sp.B', j:'KABID HRD', i:'Unlimited'}
+    ];
+    if (staffSimpan) __DS = JSON.parse(staffSimpan);
+    else __DS = [];
+}
+
+let __D = [];
 let __DS = [];
+__MuatData();
 
 function __X(id) {
     document.getElementById('M').style.display = 'none';
@@ -317,6 +336,7 @@ function _clsJK(g) {
     return g==='Laki-laki'?'g-laki':g==='Perempuan'?'g-perempuan':'';
 }
 
+// === BAGIAN IP ===
 function __L() {
     if (document.getElementById('PW').value === ADMIN_PASS) {
         __ADM = true;
@@ -328,7 +348,7 @@ function __L() {
         document.getElementById('AC').style.display = 'table-cell';
         document.getElementById('LMG').innerText = '✅ Akses diberikan!';
     } else {
-        document.getElementById('LMG').innerText = '❌ Salah!';
+        document.getElementById('LMG').innerText = '❌ Kata sandi salah!';
         document.getElementById('LMG').classList.add('err');
     }
     setTimeout(() => { document.getElementById('LMG').innerText = ''; document.getElementById('LMG').classList.remove('err'); }, 3000);
@@ -349,23 +369,35 @@ function __A() {
     if (!__ADM) return alert('🔒 Terkunci!');
     const n = document.getElementById('NM').value.trim(), j = document.getElementById('JB').value.trim(), ip = document.getElementById('IP').value.trim();
     if (!n || !j || !ip) return alert('Lengkapi semua kolom!');
-    __D.push({n, j, i:ip}); __RenderTable();
+    __D.push({n, j, i:ip});
+    __SimpanData();
+    __RenderTable();
     document.getElementById('NM').value = document.getElementById('JB').value = document.getElementById('IP').value = '';
-    document.getElementById('IM').innerText = '✅ Ditambahkan!';
+    document.getElementById('IM').innerText = '✅ Ditambahkan & Tersimpan!';
     setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
 }
 function __ED(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit = i; __RenderTable(); }
 function __SV(i) {
     const n = document.getElementById(`en${i}`).value.trim(), j = document.getElementById(`ej${i}`).value.trim(), ip = document.getElementById(`ei${i}`).value.trim();
     if (!n || !j || !ip) return alert('Lengkapi semua kolom!');
-    __D[i] = {n, j, i:ip}; __edit = -1; __RenderTable();
-    document.getElementById('IM').innerText = '✅ Diperbarui!';
+    __D[i] = {n, j, i:ip};
+    __SimpanData();
+    __edit = -1;
+    __RenderTable();
+    document.getElementById('IM').innerText = '✅ Diperbarui & Tersimpan!';
     setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
 }
 function __CL() { __edit = -1; __RenderTable(); }
 function __DL(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
-    if (confirm('Yakin ingin menghapus?')) { __D.splice(i,1); __edit=-1; __RenderTable(); }
+    if (confirm('Yakin ingin menghapus?')) {
+        __D.splice(i,1);
+        __SimpanData();
+        __edit = -1;
+        __RenderTable();
+        document.getElementById('IM').innerText = '✅ Dihapus & Tersimpan!';
+        setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
+    }
 }
 function __CP() {
     let t = '```\n📊 DATA INFRACTION POINT\n\n';
@@ -377,6 +409,7 @@ function __CP() {
     });
 }
 
+// === BAGIAN RESEP ===
 function __K(k) { __selK = k; __selT = null; document.querySelectorAll('.kbtn').forEach(x => x.classList.remove('a')); event.target.classList.add('a'); document.getElementById('TW').classList.add('s'); document.getElementById('HR').classList.remove('s'); }
 function __T(t) {
     __selT = t; document.querySelectorAll('.tbtn').forEach(x => x.classList.remove('a')); event.target.classList.add('a');
@@ -395,6 +428,7 @@ function __RC() {
     });
 }
 
+// === BAGIAN DATA STAFF ===
 function __L2() {
     if (document.getElementById('PW2').value === ADMIN_PASS) {
         __ADM = true;
@@ -406,7 +440,7 @@ function __L2() {
         document.getElementById('AC2').style.display = 'table-cell';
         document.getElementById('LMG2').innerText = '✅ Akses diberikan!';
     } else {
-        document.getElementById('LMG2').innerText = '❌ Salah!';
+        document.getElementById('LMG2').innerText = '❌ Kata sandi salah!';
         document.getElementById('LMG2').classList.add('err');
     }
     setTimeout(() => { document.getElementById('LMG2').innerText = ''; document.getElementById('LMG2').classList.remove('err'); }, 3000);
@@ -442,7 +476,7 @@ function __RenderTable2() {
                 <option ${s.j==='PTHD'?'selected':''}>PTHD</option>
                 </select></td>
                 <td><select id="dst${i}" class="tin">
-                <option value="">— Pilih —</option>
+                <option value="">— Pilih Status —</option>
                 <option ${s.st==='Aktif'?'selected':''}>Aktif</option>
                 <option ${s.st==='Tidak Aktif'?'selected':''}>Tidak Aktif</option>
                 <option ${s.st==='Resign'?'selected':''}>Resign</option>
@@ -459,7 +493,7 @@ function __RenderTable2() {
                 <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>
                 <td style="text-align:center">
                 <div class="move-box">
-                  <div style="font-size:11px;color:var(--ac);margin-bottom:5px">📦 Pindahkan ke:</div>
+                  <div style="font-size:11px;color:var(--ac);margin-bottom:5px">📦 Pindahkan Manual:</div>
                   <button class="info move-btn" onclick="__MV(${i},'manajemen')">Manajemen</button>
                   <button class="info move-btn" onclick="__MV(${i},'medis')">Medis</button>
                   <button class="info move-btn" onclick="__MV(${i},'trainee')">Trainee</button>
@@ -499,26 +533,41 @@ function __A2() {
     const hp = document.getElementById('dsHP').value.trim();
     const cid = document.getElementById('dsCID').value.trim();
     const em = document.getElementById('dsEM').value.trim();
+    
     if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
+    
+    // Kelompok berdasarkan jabatan — TIDAK diubah otomatis lagi
     const g = _getGroupByJabatan(j);
+    
     __DS.push({b, n, g, j, st, sp, jk, hp, cid, em});
+    __SimpanData();
     __RenderTable2();
-    document.getElementById('dsB').value = ''; document.getElementById('dsN').value = ''; document.getElementById('dsJ').value = '';
-    document.getElementById('dsSt').value = ''; document.getElementById('dsSP').value = ''; document.getElementById('dsJK').value = '';
-    document.getElementById('dsHP').value = ''; document.getElementById('dsCID').value = ''; document.getElementById('dsEM').value = '';
-    document.getElementById('IM2').innerText = '✅ Staff ditambahkan!';
+    
+    // Reset form
+    document.getElementById('dsB').value = '';
+    document.getElementById('dsN').value = '';
+    document.getElementById('dsJ').value = '';
+    document.getElementById('dsSt').value = '';
+    document.getElementById('dsSP').value = '';
+    document.getElementById('dsJK').value = '';
+    document.getElementById('dsHP').value = '';
+    document.getElementById('dsCID').value = '';
+    document.getElementById('dsEM').value = '';
+    
+    document.getElementById('IM2').innerText = '✅ Staff ditambahkan & Tersimpan!';
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 
 function __ED2(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit2 = i; __RenderTable2(); }
 
+// Pindahkan ke kelompok — TIDAK mengubah status otomatis
 function __MV(i, targetGrp) {
-    if (!confirm(`Pindahkan ke kelompok:\n${targetGrp==='manajemen'?'👔 Manajemen':targetGrp==='medis'?'⚕️ Medis':targetGrp==='trainee'?'🎓 Trainee':'📋 Resign/PTHD'}?`)) return;
+    if (!confirm(`Pindahkan ke kelompok:\n${targetGrp==='manajemen'?'👔 Manajemen':targetGrp==='medis'?'⚕️ Medis':targetGrp==='trainee'?'🎓 Trainee':'📋 Resign/PTHD'}\n\nStatus TIDAK diubah otomatis!`)) return;
     __DS[i].g = targetGrp;
-    if (targetGrp === 'nonaktif' && !['Resign','PTHD'].includes(__DS[i].st)) __DS[i].st = 'Resign';
-    if (targetGrp !== 'nonaktif' && ['Resign','PTHD'].includes(__DS[i].st)) __DS[i].st = 'Aktif';
-    __edit2 = -1; __RenderTable2();
-    document.getElementById('IM2').innerText = '✅ Dipindahkan!';
+    __SimpanData();
+    __edit2 = -1;
+    __RenderTable2();
+    document.getElementById('IM2').innerText = '✅ Dipindahkan & Tersimpan!';
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 
@@ -532,17 +581,29 @@ function __SV2(i) {
     const hp = document.getElementById('dhp'+i).value.trim();
     const cid = document.getElementById('dcid'+i).value.trim();
     const em = document.getElementById('dem'+i).value.trim();
+    
     if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
+    
     const g = _getGroupByJabatan(j);
+    
     __DS[i] = {b, n, g, j, st, sp, jk, hp, cid, em};
-    __edit2 = -1; __RenderTable2();
-    document.getElementById('IM2').innerText = '✅ Diperbarui!';
+    __SimpanData();
+    __edit2 = -1;
+    __RenderTable2();
+    document.getElementById('IM2').innerText = '✅ Diperbarui & Tersimpan!';
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 function __CL2() { __edit2 = -1; __RenderTable2(); }
 function __DL2(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
-    if (confirm('Yakin ingin menghapus data ini?')) { __DS.splice(i,1); __edit2 = -1; __RenderTable2(); }
+    if (confirm('Yakin ingin menghapus data ini?')) {
+        __DS.splice(i,1);
+        __SimpanData();
+        __edit2 = -1;
+        __RenderTable2();
+        document.getElementById('IM2').innerText = '✅ Dihapus & Tersimpan!';
+        setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
+    }
 }
 function __CP2() {
     let t = '```\n👥 DATA STAFF RUMAH SAKIT HOMMI\n';
