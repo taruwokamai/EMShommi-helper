@@ -37,7 +37,7 @@ select.inp{cursor:pointer}
 table{width:100%;border-collapse:collapse;font-size:13px}
 th,td{padding:10px 8px;border-bottom:1px solid #442222;vertical-align:middle;text-align:center}
 th{background:var(--bt);color:var(--ac);white-space:nowrap}
-th.grp{background:#3d1010;border:1px solid var(--ac);font-size:14px;color:var(--ac)}
+th.grp{background:#3d1010;border:1px solid var(--ac);font-size:14px;color:var(--ac);text-align:left;padding-left:12px}
 .tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:13px}
 select.tin{cursor:pointer}
 .kgr{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:20px 0}
@@ -61,6 +61,8 @@ select.tin{cursor:pointer}
 .err{color:#ff6b6b}
 .move-box{background:#2a1500;border:1px solid var(--ac);border-radius:6px;padding:10px;margin:8px 0}
 .move-btn{margin:3px;font-size:11px;padding:4px 8px}
+.clickable-name{cursor:pointer;color:var(--ac);text-decoration:underline}
+.clickable-name:hover{color:#ffd333}
 
 .j-ceo{background:#b91e1e;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
 .j-direktur{background:#d66000;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
@@ -235,13 +237,13 @@ select.tin{cursor:pointer}
 <table>
 <thead>
 <tr><th colspan="10" class="grp">👔 DIREKSI & MANAJEMEN</th></tr>
-<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th><th id="AC2" style="display:none">AKSI</th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
 <tr><th colspan="10" class="grp">⚕️ STAFF MEDIS</th></tr>
-<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th><th></th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
 <tr><th colspan="10" class="grp">🎓 TRAINEE</th></tr>
-<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th><th></th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
 <tr><th colspan="10" class="grp">📋 RESIGN / PTHD</th></tr>
-<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th><th></th></tr>
+<tr><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JENIS KELAMIN</th><th>NO. HP</th><th>CID</th><th>EMAIL</th></tr>
 </thead>
 <tbody id="TB2"></tbody>
 </table>
@@ -264,10 +266,7 @@ const ADMIN_PASS = 'EMShommioyeoye';
 let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1;
 
 // ==============================================
-// ATURAN TETAP:
-// - Kelompok = murni dari Jabatan yang dipilih
-// - Status = bebas, TIDAK diubah otomatis
-// - Pindah kelompok = hanya tampilan, TIDAK ubah data
+// PENGELOMPOKAN JABATAN SESUAI KETENTUAN:
 // ==============================================
 function _getGroupByJabatan(j) {
     const manajemen = ['CEO','Direktur','Wakil Direktur','Sekben','Kabid Komdis','Komdis','Kabid HRD','HRD','Ka. Laboran','Manajemen Lab'];
@@ -436,8 +435,8 @@ function __L2() {
         b.style.opacity = '1'; b.style.pointerEvents = 'auto';
         b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
         b.querySelector('.lk').style.display = 'none';
-        document.getElementById('AC2').style.display = 'table-cell';
         document.getElementById('LMG2').innerText = '✅ Akses diberikan!';
+        __RenderTable2();
     } else {
         document.getElementById('LMG2').innerText = '❌ Kata sandi salah!';
         document.getElementById('LMG2').classList.add('err');
@@ -447,12 +446,17 @@ function __L2() {
 
 function __RenderTable2() {
     const t = document.getElementById('TB2'); t.innerHTML = '';
+    
     ['manajemen','medis','trainee','nonaktif'].forEach(grp => {
-        __DS.filter(s => s.g === grp).forEach((s, idx) => {
+        const groupList = __DS.filter(s => s.g === grp);
+        
+        groupList.forEach((s) => {
             const i = __DS.indexOf(s);
             const r = document.createElement('tr');
+            
             if (__edit2 === i && __ADM) {
-                r.innerHTML = `<td><input type="text" id="db${i}" class="tin" value="${s.b.replace(/"/g,'&quot;')}"></td>
+                r.innerHTML = `
+                <td><input type="text" id="db${i}" class="tin" value="${s.b.replace(/"/g,'&quot;')}"></td>
                 <td><input type="text" id="dn${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td>
                 <td><select id="dj${i}" class="tin">
                 <option value="">— Pilih —</option>
@@ -489,36 +493,37 @@ function __RenderTable2() {
                 </select></td>
                 <td><input type="text" id="dhp${i}" class="tin" value="${s.hp.replace(/"/g,'&quot;')}"></td>
                 <td><input type="text" id="dcid${i}" class="tin" value="${s.cid.replace(/"/g,'&quot;')}"></td>
-                <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>
-                <td style="text-align:center">
-                <div class="move-box">
-                  <div style="font-size:11px;color:var(--ac);margin-bottom:4px">📦 Pindah Tampilan:</div>
-                  <button class="info move-btn" onclick="__MV(${i},'manajemen')">Manajemen</button>
-                  <button class="info move-btn" onclick="__MV(${i},'medis')">Medis</button>
-                  <button class="info move-btn" onclick="__MV(${i},'trainee')">Trainee</button>
-                  <button class="info move-btn" onclick="__MV(${i},'nonaktif')">Resign/PTHD</button>
-                  <div style="font-size:10px;color:#888;margin-top:3px">⚠️ Tidak ubah jabatan/status</div>
-                </div>
-                <button onclick="__SV2(${i})" class="ok">✅ Simpan</button>
-                <button onclick="__CL2()" class="cn">↩ Batal</button>
+                <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>`;
+                
+                const trAction = document.createElement('tr');
+                trAction.innerHTML = `<td colspan="9" style="background:#220505;text-align:left;padding:12px;">
+                    <div class="move-box">
+                      <div style="font-size:11px;color:var(--ac);margin-bottom:4px">📦 Pindah Tampilan / Kategori:</div>
+                      <button class="info move-btn" onclick="__MV(${i},'manajemen')">Manajemen</button>
+                      <button class="info move-btn" onclick="__MV(${i},'medis')">Medis</button>
+                      <button class="info move-btn" onclick="__MV(${i},'trainee')">Trainee</button>
+                      <button class="info move-btn" onclick="__MV(${i},'nonaktif')">Resign/PTHD</button>
+                    </div>
+                    <button onclick="__SV2(${i})" class="ok">✅ Simpan</button>
+                    <button onclick="__CL2()" class="cn">↩ Batal</button>
+                    <button onclick="__DL2(${i})" class="dl" style="float:right">🗑️ Hapus Data</button>
                 </td>`;
+                t.appendChild(r);
+                t.appendChild(trAction);
             } else {
-                // Kolom AKSI hanya muncul kalau sudah login — TIDAK muncul saat input baru
-                r.innerHTML = `<td><strong>${s.b}</strong></td>
-                <td style="text-align:left">${s.n}</td>
+                const nameHtml = __ADM ? `<span class="clickable-name" onclick="__ED2(${i})" title="Klik untuk Edit/Pindah/Hapus">${s.n}</span>` : s.n;
+                r.innerHTML = `
+                <td><strong>${s.b}</strong></td>
+                <td style="text-align:left">${nameHtml}</td>
                 <td><span class="${_clsJab(s.j)}">${s.j}</span></td>
                 <td><span class="${_clsStatus(s.st)}">${s.st||'-'}</span></td>
                 <td>${s.sp||'-'}</td>
                 <td><span class="${_clsJK(s.jk)}">${s.jk||'-'}</span></td>
                 <td>${s.hp||'-'}</td>
                 <td>${s.cid||'-'}</td>
-                <td>${s.em||'-'}</td>
-                <td style="text-align:center;${__ADM?'':'display:none'}">
-                <button onclick="__ED2(${i})" class="sm">✏️ Edit</button>
-                <button onclick="__DL2(${i})" class="dl">🗑️ Hapus</button>
-                </td>`;
+                <td>${s.em||'-'}</td>`;
+                t.appendChild(r);
             }
-            t.appendChild(r);
         });
     });
 }
@@ -537,14 +542,12 @@ function __A2() {
     
     if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
     
-    // ✅ KELOMPOK DARI JABATAN — TIDAK DIUBAH OTOMATIS!
     const g = _getGroupByJabatan(j);
     
     __DS.push({b, n, g, j, st, sp, jk, hp, cid, em});
     __SimpanData();
     __RenderTable2();
     
-    // Reset form
     document.getElementById('dsB').value = '';
     document.getElementById('dsN').value = '';
     document.getElementById('dsJ').value = '';
@@ -555,20 +558,23 @@ function __A2() {
     document.getElementById('dsCID').value = '';
     document.getElementById('dsEM').value = '';
     
-    document.getElementById('IM2').innerText = '✅ Ditambahkan! Masuk ke: ' + g;
+    document.getElementById('IM2').innerText = '✅ Ditambahkan otomatis ke kategori: ' + g;
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 
-function __ED2(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit2 = i; __RenderTable2(); }
+function __ED2(i) { 
+    if (!__ADM) return alert('🔒 Terkunci!'); 
+    __edit2 = i; 
+    __RenderTable2(); 
+}
 
-// ✅ PINDAH TAMPILAN SAJA — TIDAK UBAH JABATAN/STATUS
 function __MV(i, targetGrp) {
-    if (!confirm(`Pindahkan tampilan ke:\n${targetGrp==='manajemen'?'👔 Manajemen':targetGrp==='medis'?'⚕️ Medis':targetGrp==='trainee'?'🎓 Trainee':'📋 Resign/PTHD'}\n\n⚠️ Jabatan & Status TIDAK diubah!`)) return;
+    if (!confirm(`Pindahkan ke kategori:\n${targetGrp==='manajemen'?'👔 Direksi & Manajemen':targetGrp==='medis'?'⚕️ Staff Medis':targetGrp==='trainee'?'🎓 Trainee':'📋 Resign/PTHD'}\n\n⚠️ Jabatan & Status tetap terjaga!`)) return;
     __DS[i].g = targetGrp;
     __SimpanData();
     __edit2 = -1;
     __RenderTable2();
-    document.getElementById('IM2').innerText = '✅ Dipindahkan tampilan saja!';
+    document.getElementById('IM2').innerText = '✅ Berhasil dipindahkan!';
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 
@@ -585,26 +591,28 @@ function __SV2(i) {
     
     if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
     
-    // ✅ Kelompok ulang murni berdasarkan jabatan yang dipilih
     const g = _getGroupByJabatan(j);
     
     __DS[i] = {b, n, g, j, st, sp, jk, hp, cid, em};
     __SimpanData();
     __edit2 = -1;
     __RenderTable2();
-    document.getElementById('IM2').innerText = '✅ Diperbarui! Kelompok: ' + g;
+    document.getElementById('IM2').innerText = '✅ Data diperbarui!';
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
+
 function __CL2() { __edit2 = -1; __RenderTable2(); }
+
 function __DL2(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
-    if (confirm('Yakin hapus data ini?')) {
+    if (confirm('Yakin hapus data staff ini?')) {
         __DS.splice(i,1);
         __SimpanData();
         __edit2 = -1;
         __RenderTable2();
     }
 }
+
 function __CP2() {
     let t = '```\n👥 DATA STAFF RUMAH SAKIT HOMMI\n';
     ['manajemen','medis','trainee','nonaktif'].forEach(grp => {
