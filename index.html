@@ -8,7 +8,7 @@
 :root{--bg:#0c0000;--cbg:#1a0505;--txt:#fff;--brd:#7a0000;--ac:#ffcc00;--acr:#ff3333;--bt:#260808;--bth:#3d0d0d;--ok:#28a745}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',sans-serif;background:var(--bg);color:var(--txt);padding:20px;line-height:1.6;-webkit-user-select:none;user-select:none}
-.c{max-width:900px;margin:0 auto}
+.c{max-width:1100px;margin:0 auto}
 h1{color:var(--ac);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
 .hd{text-align:center;padding:20px 0;border-bottom:3px solid var(--ac);margin-bottom:20px}
 .m{display:flex;flex-direction:column;gap:12px;max-width:600px;margin:25px auto}
@@ -22,6 +22,7 @@ h1{color:var(--ac);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
 .inp{width:100%;padding:10px;background:var(--bg);border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:14px;margin:0 0 15px}
 .inp:focus{border-color:var(--ac);outline:none}
 .inp:disabled{opacity:.5;cursor:not-allowed;background:#111}
+select.inp{cursor:pointer}
 .btn{background:var(--ac);color:#000;border:none;padding:10px 18px;font-weight:700;border-radius:6px;cursor:pointer;margin:8px 8px 8px 0}
 .btn:hover{background:#ffd333}
 .btn:disabled{opacity:.4;cursor:not-allowed}
@@ -32,10 +33,11 @@ h1{color:var(--ac);font-size:28px;text-shadow:0 2px 4px rgba(255,0,0,.5)}
 .cn{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .dl{background:var(--acr);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .tb{background:var(--bg);border-radius:6px;padding:10px;border:1px solid var(--brd);overflow-x:auto;margin-top:15px}
-table{width:100%;border-collapse:collapse;font-size:14px}
-th,td{padding:12px;border-bottom:1px solid var(--brd);vertical-align:middle}
-th{background:var(--bt);color:var(--ac)}
-.tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:14px}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:10px 8px;border-bottom:1px solid var(--brd);vertical-align:middle;text-align:center}
+th{background:var(--bt);color:var(--ac);white-space:nowrap}
+.tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:13px}
+select.tin{cursor:pointer}
 .kgr{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:20px 0}
 .kbtn{background:var(--bt);border:2px solid var(--brd);border-radius:8px;padding:14px 10px;color:var(--ac);font-weight:700;cursor:pointer}
 .kbtn:hover,.kbtn.a{border-color:var(--ac);background:var(--bth)}
@@ -55,6 +57,33 @@ th{background:var(--bt);color:var(--ac)}
 .lk{color:var(--ac);font-size:12px;margin-bottom:12px}
 .msg{color:#48bb78;font-size:13px;margin-top:8px;font-weight:700}
 .err{color:#ff6b6b}
+
+/* === WARNA JABATAN === */
+.j-ceo{background:#b91e1e;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-direktur{background:#d66000;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-wakildirektur{background:#e6a000;color:#000;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-sekben{background:#007a52;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-kabidkomdis{background:#5c3d91;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-komdis{background:#7c5dc9;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-kabidhrd{background:#005ea8;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-hrd{background:#0091d6;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-kalaboran{background:#8b5a2b;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-manajemenlab{background:#a06633;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-dokterspesialis{background:#00887a;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-dokterresiden{background:#00998a;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-dokterumum{background:#00aa99;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-coass{background:#22a870;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.j-trainee{background:#666;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+
+/* === WARNA STATUS === */
+.s-aktif{background:#28a745;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.s-tidakaktif{background:#dc3545;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.s-resign{background:#222;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px;border:1px solid #555}
+.s-pthd{background:#ffc107;color:#000;font-weight:700;padding:2px 6px;border-radius:4px}
+
+/* === WARNA JENIS KELAMIN === */
+.g-laki{background:#007bff;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
+.g-perempuan{background:#e83e8c;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
 </style>
 </head>
 <body>
@@ -66,8 +95,11 @@ th{background:var(--bt);color:var(--ac)}
 <div id="M" class="m">
 <div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
 <div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
-<div class="mi d">👥 Struktur Rumah Sakit (Coming Soon)</div>
+<div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
+<div class="mi d">Struktur Rumah Sakit (Coming Soon)</div>
 </div>
+
+<!-- === BAGIAN INFRACTION POINT === -->
 <div id="Sip" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>Input & Data Infraction Point (IP) Staff <span id="AD" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -94,6 +126,8 @@ th{background:var(--bt);color:var(--ac)}
 <tbody id="TB"></tbody></table>
 </div>
 </div>
+
+<!-- === BAGIAN PANDUAN RESEP === -->
 <div id="Srp" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>📋 Panduan Resep Dokter</h2>
@@ -127,9 +161,109 @@ th{background:var(--bt);color:var(--ac)}
 </div>
 </div>
 </div>
+
+<!-- === BAGIAN DATA STAFF BARU === -->
+<div id="Sds" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>👥 Data Staff Rumah Sakit Hommi <span id="AD2" class="bg" style="display:none">🔒 ADMIN</span></h2>
+<div id="LBOX2">
+<label class="lb">🔑 Kata Sandi Admin (Sama):</label>
+<input type="password" id="PW2" class="inp" placeholder="Masukkan kata sandi...">
+<button class="btn" onclick="__L2()">🔓 Buka Akses Edit</button>
+<span id="LMG2" class="msg"></span>
 </div>
+<div id="IBOX2" style="opacity:.6;pointer-events:none">
+<div class="lk">🔒 Terkunci — Masukkan kata sandi admin untuk mengubah data</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+<div>
+<label class="lb">BATCH</label>
+<input type="text" id="dsB" class="inp" disabled placeholder="Contoh: 1">
+</div>
+<div>
+<label class="lb">NAMA LENGKAP</label>
+<input type="text" id="dsN" class="inp" disabled placeholder="Nama Lengkap">
+</div>
+<div>
+<label class="lb">JABATAN / PANGKAT</label>
+<select id="dsJ" class="inp" disabled>
+<option value="">— Pilih Pangkat —</option>
+<option value="CEO">CEO</option>
+<option value="Direktur">Direktur</option>
+<option value="Wakil Direktur">Wakil Direktur</option>
+<option value="Sekben">Sekben</option>
+<option value="Kabid Komdis">Kabid Komdis</option>
+<option value="Komdis">Komdis</option>
+<option value="Kabid HRD">Kabid HRD</option>
+<option value="HRD">HRD</option>
+<option value="Ka. Laboran">Ka. Laboran</option>
+<option value="Manajemen Lab">Manajemen Lab</option>
+<option value="Dokter Spesialis">Dokter Spesialis</option>
+<option value="Dokter Residen">Dokter Residen</option>
+<option value="Dokter Umum">Dokter Umum</option>
+<option value="Co Ass">Co Ass</option>
+<option value="Trainee">Trainee</option>
+</select>
+</div>
+<div>
+<label class="lb">STATUS</label>
+<select id="dsSt" class="inp" disabled>
+<option value="">— Pilih Status —</option>
+<option value="Aktif">Aktif</option>
+<option value="Tidak Aktif">Tidak Aktif</option>
+<option value="Resign">Resign</option>
+<option value="PTHD">PTHD</option>
+</select>
+</div>
+<div>
+<label class="lb">SP / KETERANGAN</label>
+<input type="text" id="dsSP" class="inp" disabled placeholder="-">
+</div>
+<div>
+<label class="lb">JENIS KELAMIN</label>
+<select id="dsJK" class="inp" disabled>
+<option value="">— Pilih —</option>
+<option value="Laki-laki">Laki-laki</option>
+<option value="Perempuan">Perempuan</option>
+</select>
+</div>
+<div>
+<label class="lb">NO. HP</label>
+<input type="text" id="dsHP" class="inp" disabled placeholder="08xx / 62xx">
+</div>
+<div>
+<label class="lb">CID</label>
+<input type="text" id="dsCID" class="inp" disabled placeholder="Kode CID">
+</div>
+<div>
+<label class="lb">EMAIL</label>
+<input type="text" id="dsEM" class="inp" disabled placeholder="Email">
+</div>
+</div>
+<button class="btn" id="ADD2" onclick="__A2()" disabled>➕ Tambah Staff</button>
+<button class="btn dc" onclick="__CP2()">📋 Copy Semua ke Discord</button>
+<span id="IM2" class="msg"></span>
+</div>
+<div class="tb">
+<table><thead><tr>
+<th>BATCH</th>
+<th>NAMA</th>
+<th>JABATAN</th>
+<th>STATUS</th>
+<th>SP</th>
+<th>JENIS KELAMIN</th>
+<th>NO. HP</th>
+<th>CID</th>
+<th>EMAIL</th>
+<th id="AC2" style="display:none;text-align:center">AKSI</th>
+</tr></thead>
+<tbody id="TB2"></tbody></table>
+</div>
+</div>
+
+</div>
+
 <script>
-// === PENGAMANAN HALAMAN (BLOKIR KLIK KANAN, F12, INSPECT) ===
+// === PENGAMANAN HALAMAN ===
 document.addEventListener('contextmenu', e => e.preventDefault());
 document.addEventListener('keydown', e => {
     if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) || (e.ctrlKey && ['u','U','s','S','i','I','j','J'].includes(e.key))) {
@@ -137,15 +271,16 @@ document.addEventListener('keydown', e => {
         return false;
     }
 });
-// Deteksi Developer Tools
 setInterval(() => {
-    const widthThreshold = window.outerWidth - window.innerWidth > 160;
-    const heightThreshold = window.outerHeight - window.innerHeight > 160;
-    if (widthThreshold || heightThreshold) {
+    if (window.outerWidth - window.innerWidth > 160 || window.outerHeight - window.innerHeight > 160) {
         document.body.innerHTML = "<h2 style='text-align:center;color:red;margin-top:20vh;'>⛔ Akses Ditolak: Developer Tools Terdeteksi!</h2>";
     }
 }, 1000);
-let __ADM = false, __selK = null, __selT = null, __edit = -1;
+
+let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1;
+const ADMIN_PASS = atob('YW5qZWsxMjMzMjE='); // Sama sandi
+
+// === DATA RESEP DOKTER ===
 const __R = {
     kpl:{rng:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},
     sdg:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari, jangan perut kosong'},
@@ -166,18 +301,82 @@ const __R = {
     sdg:{j:'Lebam — Sedang',o:'Kompres Dingin→Hangat + Ibuprofen',c:'Hari 3 ganti hangat untuk lancarkan darah'},
     brt:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}
 };
+
+// === DATA IP ===
 let __D = [
     {n:'Prof. Dr. Kai Whitegate, Sp.B', j:'Direktur Utama', i:'Unlimited'},
     {n:'Dr. El Zero D W, Sp.B', j:'KABID HRD', i:'Unlimited'}
 ];
+
+// === DATA STAFF ===
+let __DS = [
+    {b:'1',n:'Ed Forger',j:'CEO',st:'Aktif',sp:'',jk:'Laki-laki',hp:'',cid:'VHX99020',em:''},
+    {b:'1',n:'Valerie Noa W. Vazquez',j:'Direktur',st:'Aktif',sp:'',jk:'Perempuan',hp:'22',cid:'',em:''},
+    {b:'1',n:'Kai Kanata Whitegate',j:'Wakil Direktur',st:'Aktif',sp:'',jk:'Laki-laki',hp:'7533516497',cid:'EHA13638',em:''},
+    {b:'1',n:'Lucas D. Whitegate',j:'Wakil Direktur',st:'Aktif',sp:'',jk:'Laki-laki',hp:'5205111729',cid:'DFGOA23X',em:''},
+    {b:'1',n:'Xienna Whitegate',j:'Wakil Direktur',st:'Aktif',sp:'',jk:'Perempuan',hp:'(602) 757-8865',cid:'WYD35077',em:''},
+    {b:'1',n:'Draco Hidayat Hawkins',j:'Sekben',st:'Aktif',sp:'',jk:'Laki-laki',hp:'3862521369',cid:'KQ30549',em:''},
+    {b:'1',n:'Ellena Norris',j:'Sekben',st:'Aktif',sp:'',jk:'Perempuan',hp:'2053037852',cid:'BIA74534',em:''},
+    {b:'1',n:'Grizzelle D Whitegate',j:'Kabid Komdis',st:'Aktif',sp:'',jk:'Perempuan',hp:'1384523767',cid:'DRW08536',em:''},
+    {b:'1',n:'Ricklona Diazepam',j:'Komdis',st:'Aktif',sp:'',jk:'Laki-laki',hp:'7825999',cid:'CGA47043',em:''},
+    {b:'1',n:'Armel Q. Whitegate',j:'Kabid HRD',st:'Aktif',sp:'',jk:'Laki-laki',hp:'9073222405',cid:'J3D31TYK',em:''},
+    {b:'1',n:'Carellia Jianyx Whitegate',j:'HRD',st:'Aktif',sp:'',jk:'Perempuan',hp:'5202830575',cid:'UQW05658',em:''},
+    {b:'1',n:'Alicia Jasmine Whitegate',j:'HRD',st:'Aktif',sp:'',jk:'Perempuan',hp:'(602)92-5458',cid:'C839W6VF',em:''},
+    {b:'1',n:'Dyyeta O. Kratavwijaya',j:'Ka. Laboran',st:'Aktif',sp:'',jk:'Perempuan',hp:'3512649',cid:'LMT70R7S',em:''},
+    {b:'1',n:'Jeff Banzos',j:'Manajemen Lab',st:'Aktif',sp:'',jk:'Laki-laki',hp:'',cid:'',em:''}
+];
+
+// === FUNGSI UMUM ===
+function __X(id) {
+    document.getElementById('M').style.display = 'none';
+    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
+    document.getElementById('S' + id).style.display = 'block';
+    if (id === 'ip') __RenderTable();
+    if (id === 'ds') __RenderTable2();
+    __edit = __edit2 = -1;
+}
+function __B() {
+    document.getElementById('M').style.display = 'flex';
+    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
+    __edit = __edit2 = -1;
+}
+
+// === WARNA HELPER ===
+function _clsJab(j) {
+    const map = {
+        'CEO':'j-ceo',
+        'Direktur':'j-direktur',
+        'Wakil Direktur':'j-wakildirektur',
+        'Sekben':'j-sekben',
+        'Kabid Komdis':'j-kabidkomdis',
+        'Komdis':'j-komdis',
+        'Kabid HRD':'j-kabidhrd',
+        'HRD':'j-hrd',
+        'Ka. Laboran':'j-kalaboran',
+        'Manajemen Lab':'j-manajemenlab',
+        'Dokter Spesialis':'j-dokterspesialis',
+        'Dokter Residen':'j-dokterresiden',
+        'Dokter Umum':'j-dokterumum',
+        'Co Ass':'j-coass',
+        'Trainee':'j-trainee'
+    };
+    return map[j] || '';
+}
+function _clsStatus(s) {
+    const m = {'Aktif':'s-aktif','Tidak Aktif':'s-tidakaktif','Resign':'s-resign','PTHD':'s-pthd'};
+    return m[s] || '';
+}
+function _clsJK(g) {
+    return g==='Laki-laki'?'g-laki':g==='Perempuan'?'g-perempuan':'';
+}
+
+// === BAGIAN IP ===
 function __L() {
-    const p = document.getElementById('PW').value;
-    if (atob('YW5qZWsxMjMzMjE=') === p) {
+    if (document.getElementById('PW').value === ADMIN_PASS) {
         __ADM = true;
         document.getElementById('AD').style.display = 'inline-block';
         const b = document.getElementById('IBOX');
-        b.style.opacity = '1';
-        b.style.pointerEvents = 'auto';
+        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
         b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
         b.querySelector('.lk').style.display = 'none';
         document.getElementById('AC').style.display = 'table-cell';
@@ -185,59 +384,11 @@ function __L() {
     } else {
         document.getElementById('LMG').innerText = '❌ Salah!';
         document.getElementById('LMG').classList.add('err');
-        __ADM = false;
     }
-    setTimeout(() => {
-        document.getElementById('LMG').innerText = '';
-        document.getElementById('LMG').classList.remove('err');
-    }, 3000);
-}
-function __X(id) {
-    document.getElementById('M').style.display = 'none';
-    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
-    document.getElementById('S' + id).style.display = 'block';
-    if (id === 'ip') __RenderTable();
-    __edit = -1;
-}
-function __B() {
-    document.getElementById('M').style.display = 'flex';
-    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
-    __edit = -1;
-}
-function __K(k) {
-    __selK = k;
-    __selT = null;
-    document.querySelectorAll('.kbtn').forEach(x => x.classList.remove('a'));
-    event.target.classList.add('a');
-    document.getElementById('TW').classList.add('s');
-    document.getElementById('HR').classList.remove('s');
-}
-function __T(t) {
-    __selT = t;
-    document.querySelectorAll('.tbtn').forEach(x => x.classList.remove('a'));
-    event.target.classList.add('a');
-    const d = __R[__selK][__selT];
-    document.getElementById('RJ').innerText = d.j;
-    document.getElementById('RO').innerText = d.o;
-    document.getElementById('RC').innerText = d.c;
-    document.getElementById('RP').innerText = '```\n📋 RESEP DOKTER\nKondisi: ' + d.j + '\n\n💊 OBAT:\n' + d.o + '\n\n📝 CARA PEMAKAIAN:\n' + d.c + '\n```';
-    document.getElementById('HR').classList.add('s');
-}
-function __CX(id) {
-    navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
-        document.getElementById('RMG').innerText = '✅ Disalin!';
-        setTimeout(() => document.getElementById('RMG').innerText = '', 2000);
-    });
-}
-function __RC() {
-    navigator.clipboard.writeText(document.getElementById('RP').innerText).then(() => {
-        document.getElementById('RMG').innerText = '✅ Disalin!';
-        setTimeout(() => document.getElementById('RMG').innerText = '', 3000);
-    });
+    setTimeout(() => { document.getElementById('LMG').innerText = ''; document.getElementById('LMG').classList.remove('err'); }, 3000);
 }
 function __RenderTable() {
-    const t = document.getElementById('TB');
-    t.innerHTML = '';
+    const t = document.getElementById('TB'); t.innerHTML = '';
     __D.forEach((s, i) => {
         const r = document.createElement('tr');
         if (__edit === i && __ADM) {
@@ -250,58 +401,156 @@ function __RenderTable() {
 }
 function __A() {
     if (!__ADM) return alert('🔒 Terkunci!');
-    const n = document.getElementById('NM').value.trim();
-    const j = document.getElementById('JB').value.trim();
-    const i = document.getElementById('IP').value.trim();
-    if (!n || !j || !i) return alert('Lengkapi semua kolom!');
-    __D.push({n: n, j: j, i: i});
-    __RenderTable();
-    document.getElementById('NM').value = '';
-    document.getElementById('JB').value = '';
-    document.getElementById('IP').value = '';
-    document.getElementById('IM').innerText = '✅ Ditambahkan!';
-    setTimeout(() => document.getElementById('IM').innerText = '', 3000);
+    const n = document.getElementById('NM').value.trim(), j = document.getElementById('JB').value.trim(), i = document.getElementById('IP').value.trim();
+    if (!n||!j||!i) return alert('Lengkapi semua kolom!');
+    __D.push({n,j,i}); __RenderTable();
+    document.getElementById('NM').value=document.getElementById('JB').value=document.getElementById('IP').value='';
+    document.getElementById('IM').innerText='✅ Ditambahkan!'; setTimeout(()=>document.getElementById('IM').innerText='',3000);
 }
-function __ED(i) {
-    if (!__ADM) return alert('🔒 Terkunci!');
-    __edit = i;
-    __RenderTable();
-}
+function __ED(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit=i; __RenderTable(); }
 function __SV(i) {
-    const n = document.getElementById(`en${i}`).value.trim();
-    const j = document.getElementById(`ej${i}`).value.trim();
-    const ip = document.getElementById(`ei${i}`).value.trim();
-    if (!n || !j || !ip) return alert('Lengkapi semua kolom!');
-    __D[i] = {n: n, j: j, i: ip};
-    __edit = -1;
-    __RenderTable();
-    document.getElementById('IM').innerText = '✅ Diperbarui!';
-    setTimeout(() => document.getElementById('IM').innerText = '', 3000);
+    const n = document.getElementById(`en${i}`).value.trim(), j = document.getElementById(`ej${i}`).value.trim(), ip = document.getElementById(`ei${i}`).value.trim();
+    if (!n||!j||!ip) return alert('Lengkapi semua kolom!');
+    __D[i]={n,j,i:ip}; __edit=-1; __RenderTable();
+    document.getElementById('IM').innerText='✅ Diperbarui!'; setTimeout(()=>document.getElementById('IM').innerText='',3000);
 }
-function __CL() {
-    __edit = -1;
-    __RenderTable();
-}
+function __CL() { __edit=-1; __RenderTable(); }
 function __DL(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
     if (confirm('Are you sure you want to delete this entry?')) {
-        __D.splice(i, 1);
-        if (__edit === i) __edit = -1;
-        __RenderTable();
-        document.getElementById('IM').innerText = '✅ Dihapus!';
-        setTimeout(() => document.getElementById('IM').innerText = '', 3000);
+        __D.splice(i,1); if (__edit===i) __edit=-1; __RenderTable();
+        document.getElementById('IM').innerText='✅ Dihapus!'; setTimeout(()=>document.getElementById('IM').innerText='',3000);
     }
 }
 function __CP() {
-    let t = '```\n📊 DATA INFRACTION POINT STAFF\n\n';
+    let t='```\n📊 DATA INFRACTION POINT STAFF\n\n';
     __D.forEach(s => t += `Nama: ${s.n}\nJabatan: ${s.j}\nIP: ${s.i}\n-----------------------\n`);
-    t += '```';
-    navigator.clipboard.writeText(t).then(() => {
-        document.getElementById('IM').innerText = '✅ Disalin!';
-        setTimeout(() => document.getElementById('IM').innerText = '', 3000);
+    t+='```';
+    navigator.clipboard.writeText(t).then(()=>{document.getElementById('IM').innerText='✅ Disalin!'; setTimeout(()=>document.getElementById('IM').innerText='',3000);});
+}
+
+// === BAGIAN RESEP ===
+function __K(k) { __selK=k; __selT=null; document.querySelectorAll('.kbtn').forEach(x=>x.classList.remove('a')); event.target.classList.add('a'); document.getElementById('TW').classList.add('s'); document.getElementById('HR').classList.remove('s'); }
+function __T(t) {
+    __selT=t; document.querySelectorAll('.tbtn').forEach(x=>x.classList.remove('a')); event.target.classList.add('a');
+    const d=__R[__selK][__selT];
+    document.getElementById('RJ').innerText=d.j; document.getElementById('RO').innerText=d.o; document.getElementById('RC').innerText=d.c;
+    document.getElementById('RP').innerText='```\n📋 RESEP DOKTER\nKondisi: '+d.j+'\n\n💊 OBAT:\n'+d.o+'\n\n📝 CARA PEMAKAIAN:\n'+d.c+'\n```';
+    document.getElementById('HR').classList.add('s');
+}
+function __CX(id) { navigator.clipboard.writeText(document.getElementById(id).innerText).then(()=>{document.getElementById('RMG').innerText='✅ Disalin!'; setTimeout(()=>document.getElementById('RMG').innerText='',2000);}); }
+function __RC() { navigator.clipboard.writeText(document.getElementById('RP').innerText).then(()=>{document.getElementById('RMG').innerText='✅ Disalin!'; setTimeout(()=>document.getElementById('RMG').innerText='',3000);}); }
+
+// === BAGIAN DATA STAFF ===
+function __L2() {
+    if (document.getElementById('PW2').value === ADMIN_PASS) {
+        __ADM = true;
+        document.getElementById('AD2').style.display = 'inline-block';
+        const b = document.getElementById('IBOX2');
+        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
+        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
+        b.querySelector('.lk').style.display = 'none';
+        document.getElementById('AC2').style.display = 'table-cell';
+        document.getElementById('LMG2').innerText = '✅ Akses diberikan!';
+    } else {
+        document.getElementById('LMG2').innerText = '❌ Salah!';
+        document.getElementById('LMG2').classList.add('err');
+    }
+    setTimeout(() => { document.getElementById('LMG2').innerText = ''; document.getElementById('LMG2').classList.remove('err'); }, 3000);
+}
+function __RenderTable2() {
+    const t = document.getElementById('TB2'); t.innerHTML = '';
+    __DS.forEach((s, i) => {
+        const r = document.createElement('tr');
+        if (__edit2 === i && __ADM) {
+            r.innerHTML = `<td><input type="text" id="db${i}" class="tin" value="${s.b.replace(/"/g,'&quot;')}"></td>
+            <td><input type="text" id="dn${i}" class="tin" value="${s.n.replace(/"/g,'&quot;')}"></td>
+            <td><select id="dj${i}" class="tin">
+            <option value="">— Pilih —</option>
+            <option ${s.j==='CEO'?'selected':''}>CEO</option>
+            <option ${s.j==='Direktur'?'selected':''}>Direktur</option>
+            <option ${s.j==='Wakil Direktur'?'selected':''}>Wakil Direktur</option>
+            <option ${s.j==='Sekben'?'selected':''}>Sekben</option>
+            <option ${s.j==='Kabid Komdis'?'selected':''}>Kabid Komdis</option>
+            <option ${s.j==='Komdis'?'selected':''}>Komdis</option>
+            <option ${s.j==='Kabid HRD'?'selected':''}>Kabid HRD</option>
+            <option ${s.j==='HRD'?'selected':''}>HRD</option>
+            <option ${s.j==='Ka. Laboran'?'selected':''}>Ka. Laboran</option>
+            <option ${s.j==='Manajemen Lab'?'selected':''}>Manajemen Lab</option>
+            <option ${s.j==='Dokter Spesialis'?'selected':''}>Dokter Spesialis</option>
+            <option ${s.j==='Dokter Residen'?'selected':''}>Dokter Residen</option>
+            <option ${s.j==='Dokter Umum'?'selected':''}>Dokter Umum</option>
+            <option ${s.j==='Co Ass'?'selected':''}>Co Ass</option>
+            <option ${s.j==='Trainee'?'selected':''}>Trainee</option>
+            </select></td>
+            <td><select id="dst${i}" class="tin">
+            <option value="">— Pilih —</option>
+            <option ${s.st==='Aktif'?'selected':''}>Aktif</option>
+            <option ${s.st==='Tidak Aktif'?'selected':''}>Tidak Aktif</option>
+            <option ${s.st==='Resign'?'selected':''}>Resign</option>
+            <option ${s.st==='PTHD'?'selected':''}>PTHD</option>
+            </select></td>
+            <td><input type="text" id="dsp${i}" class="tin" value="${s.sp.replace(/"/g,'&quot;')}"></td>
+            <td><select id="djk${i}" class="tin">
+            <option value="">— Pilih —</option>
+            <option ${s.jk==='Laki-laki'?'selected':''}>Laki-laki</option>
+            <option ${s.jk==='Perempuan'?'selected':''}>Perempuan</option>
+            </select></td>
+            <td><input type="text" id="dhp${i}" class="tin" value="${s.hp.replace(/"/g,'&quot;')}"></td>
+            <td><input type="text" id="dcid${i}" class="tin" value="${s.cid.replace(/"/g,'&quot;')}"></td>
+            <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>
+            <td style="text-align:center"><button onclick="__SV2(${i})" class="ok">✅ Simpan</button><button onclick="__CL2()" class="cn">↩ Batal</button></td>`;
+        } else {
+            r.innerHTML = `<td>${s.b}</td>
+            <td style="text-align:left">${s.n}</td>
+            <td><span class="${_clsJab(s.j)}">${s.j}</span></td>
+            <td><span class="${_clsStatus(s.st)}">${s.st||'-'}</span></td>
+            <td>${s.sp||'-'}</td>
+            <td><span class="${_clsJK(s.jk)}">${s.jk||'-'}</span></td>
+            <td>${s.hp||'-'}</td>
+            <td>${s.cid||'-'}</td>
+            <td>${s.em||'-'}</td>
+            <td style="text-align:center;${__ADM?'':'display:none'}">
+            <button onclick="__ED2(${i})" style="background:var(--ac);color:#000;border:none;padding:5px 8px;border-radius:4px;cursor:pointer;margin-right:4px;font-weight:700;font-size:12px">✏️</button>
+            <button onclick="__DL2(${i})" class="dl">🗑️</button>
+            </td>`;
+        }
+        t.appendChild(r);
     });
 }
-window.onload = __RenderTable;
+function __A2() {
+    if (!__ADM) return alert('🔒 Terkunci!');
+    const get = id => document.getElementById(id).value.trim();
+    const b=get('dsB'),n=get('dsN'),j=get('dsJ'),st=get('dsSt'),sp=get('dsSP'),jk=get('dsJK'),hp=get('dsHP'),cid=get('dsCID'),em=get('dsEM');
+    if (!b||!n||!j||!st||!jk) return alert('Lengkapi kolom wajib (Batch, Nama, Jabatan, Status, Jenis Kelamin)!');
+    __DS.push({b,n,j,st,sp,jk,hp,cid,em}); __RenderTable2();
+    ['dsB','dsN','dsJ','dsSt','dsSP','dsJK','dsHP','dsCID','dsEM'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('IM2').innerText='✅ Ditambahkan!'; setTimeout(()=>document.getElementById('IM2').innerText='',3000);
+}
+function __ED2(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit2=i; __RenderTable2(); }
+function __SV2(i) {
+    const get = id => document.getElementById(id).value.trim();
+    const b=get('db'+i),n=get('dn'+i),j=get('dj'+i),st=get('dst'+i),sp=get('dsp'+i),jk=get('djk'+i),hp=get('dhp'+i),cid=get('dcid'+i),em=get('dem'+i);
+    if (!b||!n||!j||!st||!jk) return alert('Lengkapi kolom wajib!');
+    __DS[i]={b,n,j,st,sp,jk,hp,cid,em}; __edit2=-1; __RenderTable2();
+    document.getElementById('IM2').innerText='✅ Diperbarui!'; setTimeout(()=>document.getElementById('IM2').innerText='',3000);
+}
+function __CL2() { __edit2=-1; __RenderTable2(); }
+function __DL2(i) {
+    if (!__ADM) return alert('🔒 Terkunci!');
+    if (confirm('Are you sure you want to delete this staff data?')) {
+        __DS.splice(i,1); if (__edit2===i) __edit2=-1; __RenderTable2();
+        document.getElementById('IM2').innerText='✅ Dihapus!'; setTimeout(()=>document.getElementById('IM2').innerText='',3000);
+    }
+}
+function __CP2() {
+    let t='```\n👥 DATA STAFF RUMAH SAKIT HOMMI\n\n';
+    __DS.forEach(s => t += `Batch: ${s.b}\nNama: ${s.n}\nJabatan: ${s.j}\nStatus: ${s.st}\nSP: ${s.sp||'-'}\nJenis Kelamin: ${s.jk}\nNo. HP: ${s.hp||'-'}\nCID: ${s.cid||'-'}\nEmail: ${s.em||'-'}\n----------------------------------------\n`);
+    t+='```';
+    navigator.clipboard.writeText(t).then(()=>{document.getElementById('IM2').innerText='✅ Disalin!'; setTimeout(()=>document.getElementById('IM2').innerText='',3000);});
+}
+
+window.onload = () => { __RenderTable(); __RenderTable2(); };
 </script>
 </body>
 </html>
