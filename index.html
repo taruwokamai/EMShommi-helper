@@ -28,7 +28,7 @@ select.inp{cursor:pointer}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .dc{background:#5865f2;color:#fff}
 .dc:hover{background:#4752c4}
-.sm{background:var(--ac);color:#000;border:none;padding:5px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px}
+.sm{background:var(--ac);color:#000;border:none;padding:5px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin:2px}
 .ok{background:var(--ok);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .cn{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .dl{background:var(--acr);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
@@ -222,7 +222,7 @@ document.addEventListener('keydown', e => {
 });
 
 const ADMIN_PASS = 'EMShommioyeoye';
-let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1;
+let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1, __moveId = -1;
 
 function _getGroup(j) {
     if (!j) return 'manajemen';
@@ -256,12 +256,12 @@ function __X(id) {
     document.getElementById('S'+id).style.display = 'block';
     if(id==='ip') __RenderTable();
     if(id==='ds') __RenderTable2();
-    __edit = __edit2 = -1;
+    __edit = __edit2 = __moveId = -1;
 }
 function __B() {
     document.getElementById('M').style.display = 'flex';
     document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
-    __edit = __edit2 = -1;
+    __edit = __edit2 = __moveId = -1;
 }
 
 function __L() {
@@ -352,9 +352,17 @@ function __RenderTable2() {
     ];
 
     groups.forEach(g => {
-        const list = __DS.filter(s => _getGroup(s.j) === g.key);
+        // Ambil data dan urutkan berdasarkan abjad Nama (A-Z)
+        let list = __DS.map((item, originalIndex) => ({...item, originalIndex}))
+                       .filter(s => {
+                           // Jika ada data forced group atau otomatis dari jabatan
+                           if (s.forcedGroup) return s.forcedGroup === g.key;
+                           return _getGroup(s.j) === g.key;
+                       });
         
-        // Header Grup Dinamis
+        list.sort((a, b) => a.n.localeCompare(b.n, 'id', {sensitivity: 'base'}));
+
+        // Header Grup
         const hRow = document.createElement('tr');
         hRow.innerHTML = `<th colspan="10" class="grp">${g.label}</th>`;
         t.appendChild(hRow);
@@ -372,7 +380,7 @@ function __RenderTable2() {
         }
 
         list.forEach((s) => {
-            const i = __DS.indexOf(s);
+            const i = s.originalIndex;
             const r = document.createElement('tr');
             
             if(__edit2 === i && __ADM) {
@@ -413,6 +421,15 @@ function __RenderTable2() {
                     <button onclick="__SV2(${i})" class="ok">Simpan</button>
                     <button onclick="__CL2()" class="cn">Batal</button>
                 </td>`;
+            } else if (__moveId === i && __ADM) {
+                r.innerHTML = `<td colspan="10" style="background:#260505;padding:10px;">
+                    <span style="color:var(--ac);font-weight:700;margin-right:10px;">🔀 Pindahkan ${s.n} ke:</span>
+                    <button onclick="__moveTo(${i}, 'manajemen')" class="sm" style="background:#b7094c;color:#fff">Direksi & Manajemen</button>
+                    <button onclick="__moveTo(${i}, 'medis')" class="sm" style="background:#0077b6;color:#fff">Staff Medis</button>
+                    <button onclick="__moveTo(${i}, 'trainee')" class="sm" style="background:#555;color:#fff">Trainee</button>
+                    <button onclick="__moveTo(${i}, 'nonaktif')" class="sm" style="background:#343a40;color:#fff">Resign/PTHD</button>
+                    <button onclick="__CL2()" class="cn" style="margin-left:10px;">Batal</button>
+                </td>`;
             } else {
                 r.innerHTML = `
                 <td><strong>${s.b}</strong></td>
@@ -426,6 +443,7 @@ function __RenderTable2() {
                 <td>${s.em||'-'}</td>
                 <td style="${__ADM?'':'display:none'}">
                     <button onclick="__ED2(${i})" class="sm">Edit</button>
+                    <button onclick="__MVModal(${i})" class="sm" style="background:#028090;color:#fff">Pindah</button>
                     <button onclick="__DL2(${i})" class="dl">Hapus</button>
                 </td>`;
             }
@@ -460,11 +478,20 @@ function __A2() {
     setTimeout(() => document.getElementById('IM2').innerText = '', 2000);
 }
 
-function __ED2(i) { __edit2 = i; __RenderTable2(); }
-function __CL2() { __edit2 = -1; __RenderTable2(); }
+function __ED2(i) { __edit2 = i; __moveId = -1; __RenderTable2(); }
+function __MVModal(i) { __moveId = i; __edit2 = -1; __RenderTable2(); }
+function __CL2() { __edit2 = -1; __moveId = -1; __RenderTable2(); }
+
+function __moveTo(i, targetGroup) {
+    __DS[i].forcedGroup = targetGroup;
+    __Simpan();
+    __moveId = -1;
+    __RenderTable2();
+}
 
 function __SV2(i) {
     __DS[i] = {
+        ...__DS[i],
         b: document.getElementById(`db${i}`).value,
         n: document.getElementById(`dn${i}`).value,
         j: document.getElementById(`dj${i}`).value,
