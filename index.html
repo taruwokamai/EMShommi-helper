@@ -28,7 +28,7 @@ select.inp{cursor:pointer}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .dc{background:#5865f2;color:#fff}
 .dc:hover{background:#4752c4}
-.sm{background:var(--ac);color:#000;border:none;padding:4px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin-left:8px}
+.sm{background:var(--ac);color:#000;border:none;padding:4px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin-left:4px}
 .ok{background:var(--ok);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .info{background:var(--info);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .cn{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
@@ -59,8 +59,8 @@ select.tin{cursor:pointer}
 .lk{color:var(--ac);font-size:12px;margin-bottom:12px}
 .msg{color:#48bb78;font-size:13px;margin-top:8px;font-weight:700}
 .err{color:#ff6b6b}
-.move-box{background:#2a1500;border:1px solid var(--ac);border-radius:6px;padding:12px;margin:10px 0}
-.move-btn{margin:5px}
+.move-box{background:#2a1500;border:1px solid var(--ac);border-radius:6px;padding:10px;margin:8px 0}
+.move-btn{margin:3px;font-size:11px;padding:4px 8px}
 
 .j-ceo{background:#b91e1e;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
 .j-direktur{background:#d66000;color:#fff;font-weight:700;padding:2px 6px;border-radius:4px}
@@ -122,8 +122,17 @@ select.tin{cursor:pointer}
 <span id="IM" class="msg"></span>
 </div>
 <div class="tb">
-<table><thead><tr><th>Nama Staff</th><th>Jabatan</th><th>IP</th><th id="AC" style="display:none">AKSI</th></tr></thead>
-<tbody id="TB"></tbody></table>
+<table>
+<thead>
+<tr>
+<th>Nama Staff</th>
+<th>Jabatan</th>
+<th>IP</th>
+<th id="AC" style="display:none">AKSI</th>
+</tr>
+</thead>
+<tbody id="TB"></tbody>
+</table>
 </div>
 </div>
 
@@ -249,12 +258,17 @@ document.addEventListener('keydown', e => {
     }
 });
 
-// === SANDI BARU ===
+// === SANDI ===
 const ADMIN_PASS = 'EMShommioyeoye';
 
 let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1;
 
-// === TENTUKAN KELOMPOK BERDASARKAN JABATAN — TIDAK DIUBAH OTOMATIS ===
+// ==============================================
+// ATURAN TETAP:
+// - Kelompok = murni dari Jabatan yang dipilih
+// - Status = bebas, TIDAK diubah otomatis
+// - Pindah kelompok = hanya tampilan, TIDAK ubah data
+// ==============================================
 function _getGroupByJabatan(j) {
     const manajemen = ['CEO','Direktur','Wakil Direktur','Sekben','Kabid Komdis','Komdis','Kabid HRD','HRD','Ka. Laboran','Manajemen Lab'];
     const medis = ['Dokter Spesialis','Dokter Residen','Dokter Umum','Co Ass'];
@@ -289,7 +303,7 @@ const __R = {
     brt:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek darah jika muncul tanpa sebab jelas'}}
 };
 
-// === PENYIMPANAN KE BROWSER — TETAP ADA WALAU DITUTUP ===
+// === PENYIMPANAN KE BROWSER ===
 function __SimpanData() {
     localStorage.setItem('rs_ip_data', JSON.stringify(__D));
     localStorage.setItem('rs_staff_data', JSON.stringify(__DS));
@@ -298,10 +312,7 @@ function __MuatData() {
     const ipSimpan = localStorage.getItem('rs_ip_data');
     const staffSimpan = localStorage.getItem('rs_staff_data');
     if (ipSimpan) __D = JSON.parse(ipSimpan);
-    else __D = [
-        {n:'Prof. Dr. Kai Whitegate, Sp.B', j:'Direktur Utama', i:'Unlimited'},
-        {n:'Dr. El Zero D W, Sp.B', j:'KABID HRD', i:'Unlimited'}
-    ];
+    else __D = [{n:'Prof. Dr. Kai Whitegate, Sp.B',j:'Direktur Utama',i:'Unlimited'},{n:'Dr. El Zero D W, Sp.B',j:'KABID HRD',i:'Unlimited'}];
     if (staffSimpan) __DS = JSON.parse(staffSimpan);
     else __DS = [];
 }
@@ -369,35 +380,23 @@ function __A() {
     if (!__ADM) return alert('🔒 Terkunci!');
     const n = document.getElementById('NM').value.trim(), j = document.getElementById('JB').value.trim(), ip = document.getElementById('IP').value.trim();
     if (!n || !j || !ip) return alert('Lengkapi semua kolom!');
-    __D.push({n, j, i:ip});
-    __SimpanData();
-    __RenderTable();
+    __D.push({n,j,i:ip}); __SimpanData(); __RenderTable();
     document.getElementById('NM').value = document.getElementById('JB').value = document.getElementById('IP').value = '';
-    document.getElementById('IM').innerText = '✅ Ditambahkan & Tersimpan!';
+    document.getElementById('IM').innerText = '✅ Ditambahkan!';
     setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
 }
 function __ED(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit = i; __RenderTable(); }
 function __SV(i) {
     const n = document.getElementById(`en${i}`).value.trim(), j = document.getElementById(`ej${i}`).value.trim(), ip = document.getElementById(`ei${i}`).value.trim();
     if (!n || !j || !ip) return alert('Lengkapi semua kolom!');
-    __D[i] = {n, j, i:ip};
-    __SimpanData();
-    __edit = -1;
-    __RenderTable();
-    document.getElementById('IM').innerText = '✅ Diperbarui & Tersimpan!';
+    __D[i] = {n,j,i:ip}; __SimpanData(); __edit = -1; __RenderTable();
+    document.getElementById('IM').innerText = '✅ Diperbarui!';
     setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
 }
 function __CL() { __edit = -1; __RenderTable(); }
 function __DL(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
-    if (confirm('Yakin ingin menghapus?')) {
-        __D.splice(i,1);
-        __SimpanData();
-        __edit = -1;
-        __RenderTable();
-        document.getElementById('IM').innerText = '✅ Dihapus & Tersimpan!';
-        setTimeout(() => { document.getElementById('IM').innerText = ''; }, 3000);
-    }
+    if (confirm('Yakin hapus?')) { __D.splice(i,1); __SimpanData(); __edit = -1; __RenderTable(); }
 }
 function __CP() {
     let t = '```\n📊 DATA INFRACTION POINT\n\n';
@@ -493,16 +492,18 @@ function __RenderTable2() {
                 <td><input type="text" id="dem${i}" class="tin" value="${s.em.replace(/"/g,'&quot;')}"></td>
                 <td style="text-align:center">
                 <div class="move-box">
-                  <div style="font-size:11px;color:var(--ac);margin-bottom:5px">📦 Pindahkan Manual:</div>
+                  <div style="font-size:11px;color:var(--ac);margin-bottom:4px">📦 Pindah Tampilan:</div>
                   <button class="info move-btn" onclick="__MV(${i},'manajemen')">Manajemen</button>
                   <button class="info move-btn" onclick="__MV(${i},'medis')">Medis</button>
                   <button class="info move-btn" onclick="__MV(${i},'trainee')">Trainee</button>
                   <button class="info move-btn" onclick="__MV(${i},'nonaktif')">Resign/PTHD</button>
+                  <div style="font-size:10px;color:#888;margin-top:3px">⚠️ Tidak ubah jabatan/status</div>
                 </div>
                 <button onclick="__SV2(${i})" class="ok">✅ Simpan</button>
                 <button onclick="__CL2()" class="cn">↩ Batal</button>
                 </td>`;
             } else {
+                // Kolom AKSI hanya muncul kalau sudah login — TIDAK muncul saat input baru
                 r.innerHTML = `<td><strong>${s.b}</strong></td>
                 <td style="text-align:left">${s.n}</td>
                 <td><span class="${_clsJab(s.j)}">${s.j}</span></td>
@@ -536,7 +537,7 @@ function __A2() {
     
     if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
     
-    // Kelompok berdasarkan jabatan — TIDAK diubah otomatis lagi
+    // ✅ KELOMPOK DARI JABATAN — TIDAK DIUBAH OTOMATIS!
     const g = _getGroupByJabatan(j);
     
     __DS.push({b, n, g, j, st, sp, jk, hp, cid, em});
@@ -554,20 +555,20 @@ function __A2() {
     document.getElementById('dsCID').value = '';
     document.getElementById('dsEM').value = '';
     
-    document.getElementById('IM2').innerText = '✅ Staff ditambahkan & Tersimpan!';
+    document.getElementById('IM2').innerText = '✅ Ditambahkan! Masuk ke: ' + g;
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 
 function __ED2(i) { if (!__ADM) return alert('🔒 Terkunci!'); __edit2 = i; __RenderTable2(); }
 
-// Pindahkan ke kelompok — TIDAK mengubah status otomatis
+// ✅ PINDAH TAMPILAN SAJA — TIDAK UBAH JABATAN/STATUS
 function __MV(i, targetGrp) {
-    if (!confirm(`Pindahkan ke kelompok:\n${targetGrp==='manajemen'?'👔 Manajemen':targetGrp==='medis'?'⚕️ Medis':targetGrp==='trainee'?'🎓 Trainee':'📋 Resign/PTHD'}\n\nStatus TIDAK diubah otomatis!`)) return;
+    if (!confirm(`Pindahkan tampilan ke:\n${targetGrp==='manajemen'?'👔 Manajemen':targetGrp==='medis'?'⚕️ Medis':targetGrp==='trainee'?'🎓 Trainee':'📋 Resign/PTHD'}\n\n⚠️ Jabatan & Status TIDAK diubah!`)) return;
     __DS[i].g = targetGrp;
     __SimpanData();
     __edit2 = -1;
     __RenderTable2();
-    document.getElementById('IM2').innerText = '✅ Dipindahkan & Tersimpan!';
+    document.getElementById('IM2').innerText = '✅ Dipindahkan tampilan saja!';
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 
@@ -584,25 +585,24 @@ function __SV2(i) {
     
     if (!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
     
+    // ✅ Kelompok ulang murni berdasarkan jabatan yang dipilih
     const g = _getGroupByJabatan(j);
     
     __DS[i] = {b, n, g, j, st, sp, jk, hp, cid, em};
     __SimpanData();
     __edit2 = -1;
     __RenderTable2();
-    document.getElementById('IM2').innerText = '✅ Diperbarui & Tersimpan!';
+    document.getElementById('IM2').innerText = '✅ Diperbarui! Kelompok: ' + g;
     setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
 }
 function __CL2() { __edit2 = -1; __RenderTable2(); }
 function __DL2(i) {
     if (!__ADM) return alert('🔒 Terkunci!');
-    if (confirm('Yakin ingin menghapus data ini?')) {
+    if (confirm('Yakin hapus data ini?')) {
         __DS.splice(i,1);
         __SimpanData();
         __edit2 = -1;
         __RenderTable2();
-        document.getElementById('IM2').innerText = '✅ Dihapus & Tersimpan!';
-        setTimeout(() => { document.getElementById('IM2').innerText = ''; }, 3000);
     }
 }
 function __CP2() {
