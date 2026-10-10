@@ -267,7 +267,7 @@ select.tin{cursor:pointer}
 </div>
 </div>
 
-<!-- MENU BARU: ADMINISTRASI RESIGN -->
+<!-- MENU ADMINISTRASI RESIGN -->
 <div id="Srs" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>📋 Administrasi Resign <span id="AD4" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -287,12 +287,14 @@ select.tin{cursor:pointer}
 <div><label class="lb">DISCORD</label><input type="text" id="rsDiscord" class="inp" disabled placeholder="Username Discord"></div>
 <div><label class="lb">PLAT KENDARAAN DINAS</label><input type="text" id="rsPlat" class="inp" disabled placeholder="Plat Nomor"></div>
 <div><label class="lb">WAKTU MULAI RESIGN (WIB)</label><input type="datetime-local" id="rsStart" class="inp" disabled></div>
-<div><label class="lb">STATUS GJI / PEMBAYARAN (UNPAID/PAID)</label>
+<div><label class="lb">STATUS PEMBAYARAN</label>
 <select id="rsStatus" class="inp" disabled>
-<option value="unpaid">Unpaid (Belum Dibayar)</option>
-<option value="paid">Paid (Sudah Dibayar)</option>
+<option value="unpaid">Unpaid (❌)</option>
+<option value="belum_lunas">Belum Lunas (⏳)</option>
+<option value="paid">Paid (✔)</option>
 </select>
 </div>
+<div><label class="lb">JUMLAH YANG DIBAYAR</label><input type="text" id="rsNominal" class="inp" disabled placeholder="Contoh: $5,000 atau Rp 0"></div>
 </div>
 <button class="btn" id="ADD4" onclick="__A4()" disabled>➕ Tambah Data Resign</button>
 <span id="IM4" class="msg"></span>
@@ -310,7 +312,8 @@ select.tin{cursor:pointer}
 <th>Plat Kendaraan Dinas</th>
 <th>Waktu Resign</th>
 <th>Jangka Lama Resign</th>
-<th>Unpaid / Paid</th>
+<th>Status Pembayaran</th>
+<th>Jumlah Dibayar</th>
 <th id="AC4" style="display:none">Aksi</th>
 </tr>
 </thead>
@@ -761,7 +764,7 @@ function __RenderTable3() {
     });
 }
 
-// === FUNGSI MENU BARU: ADMINISTRASI RESIGN ===
+// === FUNGSI MENU ADMINISTRASI RESIGN ===
 function __L4() {
     if(document.getElementById('PW4').value === ADMIN_PASS) {
         __ADM = true;
@@ -788,12 +791,13 @@ function __A4() {
     const plat = document.getElementById('rsPlat').value.trim();
     const start = document.getElementById('rsStart').value;
     const status = document.getElementById('rsStatus').value;
+    const nominal = document.getElementById('rsNominal').value.trim();
 
     if(!batch || !nama || !jabatan || !cid || !discord || !plat || !start) {
         return alert('Lengkapi semua kolom administrasi resign!');
     }
 
-    __RS.push({batch, nama, jabatan, cid, discord, plat, start, status});
+    __RS.push({batch, nama, jabatan, cid, discord, plat, start, status, nominal: nominal || '0'});
     __Simpan();
     __RenderTable4();
 
@@ -804,6 +808,7 @@ function __A4() {
     document.getElementById('rsDiscord').value = '';
     document.getElementById('rsPlat').value = '';
     document.getElementById('rsStart').value = '';
+    document.getElementById('rsNominal').value = '';
     document.getElementById('IM4').innerText = '✅ Data resign berhasil ditambahkan!';
     setTimeout(() => document.getElementById('IM4').innerText = '', 2000);
 }
@@ -822,7 +827,7 @@ function __RenderTable4() {
     document.getElementById('AC4').style.display = __ADM ? 'table-cell' : 'none';
 
     if (__RS.length === 0) {
-        t.innerHTML = `<tr><td colspan="${__ADM ? 11 : 10}" style="color:#666;font-style:italic;padding:15px;">Belum ada data administrasi resign</td></tr>`;
+        t.innerHTML = `<tr><td colspan="${__ADM ? 12 : 11}" style="color:#666;font-style:italic;padding:15px;">Belum ada data administrasi resign</td></tr>`;
         return;
     }
 
@@ -843,9 +848,14 @@ function __RenderTable4() {
             durationText = `${diffDays} hari ${diffHours} jam ${diffMinutes} menit`;
         }
 
-        const paymentBadge = item.status === 'paid' 
-            ? '<span style="font-size:18px;color:#2a9d8f;font-weight:bold" title="Paid">✔</span>' 
-            : '<span style="font-size:18px;color:#e63946;font-weight:bold" title="Unpaid">❌</span>';
+        let paymentBadge = '';
+        if (item.status === 'paid') {
+            paymentBadge = '<span style="font-size:16px;color:#2a9d8f;font-weight:bold" title="Paid">✔ Paid</span>';
+        } else if (item.status === 'belum_lunas') {
+            paymentBadge = '<span style="font-size:14px;color:#f4a261;font-weight:bold" title="Belum Lunas">⏳ Belum Lunas</span>';
+        } else {
+            paymentBadge = '<span style="font-size:16px;color:#e63946;font-weight:bold" title="Unpaid">❌ Unpaid</span>';
+        }
 
         const r = document.createElement('tr');
         r.innerHTML = `
@@ -859,6 +869,7 @@ function __RenderTable4() {
             <td>${startDate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB</td>
             <td>${durationText}</td>
             <td>${paymentBadge}</td>
+            <td style="font-weight:bold;color:var(--ac);">${item.nominal || '-'}</td>
             ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL4(${i})" class="dl">Hapus</button></td>` : ''}
         `;
         t.appendChild(r);
