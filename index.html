@@ -14,7 +14,6 @@ h1{color:var(--ac);font-size:26px;text-shadow:0 2px 4px rgba(255,0,0,.4)}
 .m{display:flex;flex-direction:column;gap:12px;max-width:550px;margin:30px auto}
 .mi{background:var(--bt);border:2px solid var(--brd);border-radius:10px;padding:16px;text-align:center;font-weight:700;color:var(--ac);cursor:pointer;transition:.2s}
 .mi:hover{background:var(--bth);border-color:var(--ac);transform:translateY(-2px)}
-.mi.d{opacity:.4;cursor:not-allowed;border-style:dashed;color:#666}
 .sec{display:none;background:var(--cbg);border:2px solid var(--brd);border-radius:12px;padding:25px;margin-top:20px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
 .bk{background:#450f0f;color:#fff;border:1px solid var(--ac);padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;margin-bottom:20px;transition:.2s}
 .bk:hover{background:#631515}
@@ -73,7 +72,7 @@ select.tin{cursor:pointer}
 <div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
 <div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
 <div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
-<div class="mi d">Struktur Rumah Sakit (Coming Soon)</div>
+<div class="mi" onclick="__X('ab')">📋 Absensi Staff</div>
 </div>
 
 <div id="Sip" class="sec">
@@ -213,6 +212,60 @@ select.tin{cursor:pointer}
 </table>
 </div>
 </div>
+
+<!-- MENU BARU: ABSENSI STAFF -->
+<div id="Sab" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>📋 Absensi & Perizinan Staff <span id="AD3" class="bg" style="display:none">🔒 ADMIN</span></h2>
+<div id="LBOX3">
+<label class="lb">🔑 Kata Sandi Admin:</label>
+<input type="password" id="PW3" class="inp" placeholder="Masukkan kata sandi...">
+<button class="btn" onclick="__L3()">🔓 Buka Akses Edit</button>
+<span id="LMG3" class="msg"></span>
+</div>
+<div id="IBOX3" style="opacity:.5;pointer-events:none">
+<div class="lk">🔒 Terkunci — Masukkan kata sandi admin di atas</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+<div><label class="lb">BATCH</label><input type="text" id="abB" class="inp" disabled placeholder="Contoh: 001"></div>
+<div><label class="lb">NAMA STAFF</label><input type="text" id="abN" class="inp" disabled placeholder="Nama Lengkap"></div>
+<div><label class="lb">JABATAN</label><input type="text" id="abJ" class="inp" disabled placeholder="Jabatan"></div>
+<div><label class="lb">TANGGAL & WAKTU MULAI IZIN</label><input type="datetime-local" id="abStart" class="inp" disabled></div>
+<div><label class="lb">BATAS DURASI IZIN (MAKS 7 HARI)</label>
+<select id="abDur" class="inp" disabled>
+<option value="1">1 Hari</option>
+<option value="2">2 Hari</option>
+<option value="3">3 Hari</option>
+<option value="4">4 Hari</option>
+<option value="5">5 Hari</option>
+<option value="6">6 Hari</option>
+<option value="7" selected>7 Hari</option>
+</select>
+</div>
+<div><label class="lb">PENANGGUNG JAWAB</label><input type="text" id="abPIC" class="inp" disabled placeholder="Nama PJ"></div>
+</div>
+<button class="btn" id="ADD3" onclick="__A3()" disabled>➕ Tambah Data Izin</button>
+<span id="IM3" class="msg"></span>
+</div>
+<div class="tb">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Batch</th>
+<th>Nama Staff</th>
+<th>Jabatan</th>
+<th>Waktu Mulai Izin</th>
+<th>Penanggung Jawab</th>
+<th>Lama Izin Berjalan</th>
+<th>Status Keaktifan</th>
+<th id="AC3" style="display:none">Aksi</th>
+</tr>
+</thead>
+<tbody id="TB3"></tbody>
+</table>
+</div>
+</div>
+
 </div>
 
 <script>
@@ -225,7 +278,7 @@ document.addEventListener('keydown', e => {
 });
 
 const ADMIN_PASS = 'EMShommioyeoye';
-let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1, __moveId = -1;
+let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1, __edit3 = -1, __moveId = -1;
 
 function _getGroup(j) {
     if (!j) return 'manajemen';
@@ -247,10 +300,12 @@ const __R = {
 
 let __D = JSON.parse(localStorage.getItem('rs_ip_data')) || [{n:'Prof. Dr. Kai Whitegate, Sp.B',j:'Direktur Utama',i:'Unlimited'}];
 let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
+let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
 
 function __Simpan() {
     localStorage.setItem('rs_ip_data', JSON.stringify(__D));
     localStorage.setItem('rs_staff_data', JSON.stringify(__DS));
+    localStorage.setItem('rs_absensi_data', JSON.stringify(__AB));
 }
 
 function __X(id) {
@@ -259,12 +314,13 @@ function __X(id) {
     document.getElementById('S'+id).style.display = 'block';
     if(id==='ip') __RenderTable();
     if(id==='ds') __RenderTable2();
-    __edit = __edit2 = __moveId = -1;
+    if(id==='ab') __RenderTable3();
+    __edit = __edit2 = __edit3 = __moveId = -1;
 }
 function __B() {
     document.getElementById('M').style.display = 'flex';
     document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
-    __edit = __edit2 = __moveId = -1;
+    __edit = __edit2 = __edit3 = __moveId = -1;
 }
 
 function __L() {
@@ -344,7 +400,7 @@ function __L2() {
     }
 }
 
-// === FUNGSI URUTAN BARU ===
+// === FUNGSI URUTAN BARU (DATA STAFF) ===
 function __swapPos(idxA, idxB) {
     if(idxA < 0 || idxB < 0 || idxA >= __DS.length || idxB >= __DS.length) return;
     [__DS[idxA], __DS[idxB]] = [__DS[idxB], __DS[idxA]];
@@ -550,6 +606,105 @@ function __CP2() {
         t += `[${s.b}] ${s.n} | ${s.j} | Status: ${s.st} | HP: ${s.hp||'-'} | CID: ${s.cid||'-'}\n`;
     });
     navigator.clipboard.writeText(t+'```'); alert('Data berhasil disalin ke format Discord!');
+}
+
+// === FUNGSI MENU BARU: ABSENSI STAFF ===
+function __L3() {
+    if(document.getElementById('PW3').value === ADMIN_PASS) {
+        __ADM = true;
+        document.getElementById('AD3').style.display = 'inline-block';
+        const b = document.getElementById('IBOX3');
+        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
+        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
+        b.querySelector('.lk').style.display = 'none';
+        document.getElementById('AC3').style.display = 'table-cell';
+        document.getElementById('LMG3').innerText = '✅ Akses Admin Dibuka!';
+        __RenderTable3();
+    } else {
+        document.getElementById('LMG3').innerText = '❌ Sandi Salah!';
+        document.getElementById('LMG3').classList.add('err');
+    }
+}
+
+function __A3() {
+    const b = document.getElementById('abB').value.trim();
+    const n = document.getElementById('abN').value.trim();
+    const j = document.getElementById('abJ').value.trim();
+    const start = document.getElementById('abStart').value;
+    const dur = parseInt(document.getElementById('abDur').value);
+    const pic = document.getElementById('abPIC').value.trim();
+
+    if(!b || !n || !j || !start || !pic) return alert('Lengkapi semua kolom formulir izin!');
+
+    __AB.push({b, n, j, start, dur, pic});
+    __Simpan();
+    __RenderTable3();
+
+    document.getElementById('abB').value = '';
+    document.getElementById('abN').value = '';
+    document.getElementById('abJ').value = '';
+    document.getElementById('abStart').value = '';
+    document.getElementById('abPIC').value = '';
+    document.getElementById('IM3').innerText = '✅ Data izin berhasil ditambahkan!';
+    setTimeout(() => document.getElementById('IM3').innerText = '', 2000);
+}
+
+function __DL3(i) {
+    if(confirm('Hapus data absensi/izin ini?')) {
+        __AB.splice(i, 1);
+        __Simpan();
+        __RenderTable3();
+    }
+}
+
+function __RenderTable3() {
+    const t = document.getElementById('TB3');
+    t.innerHTML = '';
+
+    if (__AB.length === 0) {
+        t.innerHTML = `<tr><td colspan="${__ADM ? 9 : 8}" style="color:#666;font-style:italic;padding:15px;">Belum ada data izin/absensi</td></tr>`;
+        return;
+    }
+
+    const now = new Date();
+
+    __AB.forEach((item, i) => {
+        const startDate = new Date(item.start);
+        const diffMs = now - startDate;
+        const diffSec = Math.floor(diffMs / 1000);
+
+        let durationText = '';
+        let isExpired = false;
+
+        if (diffSec < 0) {
+            durationText = 'Belum mulai (Akan datang)';
+        } else {
+            const diffDays = Math.floor(diffSec / (3600 * 24));
+            const diffHours = Math.floor((diffSec % (3600 * 24)) / 3600);
+            const diffMinutes = Math.floor((diffSec % 3600) / 60);
+            durationText = `${diffDays} hari ${diffHours} jam ${diffMinutes} menit`;
+
+            if (diffDays >= item.dur) {
+                isExpired = true;
+            }
+        }
+
+        const r = document.createElement('tr');
+        r.innerHTML = `
+            <td style="color:var(--ac);font-weight:bold">${i + 1}</td>
+            <td><strong>${item.b}</strong></td>
+            <td style="text-align:left">${item.n}</td>
+            <td>${item.j}</td>
+            <td>${startDate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB (Maks: ${item.dur} Hari)</td>
+            <td>${item.pic}</td>
+            <td>${durationText}</td>
+            <td><span class="badge ${isExpired ? 's-tidakaktif' : 's-aktif'}">${isExpired ? 'Tidak Aktif (Melebihi Batas)' : 'Aktif (Dalam Masa Izin)'}</span></td>
+            <td style="${__ADM ? '' : 'display:none'};white-space:nowrap">
+                <button onclick="__DL3(${i})" class="dl">Hapus</button>
+            </td>
+        `;
+        t.appendChild(r);
+    });
 }
 </script>
 </body>
