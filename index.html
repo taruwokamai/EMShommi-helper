@@ -73,6 +73,7 @@ select.tin{cursor:pointer}
 <div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
 <div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
 <div class="mi" onclick="__X('ab')">📋 Absensi Staff</div>
+<div class="mi" onclick="__X('rs')">📋 Administrasi Resign</div>
 </div>
 
 <div id="Sip" class="sec">
@@ -213,7 +214,7 @@ select.tin{cursor:pointer}
 </div>
 </div>
 
-<!-- MENU BARU: ABSENSI STAFF -->
+<!-- MENU ABSENSI STAFF -->
 <div id="Sab" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>📋 Absensi & Perizinan Staff <span id="AD3" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -266,6 +267,58 @@ select.tin{cursor:pointer}
 </div>
 </div>
 
+<!-- MENU BARU: ADMINISTRASI RESIGN -->
+<div id="Srs" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>📋 Administrasi Resign <span id="AD4" class="bg" style="display:none">🔒 ADMIN</span></h2>
+<div id="LBOX4">
+<label class="lb">🔑 Kata Sandi Admin:</label>
+<input type="password" id="PW4" class="inp" placeholder="Masukkan kata sandi...">
+<button class="btn" onclick="__L4()">🔓 Buka Akses Edit</button>
+<span id="LMG4" class="msg"></span>
+</div>
+<div id="IBOX4" style="opacity:.5;pointer-events:none">
+<div class="lk">🔒 Terkunci — Masukkan kata sandi admin di atas</div>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
+<div><label class="lb">BATCH</label><input type="text" id="rsBatch" class="inp" disabled placeholder="Contoh: 001"></div>
+<div><label class="lb">NAMA</label><input type="text" id="rsNama" class="inp" disabled placeholder="Nama Lengkap"></div>
+<div><label class="lb">JABATAN</label><input type="text" id="rsJabatan" class="inp" disabled placeholder="Jabatan Terakhir"></div>
+<div><label class="lb">CID</label><input type="text" id="rsCID" class="inp" disabled placeholder="CID"></div>
+<div><label class="lb">DISCORD</label><input type="text" id="rsDiscord" class="inp" disabled placeholder="Username Discord"></div>
+<div><label class="lb">PLAT KENDARAAN DINAS</label><input type="text" id="rsPlat" class="inp" disabled placeholder="Plat Nomor"></div>
+<div><label class="lb">WAKTU MULAI RESIGN (WIB)</label><input type="datetime-local" id="rsStart" class="inp" disabled></div>
+<div><label class="lb">STATUS GJI / PEMBAYARAN (UNPAID/PAID)</label>
+<select id="rsStatus" class="inp" disabled>
+<option value="unpaid">Unpaid (Belum Dibayar)</option>
+<option value="paid">Paid (Sudah Dibayar)</option>
+</select>
+</div>
+</div>
+<button class="btn" id="ADD4" onclick="__A4()" disabled>➕ Tambah Data Resign</button>
+<span id="IM4" class="msg"></span>
+</div>
+<div class="tb">
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Batch</th>
+<th>Nama</th>
+<th>Jabatan</th>
+<th>CID</th>
+<th>Discord</th>
+<th>Plat Kendaraan Dinas</th>
+<th>Waktu Resign</th>
+<th>Jangka Lama Resign</th>
+<th>Unpaid / Paid</th>
+<th id="AC4" style="display:none">Aksi</th>
+</tr>
+</thead>
+<tbody id="TB4"></tbody>
+</table>
+</div>
+</div>
+
 </div>
 
 <script>
@@ -301,11 +354,13 @@ const __R = {
 let __D = JSON.parse(localStorage.getItem('rs_ip_data')) || [{n:'Prof. Dr. Kai Whitegate, Sp.B',j:'Direktur Utama',i:'Unlimited'}];
 let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
 let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
+let __RS = JSON.parse(localStorage.getItem('rs_resign_data')) || [];
 
 function __Simpan() {
     localStorage.setItem('rs_ip_data', JSON.stringify(__D));
     localStorage.setItem('rs_staff_data', JSON.stringify(__DS));
     localStorage.setItem('rs_absensi_data', JSON.stringify(__AB));
+    localStorage.setItem('rs_resign_data', JSON.stringify(__RS));
 }
 
 function __X(id) {
@@ -315,6 +370,7 @@ function __X(id) {
     if(id==='ip') __RenderTable();
     if(id==='ds') __RenderTable2();
     if(id==='ab') __RenderTable3();
+    if(id==='rs') __RenderTable4();
     __edit = __edit2 = __edit3 = __moveId = -1;
 }
 function __B() {
@@ -400,7 +456,6 @@ function __L2() {
     }
 }
 
-// === FUNGSI URUTAN BARU (DATA STAFF) ===
 function __swapPos(idxA, idxB) {
     if(idxA < 0 || idxB < 0 || idxA >= __DS.length || idxB >= __DS.length) return;
     [__DS[idxA], __DS[idxB]] = [__DS[idxB], __DS[idxA]];
@@ -608,7 +663,7 @@ function __CP2() {
     navigator.clipboard.writeText(t+'```'); alert('Data berhasil disalin ke format Discord!');
 }
 
-// === FUNGSI MENU BARU: ABSENSI STAFF ===
+// === FUNGSI MENU ABSENSI STAFF ===
 function __L3() {
     if(document.getElementById('PW3').value === ADMIN_PASS) {
         __ADM = true;
@@ -660,8 +715,6 @@ function __DL3(i) {
 function __RenderTable3() {
     const t = document.getElementById('TB3');
     t.innerHTML = '';
-
-    // Pastikan header Aksi ditampilkan hanya jika sudah login sebagai Admin
     document.getElementById('AC3').style.display = __ADM ? 'table-cell' : 'none';
 
     if (__AB.length === 0) {
@@ -703,6 +756,110 @@ function __RenderTable3() {
             <td>${durationText}</td>
             <td><span class="badge ${isExpired ? 's-tidakaktif' : 's-aktif'}">${isExpired ? 'Tidak Aktif (Melebihi Batas)' : 'Aktif (Dalam Masa Izin)'}</span></td>
             ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL3(${i})" class="dl">Hapus</button></td>` : ''}
+        `;
+        t.appendChild(r);
+    });
+}
+
+// === FUNGSI MENU BARU: ADMINISTRASI RESIGN ===
+function __L4() {
+    if(document.getElementById('PW4').value === ADMIN_PASS) {
+        __ADM = true;
+        document.getElementById('AD4').style.display = 'inline-block';
+        const b = document.getElementById('IBOX4');
+        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
+        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
+        b.querySelector('.lk').style.display = 'none';
+        document.getElementById('AC4').style.display = 'table-cell';
+        document.getElementById('LMG4').innerText = '✅ Akses Admin Dibuka!';
+        __RenderTable4();
+    } else {
+        document.getElementById('LMG4').innerText = '❌ Sandi Salah!';
+        document.getElementById('LMG4').classList.add('err');
+    }
+}
+
+function __A4() {
+    const batch = document.getElementById('rsBatch').value.trim();
+    const nama = document.getElementById('rsNama').value.trim();
+    const jabatan = document.getElementById('rsJabatan').value.trim();
+    const cid = document.getElementById('rsCID').value.trim();
+    const discord = document.getElementById('rsDiscord').value.trim();
+    const plat = document.getElementById('rsPlat').value.trim();
+    const start = document.getElementById('rsStart').value;
+    const status = document.getElementById('rsStatus').value;
+
+    if(!batch || !nama || !jabatan || !cid || !discord || !plat || !start) {
+        return alert('Lengkapi semua kolom administrasi resign!');
+    }
+
+    __RS.push({batch, nama, jabatan, cid, discord, plat, start, status});
+    __Simpan();
+    __RenderTable4();
+
+    document.getElementById('rsBatch').value = '';
+    document.getElementById('rsNama').value = '';
+    document.getElementById('rsJabatan').value = '';
+    document.getElementById('rsCID').value = '';
+    document.getElementById('rsDiscord').value = '';
+    document.getElementById('rsPlat').value = '';
+    document.getElementById('rsStart').value = '';
+    document.getElementById('IM4').innerText = '✅ Data resign berhasil ditambahkan!';
+    setTimeout(() => document.getElementById('IM4').innerText = '', 2000);
+}
+
+function __DL4(i) {
+    if(confirm('Hapus data administrasi resign ini?')) {
+        __RS.splice(i, 1);
+        __Simpan();
+        __RenderTable4();
+    }
+}
+
+function __RenderTable4() {
+    const t = document.getElementById('TB4');
+    t.innerHTML = '';
+    document.getElementById('AC4').style.display = __ADM ? 'table-cell' : 'none';
+
+    if (__RS.length === 0) {
+        t.innerHTML = `<tr><td colspan="${__ADM ? 11 : 10}" style="color:#666;font-style:italic;padding:15px;">Belum ada data administrasi resign</td></tr>`;
+        return;
+    }
+
+    const now = new Date();
+
+    __RS.forEach((item, i) => {
+        const startDate = new Date(item.start);
+        const diffMs = now - startDate;
+        const diffSec = Math.floor(diffMs / 1000);
+
+        let durationText = '';
+        if (diffSec < 0) {
+            durationText = 'Belum mulai';
+        } else {
+            const diffDays = Math.floor(diffSec / (3600 * 24));
+            const diffHours = Math.floor((diffSec % (3600 * 24)) / 3600);
+            const diffMinutes = Math.floor((diffSec % 3600) / 60);
+            durationText = `${diffDays} hari ${diffHours} jam ${diffMinutes} menit`;
+        }
+
+        const paymentBadge = item.status === 'paid' 
+            ? '<span style="font-size:18px;color:#2a9d8f;font-weight:bold" title="Paid">✔</span>' 
+            : '<span style="font-size:18px;color:#e63946;font-weight:bold" title="Unpaid">❌</span>';
+
+        const r = document.createElement('tr');
+        r.innerHTML = `
+            <td style="color:var(--ac);font-weight:bold">${i + 1}</td>
+            <td><strong>${item.batch}</strong></td>
+            <td style="text-align:left">${item.nama}</td>
+            <td>${item.jabatan}</td>
+            <td>${item.cid}</td>
+            <td>${item.discord}</td>
+            <td>${item.plat}</td>
+            <td>${startDate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB</td>
+            <td>${durationText}</td>
+            <td>${paymentBadge}</td>
+            ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL4(${i})" class="dl">Hapus</button></td>` : ''}
         `;
         t.appendChild(r);
     });
