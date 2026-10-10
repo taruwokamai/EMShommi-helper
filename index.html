@@ -28,13 +28,13 @@ select.inp{cursor:pointer}
 .btn:disabled{opacity:.4;cursor:not-allowed}
 .dc{background:#5865f2;color:#fff}
 .dc:hover{background:#4752c4}
-.sm{background:var(--ac);color:#000;border:none;padding:5px 10px;font-weight:700;border-radius:4px;cursor:pointer;font-size:12px;margin:2px}
+.sm{background:var(--ac);color:#000;border:none;padding:5px 8px;font-weight:700;border-radius:4px;cursor:pointer;font-size:11px;margin:1px}
 .ok{background:var(--ok);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .cn{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .dl{background:var(--acr);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .tb{background:#150202;border-radius:8px;padding:12px;border:1px solid var(--brd);overflow-x:auto;margin-top:20px}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:10px 10px;border-bottom:1px solid #3d0a0a;vertical-align:middle;text-align:center}
+th,td{padding:10px 8px;border-bottom:1px solid #3d0a0a;vertical-align:middle;text-align:center}
 th{background:#2b0a0a;color:var(--ac);white-space:nowrap;font-weight:700}
 th.grp{background:#3d0d0d;border:1px solid var(--brd);font-size:14px;color:var(--ac);text-align:left;padding:12px 15px}
 .tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:13px}
@@ -57,6 +57,9 @@ select.tin{cursor:pointer}
 .lk{color:var(--ac);font-size:13px;margin-bottom:12px;font-style:italic}
 .msg{color:#2a9d8f;font-size:13px;margin-top:8px;font-weight:700}
 .err{color:#e63946}
+.arr{background:var(--info);color:#fff;padding:4px 6px;font-size:11px;border-radius:3px;margin:0 1px;cursor:pointer;border:none;font-weight:bold}
+.arr:hover{background:#036775}
+.pos-input{width:50px;padding:3px 5px;background:var(--bt);border:1px solid var(--ac);border-radius:3px;color:var(--txt);font-size:11px;text-align:center}
 </style>
 </head>
 <body>
@@ -341,6 +344,30 @@ function __L2() {
     }
 }
 
+// === FUNGSI URUTAN BARU ===
+function __swapPos(idxA, idxB) {
+    if(idxA < 0 || idxB < 0 || idxA >= __DS.length || idxB >= __DS.length) return;
+    [__DS[idxA], __DS[idxB]] = [__DS[idxB], __DS[idxA]];
+    __Simpan(); __RenderTable2();
+}
+
+function __moveUp(i) {
+    if(i <= 0) return;
+    __swapPos(i, i - 1);
+}
+
+function __moveDown(i) {
+    if(i >= __DS.length - 1) return;
+    __swapPos(i, i + 1);
+}
+
+function __moveToIndex(fromIdx, toIdx) {
+    if(toIdx < 0 || toIdx >= __DS.length || fromIdx === toIdx) return;
+    const [item] = __DS.splice(fromIdx, 1);
+    __DS.splice(toIdx, 0, item);
+    __Simpan(); __RenderTable2();
+}
+
 function __RenderTable2() {
     const t = document.getElementById('TB2'); t.innerHTML = '';
     
@@ -352,39 +379,36 @@ function __RenderTable2() {
     ];
 
     groups.forEach(g => {
-        // Ambil data dan urutkan berdasarkan abjad Nama (A-Z)
         let list = __DS.map((item, originalIndex) => ({...item, originalIndex}))
                        .filter(s => {
-                           // Jika ada data forced group atau otomatis dari jabatan
                            if (s.forcedGroup) return s.forcedGroup === g.key;
                            return _getGroup(s.j) === g.key;
                        });
-        
-        list.sort((a, b) => a.n.localeCompare(b.n, 'id', {sensitivity: 'base'}));
 
-        // Header Grup
+        list.sort((a, b) => a.originalIndex - b.originalIndex);
+
         const hRow = document.createElement('tr');
-        hRow.innerHTML = `<th colspan="10" class="grp">${g.label}</th>`;
+        hRow.innerHTML = `<th colspan="${__ADM ? 11 : 10}" class="grp">${g.label}</th>`;
         t.appendChild(hRow);
 
-        // Header Kolom
         const colRow = document.createElement('tr');
-        colRow.innerHTML = `<th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JK</th><th>NO. HP</th><th>CID</th><th>EMAIL</th>${__ADM ? '<th>AKSI</th>' : ''}`;
+        colRow.innerHTML = `<th>#</th><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JK</th><th>NO. HP</th><th>CID</th><th>EMAIL</th>${__ADM ? '<th>AKSI</th>' : ''}`;
         t.appendChild(colRow);
 
         if (list.length === 0) {
             const emptyRow = document.createElement('tr');
-            emptyRow.innerHTML = `<td colspan="${__ADM ? 10 : 9}" style="color:#666;font-style:italic;padding:12px;">Belum ada data</td>`;
+            emptyRow.innerHTML = `<td colspan="${__ADM ? 11 : 10}" style="color:#666;font-style:italic;padding:12px;">Belum ada data</td>`;
             t.appendChild(emptyRow);
             return;
         }
 
-        list.forEach((s) => {
+        list.forEach((s, displayPos) => {
             const i = s.originalIndex;
             const r = document.createElement('tr');
             
             if(__edit2 === i && __ADM) {
                 r.innerHTML = `
+                <td>-</td>
                 <td><input type="text" id="db${i}" class="tin" value="${s.b}"></td>
                 <td><input type="text" id="dn${i}" class="tin" value="${s.n}"></td>
                 <td><select id="dj${i}" class="tin">
@@ -422,16 +446,23 @@ function __RenderTable2() {
                     <button onclick="__CL2()" class="cn">Batal</button>
                 </td>`;
             } else if (__moveId === i && __ADM) {
-                r.innerHTML = `<td colspan="10" style="background:#260505;padding:10px;">
-                    <span style="color:var(--ac);font-weight:700;margin-right:10px;">🔀 Pindahkan ${s.n} ke:</span>
-                    <button onclick="__moveTo(${i}, 'manajemen')" class="sm" style="background:#b7094c;color:#fff">Direksi & Manajemen</button>
-                    <button onclick="__moveTo(${i}, 'medis')" class="sm" style="background:#0077b6;color:#fff">Staff Medis</button>
+                r.innerHTML = `<td colspan="${__ADM ? 11 : 10}" style="background:#260505;padding:10px;">
+                    <span style="color:var(--ac);font-weight:700;margin-right:10px;">🔀 Atur ${s.n}:</span>
+                    <button onclick="__moveUp(${i})" class="arr">⬆ Ke Atas</button>
+                    <button onclick="__moveDown(${i})" class="arr">⬇ Ke Bawah</button>
+                    <span style="margin:0 6px;">| Lompat ke posisi:</span>
+                    <input type="number" id="gotoPos${i}" class="pos-input" min="1" max="${list.length}" placeholder="1..${list.length}">
+                    <button onclick="const p=document.getElementById('gotoPos${i}').valueAsNumber;if(p)__moveToIndex(${i}, ${list.findIndex(x=>x.originalIndex===i)>=0 ? list[0].originalIndex + p - 1 : 0})" class="arr">Pindah</button>
+                    <span style="margin:0 6px;">| Pindah Divisi:</span>
+                    <button onclick="__moveTo(${i}, 'manajemen')" class="sm" style="background:#b7094c;color:#fff">Manajemen</button>
+                    <button onclick="__moveTo(${i}, 'medis')" class="sm" style="background:#0077b6;color:#fff">Medis</button>
                     <button onclick="__moveTo(${i}, 'trainee')" class="sm" style="background:#555;color:#fff">Trainee</button>
-                    <button onclick="__moveTo(${i}, 'nonaktif')" class="sm" style="background:#343a40;color:#fff">Resign/PTHD</button>
-                    <button onclick="__CL2()" class="cn" style="margin-left:10px;">Batal</button>
+                    <button onclick="__moveTo(${i}, 'nonaktif')" class="sm" style="background:#343a40;color:#fff">Nonaktif</button>
+                    <button onclick="__CL2()" class="cn" style="margin-left:8px;">Batal</button>
                 </td>`;
             } else {
                 r.innerHTML = `
+                <td style="color:var(--ac);font-weight:bold">${displayPos + 1}</td>
                 <td><strong>${s.b}</strong></td>
                 <td style="text-align:left">${s.n}</td>
                 <td><span class="badge j-${_getGroup(s.j)}">${s.j}</span></td>
@@ -441,9 +472,11 @@ function __RenderTable2() {
                 <td>${s.hp||'-'}</td>
                 <td>${s.cid||'-'}</td>
                 <td>${s.em||'-'}</td>
-                <td style="${__ADM?'':'display:none'}">
+                <td style="${__ADM?'':'display:none'};white-space:nowrap">
+                    <button onclick="__moveUp(${i})" class="arr" title="Naik">⬆</button>
+                    <button onclick="__moveDown(${i})" class="arr" title="Turun">⬇</button>
+                    <button onclick="__MVModal(${i})" class="sm" style="background:#028090;color:#fff">Atur</button>
                     <button onclick="__ED2(${i})" class="sm">Edit</button>
-                    <button onclick="__MVModal(${i})" class="sm" style="background:#028090;color:#fff">Pindah</button>
                     <button onclick="__DL2(${i})" class="dl">Hapus</button>
                 </td>`;
             }
