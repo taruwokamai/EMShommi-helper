@@ -114,6 +114,7 @@ select.tin{cursor:pointer}
 <div class="mi" style="padding:12px;font-size:13px" onclick="__K('trk')">Terkilir</div>
 <div class="mi" style="padding:12px;font-size:13px" onclick="__K('bkr')">Luka Bakar</div>
 <div class="mi" style="padding:12px;font-size:13px" onclick="__K('lbm')">Lebam</div>
+<div class="mi" style="padding:12px;font-size:13px" onclick="__K('bsl')">Bisul</div>
 </div>
 <div id="TW" style="display:none;margin:15px 0">
 <h3 style="color:var(--ac);margin-bottom:8px">Tingkat Keparahan:</h3>
@@ -346,13 +347,41 @@ function _getGroup(j) {
 }
 
 const __R = {
-    kpl:{rng:{j:'Sakit Kepala — Ringan',o:'Paracetamol 500mg',c:'1 tablet 3x sehari sesudah makan'},sdg:{j:'Sakit Kepala — Sedang',o:'Ibuprofen 200–400mg',c:'1 tablet 2–3x sehari'},brt:{j:'Sakit Kepala — Berat',o:'Ketorolac 10mg',c:'1 tablet tiap 6–8 jam'}},
-    lka:{rng:{j:'Luka — Ringan',o:'Povidone Iodine + Kasa',c:'Bersihkan, oleskan, tutup kasa steril'},sdg:{j:'Luka — Sedang',o:'Povidone + Mupirocin',c:'Bersihkan NaCl, oleskan salep'},brt:{j:'Luka — Berat',o:'Antibiotik + Perban',c:'Amoxicillin 500mg 3x sehari'}},
-    mag:{rng:{j:'Maag — Ringan',o:'Antasida',c:'Minum 1–2 jam sesudah makan'},sdg:{j:'Maag — Sedang',o:'Omeprazole 20mg',c:'Minum pagi sebelum makan'},brt:{j:'Maag — Berat',o:'Pantoprazole 40mg',c:'Pantoprazole pagi, Domperidone'}},
-    trk:{rng:{j:'Terkilir — Ringan',o:'Ibuprofen + Kompres Dingin',c:'Kompres 15–20mnt'},sdg:{j:'Terkilir — Sedang',o:'Diclofenac + Perban',c:'Balut tidak terlalu kencang'},brt:{j:'Terkilir — Berat',o:'Ketorolac + Rujukan',c:'Fiksasi sementara, rontgen'}},
-    bkr:{rng:{j:'Luka Bakar — Ringan',o:'Povidone + Kasa',c:'Alirkan air dingin 10–15mnt'},sdg:{j:'Luka Bakar — Sedang',o:'Silver Sulfadiazine',c:'Oleskan tipis, ganti harian'},brt:{j:'Luka Bakar — Berat',o:'Infus + Rujukan',c:'Pasang infus, rujuk IGD'}},
-    lbm:{rng:{j:'Lebam — Ringan',o:'Kompres Dingin',c:'Jangan dipijat'},sdg:{j:'Lebam — Sedang',o:'Kompres Dingin→Hangat',c:'Hari ke-3 ganti hangat'},brt:{j:'Lebam — Berat',o:'Diclofenac + Observasi',c:'Cek lab darah'}},
-    bsl:{rng:{j:'Bisul — Ringan',o:'Mupirocin Ointment',c:'Oleskan 2-3x sehari pada area bisul'},sdg:{j:'Bisul — Sedang',o:'Amoxicillin 500mg + Salep',c:'Amoxicillin 3x sehari, habiskan'},brt:{j:'Bisul — Berat',o:'Ciprofloxacin + Insisi',c:'Tindakan medis IGD & antibiotik'}}
+    kpl:{
+        rng:{j:'Sakit Kepala Migrain & Pusing — Ringan',o:'Paracetamol 500 mg (1 tablet)',c:'Minum 1 tablet setelah makan jika terasa pusing (maksimal 3–4 kali sehari). Perbanyak minum air putih.'},
+        sdg:{j:'Sakit Kepala Migrain & Pusing — Sedang',o:'Ibuprofen 400 mg (1 tablet) + Vitamin B Complex (1 tablet)',c:'Minum 1 tablet Ibuprofen setelah makan untuk meredakan nyeri dan peradangan, dikombinasikan dengan Vitamin B Complex untuk meredakan ketegangan saraf.'},
+        brt:{j:'Sakit Kepala Migrain & Pusing — Berat',o:'Ketorolac 10 mg (1 tablet) / Inj. Diazepam 5 mg (IGD)',c:'Diberikan di ruang IGD/klinik. Ketorolac diminum 1 tablet tiap 8 jam jika nyeri sangat hebat (dengan pengawasan dokter). Istirahat total di tempat tenang.'}
+    },
+    trk:{
+        rng:{j:'Terkilir / Keseleo — Ringan',o:'Ibuprofen Gel 5% / Salep Counterpain + Paracetamol 500 mg',c:'Oleskan salep/gel pada area yang terkilir 3 kali sehari. Minum Paracetamol 500 mg jika terasa nyeri.'},
+        sdg:{j:'Terkilir / Keseleo — Sedang',o:'Diclofenac Sodium 50 mg (1 tablet) + Kompres Es',c:'Minum Diclofenac 2 kali sehari setelah makan. Kompres area terkilir dengan es selama 15–20 menit setiap 4 jam. Balut dengan perban elastis (elastic bandage).'},
+        brt:{j:'Terkilir / Keseleo — Berat',o:'Ketorolac 30 mg/mL (Injeksi IV/IM) + Imobilisasi Spalk',c:'Suntikkan Ketorolac melalui IV/IM oleh petugas medis EMS untuk meredakan nyeri mendadak. Pasang bidai (spalk) dan posisikan area cidera lebih tinggi.'}
+    },
+    mag:{
+        rng:{j:'Maag / Nyeri Lambung / GERD — Ringan',o:'Antasida Doen (1–2 tablet kunyah)',c:'Dikunyah 1–2 tablet, 30 menit sebelum makan atau saat perut terasa perih/kembung.'},
+        sdg:{j:'Maag / Nyeri Lambung / GERD — Sedang',o:'Omeprazole 20 mg (1 kapsul) + Domperidone 10 mg (1 tablet)',c:'Omeprazole diminum 1 kapsul pada pagi hari sebelum makan (perut kosong). Domperidone diminum 30 menit sebelum makan jika ada rasa mual.'},
+        brt:{j:'Maag / Nyeri Lambung / GERD — Berat',o:'Inj. Omeprazole 40 mg (IV) + Inj. Ondansetron 4 mg (IV) + Infus RL',c:'Pasien diistirahatkan di IGD. Diberikan suntikan Omeprazole dan Ondansetron via jalur infus untuk meredakan radang lambung dan mual muntah secara instan.'}
+    },
+    lbm:{
+        rng:{j:'Lebam / Memar — Ringan',o:'Salep Heparin Sodium / Gel Thrombophob',c:'Oleskan tipis-tipis pada bagian kulit yang memar 2–3 kali sehari. Jangan dioleskan pada luka terbuka.'},
+        sdg:{j:'Lebam / Memar — Sedang',o:'Ibuprofen 400 mg (1 tablet) + Salep Heparin Sodium',c:'Minum Ibuprofen 2–3 kali sehari setelah makan untuk meredakan nyeri dan pembengkakan. Oleskan salep Thrombophob secara teratur.'},
+        brt:{j:'Lebam / Memar — Berat',o:'Diclofenac 50 mg (1 tablet) + Dexamethasone 0.5 mg (1 tablet) + Kompres Dingin',c:'Minum Diclofenac dan Dexamethasone 2 kali sehari setelah makan untuk mengurangi pembengkakan jaringan dalam secara cepat.'}
+    },
+    lka:{
+        rng:{j:'Luka Tembak / Sayat — Ringan',o:'Povidone Iodine 10% + Kasa Steril + Cefadroxil 500 mg',c:'Bersihkan luka dengan cairan NaCl 0.9% dan Povidone Iodine, lalu tutup dengan kasa. Minum Cefadroxil 2 kali sehari untuk mencegah infeksi.'},
+        sdg:{j:'Luka Tembak / Sayat — Sedang',o:'Operasi Pengangkatan / Penjahitan + Inj. Ketorolac 30 mg + Amoxicillin 500 mg',c:'Berikan Injeksi Ketorolac via IV. Lakukan tindakan pembedahan / jahit luka (Suturing), lalu minum Amoxicillin 3x1 hari (wajib dihabiskan).'},
+        brt:{j:'Luka Tembak / Sayat — Berat',o:'Infus NaCl 0.9% / RL + Inj. Adrenalin 1 mg + Operasi Bedah Mayor + Inj. Ceftriaxone 1g',c:'Pasang Infus NaCl/RL cepat untuk mengatasi pendarahan/syok. Segera bawa ke ruang operasi (OR) untuk tindakan pembedahan dan penanganan pendarahan dalam.'}
+    },
+    bkr:{
+        rng:{j:'Luka Bakar — Ringan',o:'Silver Sulfadiazine Cream / Bioplacenton',c:'Siram dengan air mengalir bersih selama 10–15 menit. Oleskan tipis cream Silver Sulfadiazine 2–3 kali sehari.'},
+        sdg:{j:'Luka Bakar — Sedang',o:'Salep Silver Sulfadiazine + Ibuprofen 400 mg + Kasa Parafin Steril',c:'Bersihkan luka tanpa memecahkan melepuh jika memungkinkan, tutupi dengan kasa parafin, lalu balut perban. Minum Ibuprofen 3 kali sehari.'},
+        brt:{j:'Luka Bakar — Berat',o:'Infus Ringer Lactate + Inj. Ketorolac / Morphine + Debridement',c:'Pasang infus RL dalam jumlah banyak (mencegah dehidrasi berat). Berikan suntikan anti-nyeri dosis tinggi. Lakukan pembersihan jaringan mati (debridement) di kamar operasi.'}
+    },
+    bsl:{
+        rng:{j:'Bisul / Infeksi Kulit — Ringan',o:'Salep Mupirocin 2% / Gentamicin Ointment',c:'Bersihkan area bisul dengan air hangat/antiseptik, lalu oleskan salep Mupirocin 2–3 kali sehari.'},
+        sdg:{j:'Bisul / Infeksi Kulit — Sedang',o:'Amoxicillin 500 mg (1 kaplet) + Paracetamol 500 mg + Salep Gentamicin',c:'Minum Amoxicillin 3 kali sehari (WAJIB DIHABISKAN). Minum Paracetamol jika timbul demam/nyeri. Oleskan salep pada area bisul.'},
+        brt:{j:'Bisul / Infeksi Kulit — Berat',o:'Ciprofloxacin 500 mg (1 tablet) + Diclofenac 50 mg + Prosedur Incision & Drainage',c:'Lakukan tindakan bedah kecil (incisi) oleh dokter EMS untuk mengeluarkan nanah, cuci dengan cairan Steril NaCl 0.9%, lalu balut dengan kasa steril. Minum Ciprofloxacin 2 kali sehari (habiskan).'}
+    }
 };
 
 let __D = JSON.parse(localStorage.getItem('rs_ip_data')) || [{n:'Prof. Dr. Kai Whitegate, Sp.B',j:'Direktur Utama',i:'Unlimited'}];
