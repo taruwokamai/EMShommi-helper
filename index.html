@@ -569,7 +569,7 @@ function __A2() {
 
 function __ED2(i) { __edit2 = i; __moveId = -1; __RenderTable2(); }
 function __MVModal(i) { __moveId = i; __edit2 = -1; __RenderTable2(); }
-function __CL2() { __edit2 = -1; __moveId = -1; __RenderTable2(); }
+function __CL2() { __edit2 = -1; __RenderTable2(); }
 
 function __moveTo(i, targetGroup) {
     __DS[i].forcedGroup = targetGroup;
@@ -661,6 +661,9 @@ function __RenderTable3() {
     const t = document.getElementById('TB3');
     t.innerHTML = '';
 
+    // Pastikan header Aksi ditampilkan hanya jika sudah login sebagai Admin
+    document.getElementById('AC3').style.display = __ADM ? 'table-cell' : 'none';
+
     if (__AB.length === 0) {
         t.innerHTML = `<tr><td colspan="${__ADM ? 9 : 8}" style="color:#666;font-style:italic;padding:15px;">Belum ada data izin/absensi</td></tr>`;
         return;
@@ -699,9 +702,7 @@ function __RenderTable3() {
             <td>${item.pic}</td>
             <td>${durationText}</td>
             <td><span class="badge ${isExpired ? 's-tidakaktif' : 's-aktif'}">${isExpired ? 'Tidak Aktif (Melebihi Batas)' : 'Aktif (Dalam Masa Izin)'}</span></td>
-            <td style="${__ADM ? '' : 'display:none'};white-space:nowrap">
-                <button onclick="__DL3(${i})" class="dl">Hapus</button>
-            </td>
+            ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL3(${i})" class="dl">Hapus</button></td>` : ''}
         `;
         t.appendChild(r);
     });
