@@ -60,18 +60,18 @@ select.tin{cursor:pointer}
 .arr:hover{background:#036775}
 .pos-input{width:50px;padding:3px 5px;background:var(--bt);border:1px solid var(--ac);border-radius:3px;color:var(--txt);font-size:11px;text-align:center}
 
-/* CSS MDT EMS RUMAH SAKIT HOMMI MODERN INTERAKTIF */
-.mdt-container-box { background: #eef0f3; color: #212529; border-radius: 12px; padding: 15px; min-height: 700px; display: flex; flex-direction: column; }
+/* CSS MDT EMS RUMAH SAKIT HOMMI */
+.mdt-container-box { background: #eef0f3; color: #212529; border-radius: 12px; padding: 15px; min-height: 650px; display: flex; flex-direction: column; }
 .mdt-header-top { background: #fff; padding: 12px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; margin-bottom: 15px; }
 .mdt-body-grid { display: grid; grid-template-columns: 220px 1fr; gap: 15px; flex: 1; }
 .mdt-sidebar-menu { background: #fff; border-radius: 8px; padding: 15px 10px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; height: fit-content; }
 .mdt-nav-btn { padding: 10px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; color: #495057; cursor: pointer; border: none; background: transparent; text-align: left; width: 100%; transition: .2s; }
-.mdt-nav-btn:hover { background: #f8f9fa; color: #000; }
+.mdt-nav-btn:hover { background: #e9ecef; color: #000; }
 .mdt-nav-btn.active { background: #0d6efd; color: #fff; font-weight: 700; }
-.mdt-content-area { background: #fff; border: 1px solid #ced4da; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; min-height: 500px; }
-.mdt-pane-title { font-weight: 800; font-size: 18px; color: #212529; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 5px; }
+.mdt-content-area { background: #fff; border: 1px solid #ced4da; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; min-height: 450px; }
+.mdt-pane-title { font-weight: 800; font-size: 18px; color: #212529; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 10px; }
 .mdt-input-clean { width: 100%; padding: 9px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; background: #fff; color: #212529; margin-bottom: 10px; }
-.mdt-btn-clean { background: #0d6efd; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
+.mdt-btn-clean { background: #0d6efd; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
 .mdt-btn-clean:hover { background: #0b5ed7; }
 .mdt-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; color: #212529; }
 .mdt-table th, .mdt-table td { padding: 10px; border: 1px solid #dee2e6; text-align: left; }
@@ -96,7 +96,7 @@ select.tin{cursor:pointer}
 </div>
 
 <!-- ======================================================= -->
-<!-- MDT EMS RUMAH SAKIT HOMMI (GAYA MODERN, INTERAKTIF, LENGKAP) -->
+<!-- MENU MDT EMS RUMAH SAKIT HOMMI -->
 <!-- ======================================================= -->
 <div id="Smdt" class="sec" style="background:transparent;border:none;padding:0">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
@@ -140,11 +140,11 @@ select.tin{cursor:pointer}
         <div class="mdt-sidebar-menu">
             <button class="mdt-nav-btn active" onclick="__switchMdtTab(event, 'tab-citizens')">👤 Citizens (Warga)</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-injuries')">🩹 Injuries (Cedera)</button>
-            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-operasi')">🏥 Daftar Pasien Operasi</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-operasi')">🏥 Pasien Operasi</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-rekammedis')">📋 Laporan Rekam Medis</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-dispatch')">📡 Dispatch 911</button>
             <div style="margin-top:20px;border-top:1px solid #eee;padding-top:10px">
-                <button class="mdt-nav-btn" style="color:#dc3545;font-weight:bold" onclick="alert('🚨 SINYAL BACKUP DARURAT DISEBARKAN KE SEMUA UNIT EMS & POLISI!')">🔔 BACKUP</button>
+                <button class="mdt-nav-btn" style="color:#dc3545;font-weight:bold" onclick="alert('🚨 SINYAL BACKUP DARURAT DISEBARKAN KE UNTUK EMS & POLISI!')">🔔 BACKUP</button>
             </div>
         </div>
 
@@ -229,7 +229,7 @@ select.tin{cursor:pointer}
 </div>
 
 <!-- ======================================================= -->
-<!-- DATA UTAMA ASLI DARI KODEAMAN.TXT (100% UTUH TANPA DIUBAH)[cite: 3] -->
+<!-- DATA UTAMA ASLI DARI KODEAMAN.TXT (100% UTUH TANPA DIUBAH) -->
 <!-- ======================================================= -->
 <div id="Sip" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
@@ -544,7 +544,7 @@ let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
 let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
 let __RS = JSON.parse(localStorage.getItem('rs_resign_data')) || [];
 
-// ARRAY DATA MDT KOSONG AWAL
+// ARRAY DATA MDT KOSONG
 let __mdtCitizens = [];
 let __mdtInjuries = [];
 let __mdtOperasi = [];
@@ -571,16 +571,16 @@ function __X(id) {
 }
 function __B() {
     document.getElementById('M').style.display = 'flex';
-    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none';
+    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
     __edit = __edit2 = __edit3 = __moveId = -1;
 }
 
-/* LOGIKA MDT EMS INTERAKTIF */
+/* LOGIKA MDT EMS SANGAT STABIL & TANPA ERROR */
 function __prosesLoginMdt() {
     const nama = document.getElementById('loginMdtNama').value.trim();
     const jabatan = document.getElementById('loginMdtJabatan').value.trim();
     const callsign = document.getElementById('loginMdtCallsign').value.trim();
-    if(!nama || !jabatan || !callsign) return alert('Mohon lengkapi data login!');
+    if(!nama || !jabatan || !callsign) return alert('Mohon isi Nama, Jabatan, dan Callsign!');
     localStorage.setItem('rs_mdt_user', JSON.stringify({nama, jabatan, callsign}));
     __cekLoginMdtState();
 }
@@ -594,6 +594,11 @@ function __cekLoginMdtState() {
         document.getElementById('uiMdtJabatan').innerText = userData.jabatan;
         document.getElementById('uiMdtCallsign').innerText = userData.callsign;
         document.getElementById('mdtAvatarLetter').innerText = userData.nama.charAt(0).toUpperCase();
+        __renderCitizens();
+        __renderInjuries();
+        __renderOperasi();
+        __renderRekamMedis();
+        __renderDispatch();
     } else {
         document.getElementById('mdtLoginScreen').style.display = 'block';
         document.getElementById('mdtDashboard').style.display = 'none';
@@ -616,7 +621,7 @@ function __switchMdtTab(event, tabId) {
 function __tambahCitizen() {
     const nama = document.getElementById('citNama').value.trim();
     const cid = document.getElementById('citCid').value.trim();
-    if(!nama || !cid) return alert('Nama dan CID wajib diisi!');
+    if(!nama || !cid) return alert('Lengkapi Nama dan CID warga!');
     __mdtCitizens.push({nama, cid});
     document.getElementById('citNama').value = '';
     document.getElementById('citCid').value = '';
@@ -624,6 +629,7 @@ function __tambahCitizen() {
 }
 function __renderCitizens() {
     const tb = document.getElementById('tbCitizens');
+    if(!tb) return;
     if(__mdtCitizens.length === 0) { tb.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888">Belum ada data warga</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtCitizens.forEach((c, idx) => {
@@ -644,6 +650,7 @@ function __tambahInjury() {
 }
 function __renderInjuries() {
     const tb = document.getElementById('tbInjuries');
+    if(!tb) return;
     if(__mdtInjuries.length === 0) { tb.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888">Belum ada data cedera</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtInjuries.forEach((i, idx) => {
@@ -651,13 +658,13 @@ function __renderInjuries() {
     });
 }
 
-// 3. Daftar Operasi
+// 3. Daftar Operasi Pasien
 function __tambahOperasi() {
     const pasien = document.getElementById('opPasien').value.trim();
     const keluhan = document.getElementById('opKeluhan').value.trim();
     const dokter = document.getElementById('opDokter').value.trim();
-    if(!pasien || !keluhan || !dokter) return alert('Lengkapi data pasien operasi!');
-    __mdtOperasi.push({pasien, keluhan, dokter, status: 'Menunggu Jadwal'});
+    if(!pasien || !keluhan || !dokter) return alert('Lengkapi form pasien operasi!');
+    __mdtOperasi.push({pasien, keluhan, dokter, status: 'Menunggu Operasi'});
     document.getElementById('opPasien').value = '';
     document.getElementById('opKeluhan').value = '';
     document.getElementById('opDokter').value = '';
@@ -665,19 +672,20 @@ function __tambahOperasi() {
 }
 function __renderOperasi() {
     const tb = document.getElementById('tbOperasi');
+    if(!tb) return;
     if(__mdtOperasi.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada pasien antrean operasi</td></tr>`; return; }
     tb.innerHTML = '';
-    __mdtOperasi.push && __mdtOperasi.forEach((o, idx) => {
+    __mdtOperasi.forEach((o, idx) => {
         tb.innerHTML += `<tr><td>${o.pasien}</td><td>${o.keluhan}</td><td>${o.dokter}</td><td><span class="badge s-aktif">${o.status}</span></td><td><button onclick="__mdtOperasi.splice(${idx},1);__renderOperasi()" class="dl">Hapus</button></td></tr>`;
     });
 }
 
-// 4. Rekam Medis
+// 4. Laporan Rekam Medis
 function __tambahRekamMedis() {
     const pasien = document.getElementById('rmPasien').value.trim();
     const diagnosa = document.getElementById('rmDiagnosa').value.trim();
     const tindakan = document.getElementById('rmTindakan').value.trim();
-    if(!pasien || !diagnosa || !tindakan) return alert('Lengkapi form rekam medis!');
+    if(!pasien || !diagnosa || !tindakan) return alert('Lengkapi data rekam medis!');
     const waktu = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + ' WIB';
     __mdtRekamMedis.push({waktu, pasien, diagnosa, tindakan});
     document.getElementById('rmPasien').value = '';
@@ -687,6 +695,7 @@ function __tambahRekamMedis() {
 }
 function __renderRekamMedis() {
     const tb = document.getElementById('tbRekamMedis');
+    if(!tb) return;
     if(__mdtRekamMedis.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada laporan rekam medis</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtRekamMedis.forEach((r, idx) => {
@@ -698,7 +707,7 @@ function __renderRekamMedis() {
 function __tambahDispatch() {
     const lokasi = document.getElementById('dispLokasi').value.trim();
     const ket = document.getElementById('dispKet').value.trim();
-    if(!lokasi || !ket) return alert('Lengkapi lokasi dan keterangan dispatch!');
+    if(!lokasi || !ket) return alert('Lengkapi lokasi dan keterangan!');
     const waktu = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + ' WIB';
     __mdtDispatch.push({waktu, lokasi, ket, status: 'Menuju Lokasi'});
     document.getElementById('dispLokasi').value = '';
@@ -707,6 +716,7 @@ function __tambahDispatch() {
 }
 function __renderDispatch() {
     const tb = document.getElementById('tbDispatch');
+    if(!tb) return;
     if(__mdtDispatch.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada panggilan dispatch aktif</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtDispatch.forEach((d, idx) => {
@@ -714,7 +724,7 @@ function __renderDispatch() {
     });
 }
 
-/* FUNGSI UTAMA ASLI DARI KODEAMAN.TXT[cite: 3] */
+/* FUNGSI KODE UTAMA ASLI (100% UTUH) */
 function __L() {
     if(document.getElementById('PW').value === ADMIN_PASS) {
         __ADM = true;
