@@ -60,7 +60,7 @@ select.tin{cursor:pointer}
 .arr:hover{background:#036775}
 .pos-input{width:50px;padding:3px 5px;background:var(--bt);border:1px solid var(--ac);border-radius:3px;color:var(--txt);font-size:11px;text-align:center}
 
-/* CSS KHUSUS MDT STYLE GAMBAR (CLEAN MODERN UI) */
+/* CSS TAMBAHAN KHUSUS MDT EMS GAYA MODERN RUMAH SAKIT HOMMI */
 .mdt-container-box { background: #eef0f3; color: #212529; border-radius: 12px; padding: 15px; min-height: 700px; display: flex; flex-direction: column; }
 .mdt-header-top { background: #fff; padding: 12px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; margin-bottom: 15px; }
 .mdt-body-grid { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 15px; flex: 1; }
@@ -83,22 +83,23 @@ select.tin{cursor:pointer}
 <p style="color:var(--acr);font-weight:700;font-size:13px;margin-top:4px">Sistem Informasi & Manajemen Staff Internal Faksi</p>
 </div>
 
+<!-- MENU UTAMA (DITAMBAH TOMBOL MDT EMS DIATAS) -->
 <div id="M" class="m">
-<div class="mi" onclick="__X('mdt')" style="background:#0d6efd;color:#fff;border-color:#0043a8">🚑 MDT EMS (Mobile Data Terminal)</div>
-<div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
-<div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
-<div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
-<div class="mi" onclick="__X('ab')">📋 Absensi Staff</div>
-<div class="mi" onclick="__X('rs')">📋 Administrasi Resign</div>
+<div class="mi" onclick="__X('mdt')" style="background:#0d6efd;color:#fff;border-color:#0043a8">🚑 MDT EMS (Mobile Data Terminal) Rumah Sakit Hommi</div>
+<div class="mi" onclick="__X('ip')">📊 Infraction Point Staff[cite: 3]</div>
+<div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter[cite: 3]</div>
+<div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit[cite: 3]</div>
+<div class="mi" onclick="__X('ab')">📋 Absensi Staff[cite: 3]</div>
+<div class="mi" onclick="__X('rs')">📋 Administrasi Resign[cite: 3]</div>
 </div>
 
-<!-- ========================================== -->
-<!-- MENU UTAMA MDT EMS (BARU & KOSONG SESUAI REQUEST) -->
-<!-- ========================================== -->
+<!-- ======================================================= -->
+<!-- MENU BARU: MDT EMS RUMAH SAKIT HOMMI (GAYA MODERN KOSONG) -->
+<!-- ======================================================= -->
 <div id="Smdt" class="sec" style="background:transparent;border:none;padding:0">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 
-<!-- KOTAK LOGIN MDT BERDASARKAN NAMA & JABATAN -->
+<!-- SCREEN LOGIN MDT (SESUAI NAMA & JABATAN) -->
 <div id="mdtLoginScreen" style="background:var(--cbg);border:2px solid var(--brd);border-radius:12px;padding:30px;max-width:450px;margin:40px auto;text-align:center">
 <h2 style="color:var(--ac);margin-bottom:15px">🔐 Login MDT Rumah Sakit Hommi</h2>
 <p style="font-size:13px;color:#aaa;margin-bottom:20px">Masukkan Identitas Petugas/Dokter yang Bertugas</p>
@@ -111,9 +112,8 @@ select.tin{cursor:pointer}
 <button class="btn" style="width:100%;margin-top:10px;padding:12px;background:var(--ac);font-weight:bold" onclick="__prosesLoginMdt()">Masuk Terminal ➔</button>
 </div>
 
-<!-- DASHBOARD UTAMA MDT (MUNCUL SETELAH LOGIN) -->
+<!-- DASHBOARD UTAMA MDT -->
 <div id="mdtDashboard" class="mdt-container-box" style="display:none">
-    <!-- Header MDT -->
     <div class="mdt-header-top">
         <div style="display:flex;align-items:center;gap:12px">
             <div style="width:42px;height:42px;background:#0d6efd;color:#fff;border-radius:8px;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:22px">✚</div>
@@ -133,21 +133,18 @@ select.tin{cursor:pointer}
         </div>
     </div>
 
-    <!-- Body Layout 3 Kolom ala Gambar -->
     <div class="mdt-body-grid">
-        <!-- Sidebar Kiri -->
         <div class="mdt-sidebar-menu">
-            <button class="mdt-nav-btn active" onclick="__switchMdtTab(this, 'archives')">📁 Archives</button>
-            <button class="mdt-nav-btn" onclick="__switchMdtTab(this, 'citizens')">👤 Citizens</button>
-            <button class="mdt-nav-btn" onclick="__switchMdtTab(this, 'injuries')">🩹 Injuries</button>
-            <button class="mdt-nav-btn" onclick="__switchMdtTab(this, 'dispatch')">📡 Dispatch 911</button>
-            <button class="mdt-nav-btn" onclick="__switchMdtTab(this, 'logs')">🕒 Logs Aktivitas</button>
+            <button class="mdt-nav-btn active">📁 Archives</button>
+            <button class="mdt-nav-btn">👤 Citizens</button>
+            <button class="mdt-nav-btn">🩹 Injuries</button>
+            <button class="mdt-nav-btn">📡 Dispatch 911</button>
+            <button class="mdt-nav-btn">🕒 Logs Aktivitas</button>
             <div style="margin-top:auto;border-top:1px solid #eee;padding-top:10px">
                 <button class="mdt-nav-btn" style="color:#dc3545;font-weight:bold" onclick="alert('🚨 BACKUP SIGNAL BROADCASTED!')">🔔 BACKUP</button>
             </div>
         </div>
 
-        <!-- Kolom Tengah -->
         <div style="display:flex;flex-direction:column;gap:12px">
             <div class="mdt-pane">
                 <div class="mdt-pane-title">Search Archive</div>
@@ -170,7 +167,6 @@ select.tin{cursor:pointer}
             </div>
         </div>
 
-        <!-- Kolom Kanan -->
         <div style="display:flex;flex-direction:column;gap:12px">
             <div class="mdt-pane">
                 <div class="mdt-pane-title">Database Warga (Citizens)</div>
@@ -193,9 +189,9 @@ select.tin{cursor:pointer}
 </div>
 </div>
 
-<!-- ========================================== -->
-<!-- SEMUA DATA LAMA RUMAH SAKIT HOMMI (UTUH 100%) -->
-<!-- ========================================== -->
+<!-- ======================================================= -->
+<!-- DATA UTAMA ASLI DARI KODEAMAN.TXT (100% UTUH TANPA DIUBAH)[cite: 3] -->
+<!-- ======================================================= -->
 <div id="Sip" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>Input & Data Infraction Point (IP) Staff <span id="AD" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -335,6 +331,7 @@ select.tin{cursor:pointer}
 </div>
 </div>
 
+<!-- MENU ABSENSI STAFF -->
 <div id="Sab" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>📋 Absensi & Perizinan Staff <span id="AD3" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -353,7 +350,13 @@ select.tin{cursor:pointer}
 <div><label class="lb">TANGGAL & WAKTU MULAI IZIN</label><input type="datetime-local" id="abStart" class="inp" disabled></div>
 <div><label class="lb">BATAS DURASI IZIN (MAKS 7 HARI)</label>
 <select id="abDur" class="inp" disabled>
-<option value="1">1 Hari</option><option value="2">2 Hari</option><option value="3">3 Hari</option><option value="4">4 Hari</option><option value="5">5 Hari</option><option value="6">6 Hari</option><option value="7" selected>7 Hari</option>
+<option value="1">1 Hari</option>
+<option value="2">2 Hari</option>
+<option value="3">3 Hari</option>
+<option value="4">4 Hari</option>
+<option value="5">5 Hari</option>
+<option value="6">6 Hari</option>
+<option value="7" selected>7 Hari</option>
 </select>
 </div>
 <div><label class="lb">PENANGGUNG JAWAB</label><input type="text" id="abPIC" class="inp" disabled placeholder="Nama PJ"></div>
@@ -364,13 +367,24 @@ select.tin{cursor:pointer}
 <div class="tb">
 <table>
 <thead>
-<tr><th>#</th><th>Batch</th><th>Nama Staff</th><th>Jabatan</th><th>Waktu Mulai Izin</th><th>Penanggung Jawab</th><th>Lama Izin Berjalan</th><th>Status Keaktifan</th><th id="AC3" style="display:none">Aksi</th></tr>
+<tr>
+<th>#</th>
+<th>Batch</th>
+<th>Nama Staff</th>
+<th>Jabatan</th>
+<th>Waktu Mulai Izin</th>
+<th>Penanggung Jawab</th>
+<th>Lama Izin Berjalan</th>
+<th>Status Keaktifan</th>
+<th id="AC3" style="display:none">Aksi</th>
+</tr>
 </thead>
 <tbody id="TB3"></tbody>
 </table>
 </div>
 </div>
 
+<!-- MENU ADMINISTRASI RESIGN -->
 <div id="Srs" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>📋 Administrasi Resign <span id="AD4" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -392,10 +406,12 @@ select.tin{cursor:pointer}
 <div><label class="lb">WAKTU MULAI RESIGN (WIB)</label><input type="datetime-local" id="rsStart" class="inp" disabled></div>
 <div><label class="lb">STATUS PEMBAYARAN</label>
 <select id="rsStatus" class="inp" disabled>
-<option value="unpaid">Unpaid (❌)</option><option value="belum_lunas">Belum Lunas (⏳)</option><option value="paid">Paid (✔)</option>
+<option value="unpaid">Unpaid (❌)</option>
+<option value="belum_lunas">Belum Lunas (⏳)</option>
+<option value="paid">Paid (✔)</option>
 </select>
 </div>
-<div><label class="lb">JUMLAH YANG DIBAYAR</label><input type="text" id="rsNominal" class="inp" disabled placeholder="Contoh: $5,000"></div>
+<div><label class="lb">JUMLAH YANG DIBAYAR</label><input type="text" id="rsNominal" class="inp" disabled placeholder="Contoh: $5,000 atau Rp 0"></div>
 </div>
 <button class="btn" id="ADD4" onclick="__A4()" disabled>➕ Tambah Data Resign</button>
 <span id="IM4" class="msg"></span>
@@ -403,7 +419,20 @@ select.tin{cursor:pointer}
 <div class="tb">
 <table>
 <thead>
-<tr><th>#</th><th>Batch</th><th>Nama</th><th>Jabatan</th><th>CID</th><th>Discord</th><th>Plat Kendaraan Dinas</th><th>Waktu Resign</th><th>Jangka Lama Resign</th><th>Status Pembayaran</th><th>Jumlah Dibayar</th><th id="AC4" style="display:none">Aksi</th></tr>
+<tr>
+<th>#</th>
+<th>Batch</th>
+<th>Nama</th>
+<th>Jabatan</th>
+<th>CID</th>
+<th>Discord</th>
+<th>Plat Kendaraan Dinas</th>
+<th>Waktu Resign</th>
+<th>Jangka Lama Resign</th>
+<th>Status Pembayaran</th>
+<th>Jumlah Dibayar</th>
+<th id="AC4" style="display:none">Aksi</th>
+</tr>
 </thead>
 <tbody id="TB4"></tbody>
 </table>
@@ -422,7 +451,7 @@ document.addEventListener('keydown', e => {
 });
 
 const ADMIN_PASS = 'EMShommioyeoye';
-let __ADM = false, __selK = null, __edit = -1, __edit2 = -1, __moveId = -1;
+let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1, __edit3 = -1, __moveId = -1;
 
 function _getGroup(j) {
     if (!j) return 'manajemen';
@@ -476,7 +505,7 @@ let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
 let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
 let __RS = JSON.parse(localStorage.getItem('rs_resign_data')) || [];
 
-// Variabel Data Kosong MDT EMS Rumah Sakit Hommi
+// DATA MDT EMS RUMAH SAKIT HOMMI (KOSONG / BERSIH AWAL)
 let __mdtArsipList = [];
 let __mdtWargaList = [];
 
@@ -496,20 +525,22 @@ function __X(id) {
     if(id==='ab') __RenderTable3();
     if(id==='rs') __RenderTable4();
     if(id==='mdt') __cekLoginMdtState();
+    __edit = __edit2 = __edit3 = __moveId = -1;
 }
 function __B() {
     document.getElementById('M').style.display = 'flex';
     document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
+    __edit = __edit2 = __edit3 = __moveId = -1;
 }
 
-/* LOGIKA LOGIN MDT EMS RUMAH SAKIT HOMMI */
+/* LOGIKA LOGIN & DASHBOARD MDT EMS RUMAH SAKIT HOMMI */
 function __prosesLoginMdt() {
     const nama = document.getElementById('loginMdtNama').value.trim();
     const jabatan = document.getElementById('loginMdtJabatan').value.trim();
     const callsign = document.getElementById('loginMdtCallsign').value.trim();
 
     if(!nama || !jabatan || !callsign) {
-        return alert('Mohon lengkapi Nama, Jabatan, dan Callsign untuk login ke MDT!');
+        return alert('Mohon lengkapi Nama, Jabatan, dan Callsign terlebih dahulu!');
     }
 
     localStorage.setItem('rs_mdt_user', JSON.stringify({nama, jabatan, callsign}));
@@ -536,11 +567,6 @@ function __logoutMdt() {
     __cekLoginMdtState();
 }
 
-function __switchMdtTab(el, tab) {
-    document.querySelectorAll('.mdt-nav-btn').forEach(b => b.classList.remove('active'));
-    el.classList.add('active');
-}
-
 function __tambahArsipMdt() {
     const nama = document.getElementById('newArcName').value.trim();
     const desc = document.getElementById('newArcDesc').value.trim();
@@ -560,7 +586,7 @@ function __renderArsipMdt() {
         return;
     }
     box.innerHTML = '';
-    __mdtArsipList.forEach((a, idx) => {
+    __mdtArsipList.forEach(a => {
         box.innerHTML += `<div class="mdt-card-box"><div><b>${a.nama}</b><br><span style="color:#666">${a.desc}</span></div><span style="font-size:10px;color:#888">${a.date}</span></div>`;
     });
 }
@@ -599,7 +625,7 @@ function __tambahFotoMdt() {
     }
 }
 
-/* FUNGSI LAMA RUMAH SAKIT HOMMI (TIDAK DIUBAH) */
+/* FUNGSI UTAMA ASLI DARI KODEAMAN.TXT */
 function __L() {
     if(document.getElementById('PW').value === ADMIN_PASS) {
         __ADM = true;
@@ -676,37 +702,124 @@ function __L2() {
         document.getElementById('LMG2').classList.add('err');
     }
 }
+
+function __swapPos(idxA, idxB) {
+    if(idxA < 0 || idxB < 0 || idxA >= __DS.length || idxB >= __DS.length) return;
+    [__DS[idxA], __DS[idxB]] = [__DS[idxB], __DS[idxA]];
+    __Simpan(); __RenderTable2();
+}
+
+function __moveUp(i) {
+    if(i <= 0) return;
+    __swapPos(i, i - 1);
+}
+
+function __moveDown(i) {
+    if(i >= __DS.length - 1) return;
+    __swapPos(i, i + 1);
+}
+
+function __moveToIndex(fromIdx, toIdx) {
+    if(toIdx < 0 || toIdx >= __DS.length || fromIdx === toIdx) return;
+    const [item] = __DS.splice(fromIdx, 1);
+    __DS.splice(toIdx, 0, item);
+    __Simpan(); __RenderTable2();
+}
+
 function __RenderTable2() {
     const t = document.getElementById('TB2'); t.innerHTML = '';
+    
     const groups = [
         { key: 'manajemen', label: '👔 DIREKSI & MANAJEMEN' },
         { key: 'medis', label: '⚕️ STAFF MEDIS' },
         { key: 'trainee', label: '🎓 TRAINEE' },
         { key: 'nonaktif', label: '📋 RESIGN / PTHD' }
     ];
+
     groups.forEach(g => {
         let list = __DS.map((item, originalIndex) => ({...item, originalIndex}))
                        .filter(s => {
                            if (s.forcedGroup) return s.forcedGroup === g.key;
                            return _getGroup(s.j) === g.key;
                        });
+
         list.sort((a, b) => a.originalIndex - b.originalIndex);
+
         const hRow = document.createElement('tr');
         hRow.innerHTML = `<th colspan="${__ADM ? 11 : 10}" class="grp">${g.label}</th>`;
         t.appendChild(hRow);
+
         const colRow = document.createElement('tr');
         colRow.innerHTML = `<th>#</th><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JK</th><th>NO. HP</th><th>CID</th><th>EMAIL</th>${__ADM ? '<th>AKSI</th>' : ''}`;
         t.appendChild(colRow);
+
         if (list.length === 0) {
             const emptyRow = document.createElement('tr');
             emptyRow.innerHTML = `<td colspan="${__ADM ? 11 : 10}" style="color:#666;font-style:italic;padding:12px;">Belum ada data</td>`;
             t.appendChild(emptyRow);
             return;
         }
+
         list.forEach((s, displayPos) => {
             const i = s.originalIndex;
             const r = document.createElement('tr');
-            r.innerHTML = `
+            
+            if(__edit2 === i && __ADM) {
+                r.innerHTML = `
+                <td>-</td>
+                <td><input type="text" id="db${i}" class="tin" value="${s.b}"></td>
+                <td><input type="text" id="dn${i}" class="tin" value="${s.n}"></td>
+                <td><select id="dj${i}" class="tin">
+                    <option ${s.j==='CEO'?'selected':''}>CEO</option>
+                    <option ${s.j==='Direktur'?'selected':''}>Direktur</option>
+                    <option ${s.j==='Wakil Direktur'?'selected':''}>Wakil Direktur</option>
+                    <option ${s.j==='Sekben'?'selected':''}>Sekben</option>
+                    <option ${s.j==='Kabid Komdis'?'selected':''}>Kabid Komdis</option>
+                    <option ${s.j==='Komdis'?'selected':''}>Komdis</option>
+                    <option ${s.j==='Kabid HRD'?'selected':''}>Kabid HRD</option>
+                    <option ${s.j==='HRD'?'selected':''}>HRD</option>
+                    <option ${s.j==='Ka. Laboran'?'selected':''}>Ka. Laboran</option>
+                    <option ${s.j==='Manajemen Lab'?'selected':''}>Manajemen Lab</option>
+                    <option ${s.j==='Dokter Spesialis'?'selected':''}>Dokter Spesialis</option>
+                    <option ${s.j==='Dokter Residen'?'selected':''}>Dokter Residen</option>
+                    <option ${s.j==='Dokter Umum'?'selected':''}>Dokter Umum</option>
+                    <option ${s.j==='Co Ass'?'selected':''}>Co Ass</option>
+                    <option ${s.j==='Trainee'?'selected':''}>Trainee</option>
+                    <option ${s.j==='Resign'?'selected':''}>Resign</option>
+                    <option ${s.j==='PTHD'?'selected':''}>PTHD</option>
+                </select></td>
+                <td><select id="dst${i}" class="tin">
+                    <option ${s.st==='Aktif'?'selected':''}>Aktif</option>
+                    <option ${s.st==='Tidak Aktif'?'selected':''}>Tidak Aktif</option>
+                    <option ${s.st==='Resign'?'selected':''}>Resign</option>
+                    <option ${s.st==='PTHD'?'selected':''}>PTHD</option>
+                </select></td>
+                <td><input type="text" id="dsp${i}" class="tin" value="${s.sp}"></td>
+                <td><select id="djk${i}" class="tin"><option ${s.jk==='Laki-laki'?'selected':''}>Laki-laki</option><option ${s.jk==='Perempuan'?'selected':''}>Perempuan</option></select></td>
+                <td><input type="text" id="dhp${i}" class="tin" value="${s.hp}"></td>
+                <td><input type="text" id="dcid${i}" class="tin" value="${s.cid}"></td>
+                <td><input type="text" id="dem${i}" class="tin" value="${s.em}"></td>
+                <td>
+                    <button onclick="__SV2(${i})" class="ok">Simpan</button>
+                    <button onclick="__CL2()" class="cn">Batal</button>
+                </td>`;
+            } else if (__moveId === i && __ADM) {
+                r.innerHTML = `<td colspan="${__ADM ? 11 : 10}" style="background:#260505;padding:10px;">
+                    <span style="color:var(--ac);font-weight:700;margin-right:10px;">🔀 Atur ${s.n}:</span>
+                    <button onclick="__moveUp(${i})" class="arr">⬆ Ke Atas</button>
+                    <button onclick="__moveDown(${i})" class="arr">⬇ Ke Bawah</button>
+                    <span style="margin:0 6px;">| Lompat ke posisi:</span>
+                    <input type="number" id="gotoPos${i}" class="pos-input" min="1" max="${list.length}" placeholder="1..${list.length}">
+                    <button onclick="const p=document.getElementById('gotoPos${i}').valueAsNumber;if(p)__moveToIndex(${i}, ${list.findIndex(x=>x.originalIndex===i)>=0 ? list[0].originalIndex + p - 1 : 0})" class="arr">Pindah</button>
+                    <span style="margin:0 6px;">| Pindah Divisi:</span>
+                    <button onclick="__moveTo(${i}, 'manajemen')" class="sm" style="background:#b7094c;color:#fff">Manajemen</button>
+                    <button onclick="__moveTo(${i}, 'medis')" class="sm" style="background:#0077b6;color:#fff">Medis</button>
+                    <button onclick="__moveTo(${i}, 'trainee')" class="sm" style="background:#555;color:#fff">Trainee</button>
+                    <button onclick="__moveTo(${i}, 'nonaktif')" class="sm" style="background:#343a40;color:#fff">Nonaktif</button>
+                    <button onclick="__CL2()" class="cn" style="margin-left:8px;">Batal</button>
+                </td>`;
+            } else {
+                r.innerHTML = `
                 <td style="color:var(--ac);font-weight:bold">${displayPos + 1}</td>
                 <td><strong>${s.b}</strong></td>
                 <td style="text-align:left">${s.n}</td>
@@ -717,11 +830,19 @@ function __RenderTable2() {
                 <td>${s.hp||'-'}</td>
                 <td>${s.cid||'-'}</td>
                 <td>${s.em||'-'}</td>
-                <td style="${__ADM?'':'display:none'};white-space:nowrap"><button onclick="__DL2(${i})" class="dl">Hapus</button></td>`;
+                <td style="${__ADM?'':'display:none'};white-space:nowrap">
+                    <button onclick="__moveUp(${i})" class="arr" title="Naik">⬆</button>
+                    <button onclick="__moveDown(${i})" class="arr" title="Turun">⬇</button>
+                    <button onclick="__MVModal(${i})" class="sm" style="background:#028090;color:#fff">Atur</button>
+                    <button onclick="__ED2(${i})" class="sm">Edit</button>
+                    <button onclick="__DL2(${i})" class="dl">Hapus</button>
+                </td>`;
+            }
             t.appendChild(r);
         });
     });
 }
+
 function __A2() {
     const b = document.getElementById('dsB').value.trim();
     const n = document.getElementById('dsN').value.trim();
@@ -732,23 +853,64 @@ function __A2() {
     const hp = document.getElementById('dsHP').value.trim();
     const cid = document.getElementById('dsCID').value.trim();
     const em = document.getElementById('dsEM').value.trim();
+    
     if(!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
+    
     __DS.push({b, n, j, st, sp, jk, hp, cid, em});
     __Simpan(); __RenderTable2();
+    
     document.getElementById('dsB').value = '';
     document.getElementById('dsN').value = '';
+    document.getElementById('dsSP').value = '';
+    document.getElementById('dsHP').value = '';
+    document.getElementById('dsCID').value = '';
+    document.getElementById('dsEM').value = '';
     document.getElementById('IM2').innerText = '✅ Berhasil ditambah!';
     setTimeout(() => document.getElementById('IM2').innerText = '', 2000);
 }
-function __DL2(i) {
-    if(confirm('Hapus data staff ini?')) { __DS.splice(i,1); __Simpan(); __RenderTable2(); }
-}
-function __CP2() {
-    let t = '```\nDATA STAFF RUMAH SAKIT HOMMI\n';
-    __DS.forEach(s => { t += `[${s.b}] ${s.n} | ${s.j} | Status: ${s.st}\n`; });
-    navigator.clipboard.writeText(t+'```'); alert('Disalin!');
+
+function __ED2(i) { __edit2 = i; __moveId = -1; __RenderTable2(); }
+function __MVModal(i) { __moveId = i; __edit2 = -1; __RenderTable2(); }
+function __CL2() { __edit2 = -1; __RenderTable2(); }
+
+function __moveTo(i, targetGroup) {
+    __DS[i].forcedGroup = targetGroup;
+    __Simpan();
+    __moveId = -1;
+    __RenderTable2();
 }
 
+function __SV2(i) {
+    __DS[i] = {
+        ...__DS[i],
+        b: document.getElementById(`db${i}`).value,
+        n: document.getElementById(`dn${i}`).value,
+        j: document.getElementById(`dj${i}`).value,
+        st: document.getElementById(`dst${i}`).value,
+        sp: document.getElementById(`dsp${i}`).value,
+        jk: document.getElementById(`djk${i}`).value,
+        hp: document.getElementById(`dhp${i}`).value,
+        cid: document.getElementById(`dcid${i}`).value,
+        em: document.getElementById(`dem${i}`).value
+    };
+    __Simpan(); __edit2 = -1; __RenderTable2();
+}
+
+function __DL2(i) {
+    if(confirm('Hapus data staff ini?')) {
+        __DS.splice(i,1); __Simpan(); __RenderTable2();
+    }
+}
+
+function __CP2() {
+    let t = '```\nDATA STAFF RUMAH SAKIT HOMMI\n';
+    __DS.forEach(s => {
+        t += `[${s.b}] ${s.n} | ${s.j} | Status: ${s.st} | HP: ${s.hp||'-'} | CID: ${s.cid||'-'}\n`;
+    });
+    navigator.clipboard.writeText(t+'```'); alert('Data berhasil disalin ke format Discord!');
+}
+
+// === FUNGSI MENU ABSENSI STAFF ===
 function __L3() {
     if(document.getElementById('PW3').value === ADMIN_PASS) {
         __ADM = true;
@@ -760,8 +922,12 @@ function __L3() {
         document.getElementById('AC3').style.display = 'table-cell';
         document.getElementById('LMG3').innerText = '✅ Akses Admin Dibuka!';
         __RenderTable3();
-    } else { document.getElementById('LMG3').innerText = '❌ Sandi Salah!'; }
+    } else {
+        document.getElementById('LMG3').innerText = '❌ Sandi Salah!';
+        document.getElementById('LMG3').classList.add('err');
+    }
 }
+
 function __A3() {
     const b = document.getElementById('abB').value.trim();
     const n = document.getElementById('abN').value.trim();
@@ -769,21 +935,80 @@ function __A3() {
     const start = document.getElementById('abStart').value;
     const dur = parseInt(document.getElementById('abDur').value);
     const pic = document.getElementById('abPIC').value.trim();
-    if(!b || !n || !j || !start || !pic) return alert('Lengkapi formulir izin!');
+
+    if(!b || !n || !j || !start || !pic) return alert('Lengkapi semua kolom formulir izin!');
+
     __AB.push({b, n, j, start, dur, pic});
-    __Simpan(); __RenderTable3();
-    document.getElementById('IM3').innerText = '✅ Ditambahkan!';
+    __Simpan();
+    __RenderTable3();
+
+    document.getElementById('abB').value = '';
+    document.getElementById('abN').value = '';
+    document.getElementById('abJ').value = '';
+    document.getElementById('abStart').value = '';
+    document.getElementById('abPIC').value = '';
+    document.getElementById('IM3').innerText = '✅ Data izin berhasil ditambahkan!';
     setTimeout(() => document.getElementById('IM3').innerText = '', 2000);
 }
-function __DL3(i) { __AB.splice(i, 1); __Simpan(); __RenderTable3(); }
+
+function __DL3(i) {
+    if(confirm('Hapus data absensi/izin ini?')) {
+        __AB.splice(i, 1);
+        __Simpan();
+        __RenderTable3();
+    }
+}
+
 function __RenderTable3() {
-    const t = document.getElementById('TB3'); t.innerHTML = '';
-    if (__AB.length === 0) { t.innerHTML = `<tr><td colspan="9" style="color:#666;font-style:italic;padding:15px;">Belum ada data izin</td></tr>`; return; }
+    const t = document.getElementById('TB3');
+    t.innerHTML = '';
+    document.getElementById('AC3').style.display = __ADM ? 'table-cell' : 'none';
+
+    if (__AB.length === 0) {
+        t.innerHTML = `<tr><td colspan="${__ADM ? 9 : 8}" style="color:#666;font-style:italic;padding:15px;">Belum ada data izin/absensi</td></tr>`;
+        return;
+    }
+
+    const now = new Date();
+
     __AB.forEach((item, i) => {
-        t.innerHTML += `<tr><td>${i + 1}</td><td><b>${item.b}</b></td><td>${item.n}</td><td>${item.j}</td><td>${item.start}</td><td>${item.pic}</td><td>Maks ${item.dur} Hari</td><td><span class="badge s-aktif">Aktif</span></td><td><button onclick="__DL3(${i})" class="dl">Hapus</button></td></tr>`;
+        const startDate = new Date(item.start);
+        const diffMs = now - startDate;
+        const diffSec = Math.floor(diffMs / 1000);
+
+        let durationText = '';
+        let isExpired = false;
+
+        if (diffSec < 0) {
+            durationText = 'Belum mulai (Akan datang)';
+        } else {
+            const diffDays = Math.floor(diffSec / (3600 * 24));
+            const diffHours = Math.floor((diffSec % (3600 * 24)) / 3600);
+            const diffMinutes = Math.floor((diffSec % 3600) / 60);
+            durationText = `${diffDays} hari ${diffHours} jam ${diffMinutes} menit`;
+
+            if (diffDays >= item.dur) {
+                isExpired = true;
+            }
+        }
+
+        const r = document.createElement('tr');
+        r.innerHTML = `
+            <td style="color:var(--ac);font-weight:bold">${i + 1}</td>
+            <td><strong>${item.b}</strong></td>
+            <td style="text-align:left">${item.n}</td>
+            <td>${item.j}</td>
+            <td>${startDate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB (Maks: ${item.dur} Hari)</td>
+            <td>${item.pic}</td>
+            <td>${durationText}</td>
+            <td><span class="badge ${isExpired ? 's-tidakaktif' : 's-aktif'}">${isExpired ? 'Tidak Aktif (Melebihi Batas)' : 'Aktif (Dalam Masa Izin)'}</span></td>
+            ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL3(${i})" class="dl">Hapus</button></td>` : ''}
+        `;
+        t.appendChild(r);
     });
 }
 
+// === FUNGSI MENU ADMINISTRASI RESIGN ===
 function __L4() {
     if(document.getElementById('PW4').value === ADMIN_PASS) {
         __ADM = true;
@@ -795,8 +1020,12 @@ function __L4() {
         document.getElementById('AC4').style.display = 'table-cell';
         document.getElementById('LMG4').innerText = '✅ Akses Admin Dibuka!';
         __RenderTable4();
-    } else { document.getElementById('LMG4').innerText = '❌ Sandi Salah!'; }
+    } else {
+        document.getElementById('LMG4').innerText = '❌ Sandi Salah!';
+        document.getElementById('LMG4').classList.add('err');
+    }
 }
+
 function __A4() {
     const batch = document.getElementById('rsBatch').value.trim();
     const nama = document.getElementById('rsNama').value.trim();
@@ -807,18 +1036,87 @@ function __A4() {
     const start = document.getElementById('rsStart').value;
     const status = document.getElementById('rsStatus').value;
     const nominal = document.getElementById('rsNominal').value.trim();
-    if(!batch || !nama || !jabatan || !cid || !discord || !plat || !start) return alert('Lengkapi kolom resign!');
+
+    if(!batch || !nama || !jabatan || !cid || !discord || !plat || !start) {
+        return alert('Lengkapi semua kolom administrasi resign!');
+    }
+
     __RS.push({batch, nama, jabatan, cid, discord, plat, start, status, nominal: nominal || '0'});
-    __Simpan(); __RenderTable4();
-    document.getElementById('IM4').innerText = '✅ Ditambahkan!';
+    __Simpan();
+    __RenderTable4();
+
+    document.getElementById('rsBatch').value = '';
+    document.getElementById('rsNama').value = '';
+    document.getElementById('rsJabatan').value = '';
+    document.getElementById('rsCID').value = '';
+    document.getElementById('rsDiscord').value = '';
+    document.getElementById('rsPlat').value = '';
+    document.getElementById('rsStart').value = '';
+    document.getElementById('rsNominal').value = '';
+    document.getElementById('IM4').innerText = '✅ Data resign berhasil ditambahkan!';
     setTimeout(() => document.getElementById('IM4').innerText = '', 2000);
 }
-function __DL4(i) { __RS.splice(i, 1); __Simpan(); __RenderTable4(); }
+
+function __DL4(i) {
+    if(confirm('Hapus data administrasi resign ini?')) {
+        __RS.splice(i, 1);
+        __Simpan();
+        __RenderTable4();
+    }
+}
+
 function __RenderTable4() {
-    const t = document.getElementById('TB4'); t.innerHTML = '';
-    if (__RS.length === 0) { t.innerHTML = `<tr><td colspan="12" style="color:#666;font-style:italic;padding:15px;">Belum ada data resign</td></tr>`; return; }
+    const t = document.getElementById('TB4');
+    t.innerHTML = '';
+    document.getElementById('AC4').style.display = __ADM ? 'table-cell' : 'none';
+
+    if (__RS.length === 0) {
+        t.innerHTML = `<tr><td colspan="${__ADM ? 12 : 11}" style="color:#666;font-style:italic;padding:15px;">Belum ada data administrasi resign</td></tr>`;
+        return;
+    }
+
+    const now = new Date();
+
     __RS.forEach((item, i) => {
-        t.innerHTML += `<tr><td>${i+1}</td><td><b>${item.batch}</b></td><td>${item.nama}</td><td>${item.jabatan}</td><td>${item.cid}</td><td>${item.discord}</td><td>${item.plat}</td><td>${item.start}</td><td>-</td><td>${item.status}</td><td>${item.nominal}</td><td><button onclick="__DL4(${i})" class="dl">Hapus</button></td></tr>`;
+        const startDate = new Date(item.start);
+        const diffMs = now - startDate;
+        const diffSec = Math.floor(diffMs / 1000);
+
+        let durationText = '';
+        if (diffSec < 0) {
+            durationText = 'Belum mulai';
+        } else {
+            const diffDays = Math.floor(diffSec / (3600 * 24));
+            const diffHours = Math.floor((diffSec % (3600 * 24)) / 3600);
+            const diffMinutes = Math.floor((diffSec % 3600) / 60);
+            durationText = `${diffDays} hari ${diffHours} jam ${diffMinutes} menit`;
+        }
+
+        let paymentBadge = '';
+        if (item.status === 'paid') {
+            paymentBadge = '<span style="font-size:16px;color:#2a9d8f;font-weight:bold" title="Paid">✔ Paid</span>';
+        } else if (item.status === 'belum_lunas') {
+            paymentBadge = '<span style="font-size:14px;color:#f4a261;font-weight:bold" title="Belum Lunas">⏳ Belum Lunas</span>';
+        } else {
+            paymentBadge = '<span style="font-size:16px;color:#e63946;font-weight:bold" title="Unpaid">❌ Unpaid</span>';
+        }
+
+        const r = document.createElement('tr');
+        r.innerHTML = `
+            <td style="color:var(--ac);font-weight:bold">${i + 1}</td>
+            <td><strong>${item.batch}</strong></td>
+            <td style="text-align:left">${item.nama}</td>
+            <td>${item.jabatan}</td>
+            <td>${item.cid}</td>
+            <td>${item.discord}</td>
+            <td>${item.plat}</td>
+            <td>${startDate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB</td>
+            <td>${durationText}</td>
+            <td>${paymentBadge}</td>
+            <td style="font-weight:bold;color:var(--ac);">${item.nominal || '-'}</td>
+            ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL4(${i})" class="dl">Hapus</button></td>` : ''}
+        `;
+        t.appendChild(r);
     });
 }
 </script>
