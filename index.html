@@ -74,6 +74,7 @@ select.tin{cursor:pointer}
 <div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
 <div class="mi" onclick="__X('ab')">📋 Absensi Staff</div>
 <div class="mi" onclick="__X('rs')">📋 Administrasi Resign</div>
+<div class="mi" onclick="__X('mdt')" style="background:#023e8a;border-color:#0077b6;color:#fff">🚑 **MDT EMS (Mobile Data Terminal)**</div>
 </div>
 
 <div id="Sip" class="sec">
@@ -323,6 +324,114 @@ select.tin{cursor:pointer}
 </div>
 </div>
 
+<!-- ========================================== -->
+<!-- TAMBAHAN BARU: MDT EMS (MOBILE DATA TERMINAL) -->
+<!-- ========================================== -->
+<div id="Smdt" class="sec">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+<h2>🚑 MDT EMS — Rumah Sakit Hommi Helper</h2>
+<p style="color:#aaa;font-size:13px;margin-bottom:15px">Sistem Terminal Data Medis Pasien, Dispatch Darurat, & Catatan Tindakan Bedah/Ambulans In-Game.</p>
+
+<!-- Sub-Tab Navigasi MDT -->
+<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
+<button class="btn" onclick="__mdtTab('pasien')" id="btnTabPasien" style="background:var(--ac)">📁 Database Pasien</button>
+<button class="btn" onclick="__mdtTab('tindakan')" id="btnTabTindakan" style="background:#2b0a0a;color:var(--txt)">📝 Buat Laporan Tindakan</button>
+<button class="btn" onclick="__mdtTab('dispatch')" id="btnTabDispatch" style="background:#2b0a0a;color:var(--txt)">🚨 Dispatch 911</button>
+</div>
+
+<!-- KONTEN 1: DATABASE PASIEN -->
+<div id="mdtPasienSec">
+<div style="background:var(--bt);padding:15px;border-radius:8px;border:1px solid var(--brd);margin-bottom:15px">
+<h3 style="color:var(--ac);font-size:15px;margin-bottom:10px">🔍 Cari atau Daftarkan Rekam Medis Warga</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+<div><label class="lb">NAMA LENGKAP PASIEN</label><input type="text" id="mP_nama" class="inp" placeholder="Nama Warga"></div>
+<div><label class="lb">CID / NO. PASPOR</label><input type="text" id="mP_cid" class="inp" placeholder="CID"></div>
+<div><label class="lb">GOLONGAN DARAH</label>
+<select id="mP_darah" class="inp">
+<option value="O+">O+</option><option value="O-">O-</option>
+<option value="A+">A+</option><option value="A-">A-</option>
+<option value="B+">B+</option><option value="B-">B-</option>
+<option value="AB+">AB+</option><option value="AB-">AB-</option>
+</select>
+</div>
+<div><label class="lb">RIWAYAT ALERGI OBAT</label><input type="text" id="mP_alergi" class="inp" placeholder="Cth: Penicillin, Plaster (Opsional)"></div>
+<div><label class="lb">PENYAKIT KRONIS</label><input type="text" id="mP_kronis" class="inp" placeholder="Cth: Asma, Hipertensi (-)"></div>
+</div>
+<button class="btn" onclick="__simpanPasien()">💾 Daftarkan / Perbarui Pasien</button>
+<span id="mP_msg" class="msg"></span>
+</div>
+
+<div class="tb">
+<h3 style="color:var(--ac);font-size:14px;margin-bottom:8px">Daftar Rekam Medis Tersimpan</h3>
+<table>
+<thead>
+<tr><th>#</th><th>Nama Pasien</th><th>CID</th><th>Gol. Darah</th><th>Alergi</th><th>Penyakit Kronis</th><th>Aksi</th></tr>
+</thead>
+<tbody id="mP_tbody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- KONTEN 2: LAPORAN TINDAKAN / BILLING -->
+<div id="mdtTindakanSec" style="display:none">
+<div style="background:var(--bt);padding:15px;border-radius:8px;border:1px solid var(--brd);margin-bottom:15px">
+<h3 style="color:var(--ac);font-size:15px;margin-bottom:10px">📋 Form Laporan Penanganan Medis & Tagihan</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+<div><label class="lb">NAMA PASIEN</label><input type="text" id="mT_nama" class="inp" placeholder="Nama Pasien"></div>
+<div><label class="lb">DOKTER / PARAMEDIS PENANGGUNG JAWAB</label><input type="text" id="mT_dokter" class="inp" placeholder="Nama Petugas EMS"></div>
+<div><label class="lb">TINGKAT KEPARAHAN / KASUS</label>
+<select id="mT_kasus" class="inp">
+<option value="Luka Ringan / Rawat Jalan">Luka Ringan / Rawat Jalan</option>
+<option value="Kecelakaan / Luka Sedang">Kecelakaan / Luka Sedang</option>
+<option value="Luka Tembak / Operasi Bedah">Luka Tembak / Operasi Bedah</option>
+<option value="Gawat Darurat (ICU / Kritis)">Gawat Darurat (ICU / Kritis)</option>
+</select>
+</div>
+<div><label class="lb">VITAL SIGNS (Tensi / Nadi / Suhu)</label><input type="text" id="mT_vital" class="inp" placeholder="Cth: 120/80 mmHg, 82 bpm, 36.5°C"></div>
+<div><label class="lb">TINDAKAN / OBAT YANG DIBERIKAN</label><input type="text" id="mT_tindakan" class="inp" placeholder="Cth: Jahit luka 4 jahitan + Infus RL + Paracetamol"></div>
+<div><label class="lb">TOTAL BIAYA / TAGIHAN ($)</label><input type="number" id="mT_biaya" class="inp" placeholder="Cth: 2500"></div>
+</div>
+<button class="btn" onclick="__tambahTindakan()">➕ Rekam & Buat Tagihan</button>
+<span id="mT_msg" class="msg"></span>
+</div>
+
+<div class="tb">
+<h3 style="color:var(--ac);font-size:14px;margin-bottom:8px">Arsip Laporan Tindakan Medis</h3>
+<table>
+<thead>
+<tr><th>#</th><th>Waktu</th><th>Pasien</th><th>Petugas</th><th>Kasus</th><th>Vital Signs</th><th>Tindakan / Obat</th><th>Tagihan</th><th>Aksi</th></tr>
+</thead>
+<tbody id="mT_tbody"></tbody>
+</table>
+</div>
+</div>
+
+<!-- KONTEN 3: DISPATCH 911 -->
+<div id="mdtDispatchSec" style="display:none">
+<div style="background:var(--bt);padding:15px;border-radius:8px;border:1px solid var(--brd);margin-bottom:15px">
+<h3 style="color:var(--ac);font-size:15px;margin-bottom:10px">🚨 Buat Panggilan / Laporan Darurat 911 Baru</h3>
+<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
+<div><label class="lb">PELAPOR / LOKASI</label><input type="text" id="mD_lokasi" class="inp" placeholder="Cth: Pillbox Hill / Legion Square"></div>
+<div><label class="lb">DESKRIPSI DARURAT</label><input type="text" id="mD_ket" class="inp" placeholder="Cth: Orang pingsan / Korban penembakan"></div>
+<div><label class="lb">UNIT EMS MERESPONS</label><input type="text" id="mD_unit" class="inp" placeholder="Cth: Ambulance 1 / Dr. Alex"></div>
+</div>
+<button class="btn" onclick="__tambahDispatch()">🚨 Broadcast Dispatch</button>
+<span id="mD_msg" class="msg"></span>
+</div>
+
+<div class="tb">
+<h3 style="color:var(--ac);font-size:14px;margin-bottom:8px">Live Dispatch 911 Logs</h3>
+<table>
+<thead>
+<tr><th>#</th><th>Waktu</th><th>Lokasi</th><th>Deskripsi Kasus</th><th>Unit Merespons</th><th>Status</th><th>Aksi</th></tr>
+</thead>
+<tbody id="mD_tbody"></tbody>
+</table>
+</div>
+</div>
+
+</div>
+
 </div>
 
 <script>
@@ -389,11 +498,19 @@ let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
 let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
 let __RS = JSON.parse(localStorage.getItem('rs_resign_data')) || [];
 
+// Data MDT EMS Tambahan
+let __mdtPasien = JSON.parse(localStorage.getItem('rs_mdt_pasien')) || [{nama:'John Doe', cid:'99881', darah:'O+', alergi:'Tidak ada', kronis:'Asma'}];
+let __mdtTindakan = JSON.parse(localStorage.getItem('rs_mdt_tindakan')) || [];
+let __mdtDispatch = JSON.parse(localStorage.getItem('rs_mdt_dispatch')) || [{waktu:'12:30 WIB', lokasi:'Legion Square', ket:'Kecelakaan lalu lintas motor', unit:'Ambulance 01', status:'Selesai'}];
+
 function __Simpan() {
     localStorage.setItem('rs_ip_data', JSON.stringify(__D));
     localStorage.setItem('rs_staff_data', JSON.stringify(__DS));
     localStorage.setItem('rs_absensi_data', JSON.stringify(__AB));
     localStorage.setItem('rs_resign_data', JSON.stringify(__RS));
+    localStorage.setItem('rs_mdt_pasien', JSON.stringify(__mdtPasien));
+    localStorage.setItem('rs_mdt_tindakan', JSON.stringify(__mdtTindakan));
+    localStorage.setItem('rs_mdt_dispatch', JSON.stringify(__mdtDispatch));
 }
 
 function __X(id) {
@@ -404,6 +521,7 @@ function __X(id) {
     if(id==='ds') __RenderTable2();
     if(id==='ab') __RenderTable3();
     if(id==='rs') __RenderTable4();
+    if(id==='mdt') __renderMdtAll();
     __edit = __edit2 = __edit3 = __moveId = -1;
 }
 function __B() {
@@ -904,6 +1022,156 @@ function __RenderTable4() {
         `;
         t.appendChild(r);
     });
+}
+
+// === LOGIKA SCRIPT MDT EMS TAMBAHAN ===
+function __mdtTab(tab) {
+    document.getElementById('mdtPasienSec').style.display = tab === 'pasien' ? 'block' : 'none';
+    document.getElementById('mdtTindakanSec').style.display = tab === 'tindakan' ? 'block' : 'none';
+    document.getElementById('mdtDispatchSec').style.display = tab === 'dispatch' ? 'block' : 'none';
+
+    document.getElementById('btnTabPasien').style.background = tab === 'pasien' ? 'var(--ac)' : '#2b0a0a';
+    document.getElementById('btnTabPasien').style.color = tab === 'pasien' ? '#000' : 'var(--txt)';
+    document.getElementById('btnTabTindakan').style.background = tab === 'tindakan' ? 'var(--ac)' : '#2b0a0a';
+    document.getElementById('btnTabTindakan').style.color = tab === 'tindakan' ? '#000' : 'var(--txt)';
+    document.getElementById('btnTabDispatch').style.background = tab === 'dispatch' ? 'var(--ac)' : '#2b0a0a';
+    document.getElementById('btnTabDispatch').style.color = tab === 'dispatch' ? '#000' : 'var(--txt)';
+}
+
+function __renderMdtAll() {
+    // Render Pasien
+    const tP = document.getElementById('mP_tbody'); tP.innerHTML = '';
+    if (__mdtPasien.length === 0) {
+        tP.innerHTML = `<tr><td colspan="7" style="color:#666;font-style:italic">Belum ada rekam medis pasien</td></tr>`;
+    } else {
+        __mdtPasien.forEach((p, idx) => {
+            tP.innerHTML += `<tr>
+                <td><b>${idx+1}</b></td>
+                <td style="text-align:left">${p.nama}</td>
+                <td>${p.cid}</td>
+                <td><span class="badge" style="background:#028090;color:#fff">${p.darah}</span></td>
+                <td>${p.alergi || '-'}</td>
+                <td>${p.kronis || '-'}</td>
+                <td><button onclick="__hapusPasien(${idx})" class="dl">Hapus</button></td>
+            </tr>`;
+        });
+    }
+
+    // Render Tindakan
+    const tT = document.getElementById('mT_tbody'); tT.innerHTML = '';
+    if (__mdtTindakan.length === 0) {
+        tT.innerHTML = `<tr><td colspan="9" style="color:#666;font-style:italic">Belum ada catatan tindakan medis</td></tr>`;
+    } else {
+        __mdtTindakan.forEach((t, idx) => {
+            tT.innerHTML += `<tr>
+                <td><b>${idx+1}</b></td>
+                <td>${t.waktu}</td>
+                <td style="text-align:left">${t.nama}</td>
+                <td>${t.dokter}</td>
+                <td><span class="badge" style="background:#b7094c">${t.kasus}</span></td>
+                <td>${t.vital}</td>
+                <td style="text-align:left">${t.tindakan}</td>
+                <td style="color:var(--ac);font-weight:bold">$${t.biaya}</td>
+                <td><button onclick="__hapusTindakan(${idx})" class="dl">Hapus</button></td>
+            </tr>`;
+        });
+    }
+
+    // Render Dispatch
+    const tD = document.getElementById('mD_tbody'); tD.innerHTML = '';
+    if (__mdtDispatch.length === 0) {
+        tD.innerHTML = `<tr><td colspan="7" style="color:#666;font-style:italic">Belum ada log dispatch 911</td></tr>`;
+    } else {
+        __mdtDispatch.forEach((d, idx) => {
+            tD.innerHTML += `<tr>
+                <td><b>${idx+1}</b></td>
+                <td>${d.waktu}</td>
+                <td style="text-align:left">${d.lokasi}</td>
+                <td style="text-align:left">${d.ket}</td>
+                <td>${d.unit}</td>
+                <td><span class="badge s-aktif">${d.status}</span></td>
+                <td><button onclick="__hapusDispatch(${idx})" class="dl">Hapus</button></td>
+            </tr>`;
+        });
+    }
+}
+
+function __simpanPasien() {
+    const nama = document.getElementById('mP_nama').value.trim();
+    const cid = document.getElementById('mP_cid').value.trim();
+    const darah = document.getElementById('mP_darah').value;
+    const alergi = document.getElementById('mP_alergi').value.trim();
+    const kronis = document.getElementById('mP_kronis').value.trim();
+
+    if(!nama || !cid) return alert('Nama dan CID pasien wajib diisi!');
+    __mdtPasien.push({nama, cid, darah, alergi, kronis});
+    __Simpan(); __renderMdtAll();
+    document.getElementById('mP_nama').value = '';
+    document.getElementById('mP_cid').value = '';
+    document.getElementById('mP_alergi').value = '';
+    document.getElementById('mP_kronis').value = '';
+    document.getElementById('mP_msg').innerText = '✅ Rekam medis pasien berhasil disimpan!';
+    setTimeout(() => document.getElementById('mP_msg').innerText = '', 2000);
+}
+
+function __hapusPasien(idx) {
+    if(confirm('Hapus rekam medis pasien ini?')) {
+        __mdtPasien.splice(idx, 1);
+        __Simpan(); __renderMdtAll();
+    }
+}
+
+function __tambahTindakan() {
+    const nama = document.getElementById('mT_nama').value.trim();
+    const dokter = document.getElementById('mT_dokter').value.trim();
+    const kasus = document.getElementById('mT_kasus').value;
+    const vital = document.getElementById('mT_vital').value.trim();
+    const tindakan = document.getElementById('mT_tindakan').value.trim();
+    const biaya = document.getElementById('mT_biaya').value.trim();
+
+    if(!nama || !dokter || !tindakan) return alert('Lengkapi Nama Pasien, Dokter, dan Tindakan!');
+    const waktu = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}) + ' WIB';
+
+    __mdtTindakan.push({waktu, nama, dokter, kasus, vital, tindakan, biaya: biaya || '0'});
+    __Simpan(); __renderMdtAll();
+    document.getElementById('mT_nama').value = '';
+    document.getElementById('mT_dokter').value = '';
+    document.getElementById('mT_vital').value = '';
+    document.getElementById('mT_tindakan').value = '';
+    document.getElementById('mT_biaya').value = '';
+    document.getElementById('mT_msg').innerText = '✅ Laporan tindakan & tagihan berhasil direkam!';
+    setTimeout(() => document.getElementById('mT_msg').innerText = '', 2000);
+}
+
+function __hapusTindakan(idx) {
+    if(confirm('Hapus laporan tindakan ini?')) {
+        __mdtTindakan.splice(idx, 1);
+        __Simpan(); __renderMdtAll();
+    }
+}
+
+function __tambahDispatch() {
+    const lokasi = document.getElementById('mD_lokasi').value.trim();
+    const ket = document.getElementById('mD_ket').value.trim();
+    const unit = document.getElementById('mD_unit').value.trim();
+
+    if(!lokasi || !ket) return alert('Lokasi dan deskripsi darurat wajib diisi!');
+    const waktu = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}) + ' WIB';
+
+    __mdtDispatch.push({waktu, lokasi, ket, unit: unit || 'Belum Ditentukan', status:'Menuju Lokasi'});
+    __Simpan(); __renderMdtAll();
+    document.getElementById('mD_lokasi').value = '';
+    document.getElementById('mD_ket').value = '';
+    document.getElementById('mD_unit').value = '';
+    document.getElementById('mD_msg').innerText = '🚨 Dispatch 911 berhasil disiarkan!';
+    setTimeout(() => document.getElementById('mD_msg').innerText = '', 2000);
+}
+
+function __hapusDispatch(idx) {
+    if(confirm('Hapus log dispatch ini?')) {
+        __mdtDispatch.splice(idx, 1);
+        __Simpan(); __renderMdtAll();
+    }
 }
 </script>
 </body>
