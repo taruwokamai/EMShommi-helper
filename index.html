@@ -60,20 +60,22 @@ select.tin{cursor:pointer}
 .arr:hover{background:#036775}
 .pos-input{width:50px;padding:3px 5px;background:var(--bt);border:1px solid var(--ac);border-radius:3px;color:var(--txt);font-size:11px;text-align:center}
 
-/* CSS TAMBAHAN KHUSUS MDT EMS GAYA MODERN RUMAH SAKIT HOMMI */
+/* CSS MDT EMS RUMAH SAKIT HOMMI MODERN INTERAKTIF */
 .mdt-container-box { background: #eef0f3; color: #212529; border-radius: 12px; padding: 15px; min-height: 700px; display: flex; flex-direction: column; }
 .mdt-header-top { background: #fff; padding: 12px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; margin-bottom: 15px; }
-.mdt-body-grid { display: grid; grid-template-columns: 220px 1fr 1fr; gap: 15px; flex: 1; }
-.mdt-sidebar-menu { background: #fff; border-radius: 8px; padding: 15px 10px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; }
+.mdt-body-grid { display: grid; grid-template-columns: 220px 1fr; gap: 15px; flex: 1; }
+.mdt-sidebar-menu { background: #fff; border-radius: 8px; padding: 15px 10px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; height: fit-content; }
 .mdt-nav-btn { padding: 10px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; color: #495057; cursor: pointer; border: none; background: transparent; text-align: left; width: 100%; transition: .2s; }
 .mdt-nav-btn:hover { background: #f8f9fa; color: #000; }
-.mdt-nav-btn.active { background: #e2e6ea; color: #000; font-weight: 700; }
-.mdt-pane { background: #f8f9fa; border: 1px solid #ced4da; border-radius: 8px; padding: 12px; display: flex; flex-direction: column; gap: 8px; }
-.mdt-pane-title { font-weight: 800; font-size: 15px; color: #212529; margin-bottom: 4px; }
-.mdt-input-clean { width: 100%; padding: 8px 10px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; background: #fff; color: #212529; }
-.mdt-btn-clean { background: #0d6efd; color: #fff; border: none; padding: 8px 14px; border-radius: 6px; font-weight: bold; font-size: 12px; cursor: pointer; }
+.mdt-nav-btn.active { background: #0d6efd; color: #fff; font-weight: 700; }
+.mdt-content-area { background: #fff; border: 1px solid #ced4da; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; min-height: 500px; }
+.mdt-pane-title { font-weight: 800; font-size: 18px; color: #212529; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 5px; }
+.mdt-input-clean { width: 100%; padding: 9px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; background: #fff; color: #212529; margin-bottom: 10px; }
+.mdt-btn-clean { background: #0d6efd; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
 .mdt-btn-clean:hover { background: #0b5ed7; }
-.mdt-card-box { background: #fff; border: 1px solid #dee2e6; border-radius: 6px; padding: 8px 10px; font-size: 12px; display: flex; justify-content: space-between; align-items: center; }
+.mdt-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; color: #212529; }
+.mdt-table th, .mdt-table td { padding: 10px; border: 1px solid #dee2e6; text-align: left; }
+.mdt-table th { background: #f1f3f5; color: #111; font-weight: bold; }
 </style>
 </head>
 <body>
@@ -83,23 +85,23 @@ select.tin{cursor:pointer}
 <p style="color:var(--acr);font-weight:700;font-size:13px;margin-top:4px">Sistem Informasi & Manajemen Staff Internal Faksi</p>
 </div>
 
-<!-- MENU UTAMA (DITAMBAH TOMBOL MDT EMS DIATAS) -->
+<!-- MENU UTAMA -->
 <div id="M" class="m">
 <div class="mi" onclick="__X('mdt')" style="background:#0d6efd;color:#fff;border-color:#0043a8">🚑 MDT EMS (Mobile Data Terminal) Rumah Sakit Hommi</div>
-<div class="mi" onclick="__X('ip')">📊 Infraction Point Staff[cite: 3]</div>
-<div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter[cite: 3]</div>
-<div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit[cite: 3]</div>
-<div class="mi" onclick="__X('ab')">📋 Absensi Staff[cite: 3]</div>
-<div class="mi" onclick="__X('rs')">📋 Administrasi Resign[cite: 3]</div>
+<div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
+<div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
+<div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
+<div class="mi" onclick="__X('ab')">📋 Absensi Staff</div>
+<div class="mi" onclick="__X('rs')">📋 Administrasi Resign</div>
 </div>
 
 <!-- ======================================================= -->
-<!-- MENU BARU: MDT EMS RUMAH SAKIT HOMMI (GAYA MODERN KOSONG) -->
+<!-- MDT EMS RUMAH SAKIT HOMMI (GAYA MODERN, INTERAKTIF, LENGKAP) -->
 <!-- ======================================================= -->
 <div id="Smdt" class="sec" style="background:transparent;border:none;padding:0">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 
-<!-- SCREEN LOGIN MDT (SESUAI NAMA & JABATAN) -->
+<!-- LOGIN SCREEN MDT -->
 <div id="mdtLoginScreen" style="background:var(--cbg);border:2px solid var(--brd);border-radius:12px;padding:30px;max-width:450px;margin:40px auto;text-align:center">
 <h2 style="color:var(--ac);margin-bottom:15px">🔐 Login MDT Rumah Sakit Hommi</h2>
 <p style="font-size:13px;color:#aaa;margin-bottom:20px">Masukkan Identitas Petugas/Dokter yang Bertugas</p>
@@ -134,56 +136,93 @@ select.tin{cursor:pointer}
     </div>
 
     <div class="mdt-body-grid">
+        <!-- Sidebar Menu Interaktif -->
         <div class="mdt-sidebar-menu">
-            <button class="mdt-nav-btn active">📁 Archives</button>
-            <button class="mdt-nav-btn">👤 Citizens</button>
-            <button class="mdt-nav-btn">🩹 Injuries</button>
-            <button class="mdt-nav-btn">📡 Dispatch 911</button>
-            <button class="mdt-nav-btn">🕒 Logs Aktivitas</button>
-            <div style="margin-top:auto;border-top:1px solid #eee;padding-top:10px">
-                <button class="mdt-nav-btn" style="color:#dc3545;font-weight:bold" onclick="alert('🚨 BACKUP SIGNAL BROADCASTED!')">🔔 BACKUP</button>
+            <button class="mdt-nav-btn active" onclick="__switchMdtTab(event, 'tab-citizens')">👤 Citizens (Warga)</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-injuries')">🩹 Injuries (Cedera)</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-operasi')">🏥 Daftar Pasien Operasi</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-rekammedis')">📋 Laporan Rekam Medis</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-dispatch')">📡 Dispatch 911</button>
+            <div style="margin-top:20px;border-top:1px solid #eee;padding-top:10px">
+                <button class="mdt-nav-btn" style="color:#dc3545;font-weight:bold" onclick="alert('🚨 SINYAL BACKUP DARURAT DISEBARKAN KE SEMUA UNIT EMS & POLISI!')">🔔 BACKUP</button>
             </div>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:12px">
-            <div class="mdt-pane">
-                <div class="mdt-pane-title">Search Archive</div>
-                <div style="display:flex;gap:6px">
-                    <input type="text" class="mdt-input-clean" id="mdtSearchArc" placeholder="Search for archive name">
-                    <button class="mdt-btn-clean" onclick="__cariArsip()">Check info</button>
-                </div>
-                <div id="mdtArcList" style="margin-top:6px;display:flex;flex-direction:column;gap:6px">
-                    <span style="color:#888;font-size:12px;font-style:italic">Belum ada arsip tersimpan (Kosong)</span>
-                </div>
-            </div>
-
-            <div class="mdt-pane" style="flex:1">
-                <div class="mdt-pane-title">Archive Infos & Buat Baru</div>
-                <label style="font-size:11px;font-weight:bold;color:#555">Nama Arsip / Pasien:</label>
-                <input type="text" id="newArcName" class="mdt-input-clean" placeholder="Nama Pasien / Kasus">
-                <label style="font-size:11px;font-weight:bold;color:#555">Deskripsi Tindakan:</label>
-                <textarea id="newArcDesc" class="mdt-input-clean" style="height:60px;resize:none" placeholder="Tulis rincian tindakan medis..."></textarea>
-                <button class="mdt-btn-clean" style="background:#198754;margin-top:auto" onclick="__tambahArsipMdt()">Create Archive</button>
-            </div>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:12px">
-            <div class="mdt-pane">
+        <!-- Area Konten Dinamis -->
+        <div class="mdt-content-area">
+            
+            <!-- 1. TAB CITIZENS -->
+            <div id="tab-citizens" class="mdt-tab-content">
                 <div class="mdt-pane-title">Database Warga (Citizens)</div>
-                <input type="text" class="mdt-input-clean" id="newCitName" placeholder="Tambah nama warga/pasien...">
-                <button class="mdt-btn-clean" style="margin-top:4px" onclick="__tambahWargaMdt()">Daftarkan Warga</button>
-                <div id="mdtCitList" style="margin-top:6px;display:flex;flex-direction:column;gap:6px">
-                    <span style="color:#888;font-size:12px;font-style:italic">Belum ada data warga (Kosong)</span>
-                </div>
+                <p style="font-size:13px;color:#666;margin-bottom:10px">Daftarkan atau cari data warga sipil di kota.</p>
+                <input type="text" id="citNama" class="mdt-input-clean" placeholder="Nama Lengkap Warga">
+                <input type="text" id="citCid" class="mdt-input-clean" placeholder="CID / No. Paspor">
+                <button class="mdt-btn-clean" onclick="__tambahCitizen()">Tambah Warga</button>
+                <table class="mdt-table" style="margin-top:15px">
+                    <thead><tr><th>Nama Warga</th><th>CID</th><th>Aksi</th></tr></thead>
+                    <tbody id="tbCitizens"><tr><td colspan="3" style="text-align:center;color:#888">Belum ada data warga</td></tr></tbody>
+                </table>
             </div>
 
-            <div class="mdt-pane" style="flex:1">
-                <div class="mdt-pane-title">Images / Foto Bukti</div>
-                <div id="mdtImgBox" style="background:#fff;border:1px dashed #ccc;border-radius:6px;height:90px;display:flex;align-items:center;justify-content:center;color:#888;font-size:12px">
-                    Tidak ada gambar dilampirkan
-                </div>
-                <button class="mdt-btn-clean" style="margin-top:auto" onclick="__tambahFotoMdt()">Add more image</button>
+            <!-- 2. TAB INJURIES -->
+            <div id="tab-injuries" class="mdt-tab-content" style="display:none">
+                <div class="mdt-pane-title">Pencatatan Cedera (Injuries)</div>
+                <p style="font-size:13px;color:#666;margin-bottom:10px">Catat jenis luka/trauma fisik yang dialami pasien.</p>
+                <input type="text" id="injNama" class="mdt-input-clean" placeholder="Nama Pasien">
+                <input type="text" id="injBagian" class="mdt-input-clean" placeholder="Bagian Tubuh (Cth: Kepala, Tangan Kanan, Dada)">
+                <select id="injParah" class="mdt-input-clean">
+                    <option value="Ringan">🟢 Ringan</option>
+                    <option value="Sedang">🟡 Sedang</option>
+                    <option value="Urgent / Berat">🔴 Urgent / Berat</option>
+                </select>
+                <button class="mdt-btn-clean" onclick="__tambahInjury()">Catat Cedera</button>
+                <table class="mdt-table" style="margin-top:15px">
+                    <thead><tr><th>Pasien</th><th>Bagian Tubuh</th><th>Tingkat Keparahan</th><th>Aksi</th></tr></thead>
+                    <tbody id="tbInjuries"><tr><td colspan="4" style="text-align:center;color:#888">Belum ada data cedera</td></tr></tbody>
+                </table>
             </div>
+
+            <!-- 3. TAB DAFTAR PASIEN OPERASI -->
+            <div id="tab-operasi" class="mdt-tab-content" style="display:none">
+                <div class="mdt-pane-title">Daftar Pasien Antrean Operasi</div>
+                <p style="font-size:13px;color:#666;margin-bottom:10px">Pencatatan pasien yang masuk jadwal tindakan pembedahan / operasi.</p>
+                <input type="text" id="opPasien" class="mdt-input-clean" placeholder="Nama Pasien">
+                <input type="text" id="opKeluhan" class="mdt-input-clean" placeholder="Keluhan Utama / Jenis Penyakit">
+                <input type="text" id="opDokter" class="mdt-input-clean" placeholder="Dokter Bedah Penanggung Jawab">
+                <button class="mdt-btn-clean" onclick="__tambahOperasi()">Masukkan Daftar Operasi</button>
+                <table class="mdt-table" style="margin-top:15px">
+                    <thead><tr><th>Nama Pasien</th><th>Keluhan / Penyakit</th><th>Dokter Bedah</th><th>Status</th><th>Aksi</th></tr></thead>
+                    <tbody id="tbOperasi"><tr><td colspan="5" style="text-align:center;color:#888">Belum ada pasien antrean operasi</td></tr></tbody>
+                </table>
+            </div>
+
+            <!-- 4. TAB LAPORAN REKAM MEDIS -->
+            <div id="tab-rekammedis" class="mdt-tab-content" style="display:none">
+                <div class="mdt-pane-title">Laporan Rekam Medis Pasien</div>
+                <p style="font-size:13px;color:#666;margin-bottom:10px">Arsip rekam medis lengkap pemeriksaan dan tindakan medis.</p>
+                <input type="text" id="rmPasien" class="mdt-input-clean" placeholder="Nama Pasien">
+                <input type="text" id="rmDiagnosa" class="mdt-input-clean" placeholder="Hasil Diagnosa / Sakit Apa">
+                <input type="text" id="rmTindakan" class="mdt-input-clean" placeholder="Tindakan / Resep Obat yang Diberikan">
+                <button class="mdt-btn-clean" onclick="__tambahRekamMedis()">Simpan Rekam Medis</button>
+                <table class="mdt-table" style="margin-top:15px">
+                    <thead><tr><th>Waktu</th><th>Nama Pasien</th><th>Diagnosa / Sakit</th><th>Tindakan / Obat</th><th>Aksi</th></tr></thead>
+                    <tbody id="tbRekamMedis"><tr><td colspan="5" style="text-align:center;color:#888">Belum ada laporan rekam medis</td></tr></tbody>
+                </table>
+            </div>
+
+            <!-- 5. TAB DISPATCH 911 -->
+            <div id="tab-dispatch" class="mdt-tab-content" style="display:none">
+                <div class="mdt-pane-title">Dispatch Darurat 911</div>
+                <p style="font-size:13px;color:#666;margin-bottom:10px">Panggilan darurat masuk dari warga kota.</p>
+                <input type="text" id="dispLokasi" class="mdt-input-clean" placeholder="Lokasi Kejadian (Cth: Legion Square)">
+                <input type="text" id="dispKet" class="mdt-input-clean" placeholder="Keterangan Kasus / Darurat">
+                <button class="mdt-btn-clean" onclick="__tambahDispatch()">Kirim Dispatch</button>
+                <table class="mdt-table" style="margin-top:15px">
+                    <thead><tr><th>Waktu</th><th>Lokasi</th><th>Keterangan</th><th>Status</th><th>Aksi</th></tr></thead>
+                    <tbody id="tbDispatch"><tr><td colspan="5" style="text-align:center;color:#888">Belum ada panggilan dispatch aktif</td></tr></tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 </div>
@@ -505,9 +544,12 @@ let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
 let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
 let __RS = JSON.parse(localStorage.getItem('rs_resign_data')) || [];
 
-// DATA MDT EMS RUMAH SAKIT HOMMI (KOSONG / BERSIH AWAL)
-let __mdtArsipList = [];
-let __mdtWargaList = [];
+// ARRAY DATA MDT KOSONG AWAL
+let __mdtCitizens = [];
+let __mdtInjuries = [];
+let __mdtOperasi = [];
+let __mdtRekamMedis = [];
+let __mdtDispatch = [];
 
 function __Simpan() {
     localStorage.setItem('rs_ip_data', JSON.stringify(__D));
@@ -529,20 +571,16 @@ function __X(id) {
 }
 function __B() {
     document.getElementById('M').style.display = 'flex';
-    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
+    document.querySelectorAll('.sec').forEach(x => x.style.display = 'none';
     __edit = __edit2 = __edit3 = __moveId = -1;
 }
 
-/* LOGIKA LOGIN & DASHBOARD MDT EMS RUMAH SAKIT HOMMI */
+/* LOGIKA MDT EMS INTERAKTIF */
 function __prosesLoginMdt() {
     const nama = document.getElementById('loginMdtNama').value.trim();
     const jabatan = document.getElementById('loginMdtJabatan').value.trim();
     const callsign = document.getElementById('loginMdtCallsign').value.trim();
-
-    if(!nama || !jabatan || !callsign) {
-        return alert('Mohon lengkapi Nama, Jabatan, dan Callsign terlebih dahulu!');
-    }
-
+    if(!nama || !jabatan || !callsign) return alert('Mohon lengkapi data login!');
     localStorage.setItem('rs_mdt_user', JSON.stringify({nama, jabatan, callsign}));
     __cekLoginMdtState();
 }
@@ -567,65 +605,116 @@ function __logoutMdt() {
     __cekLoginMdtState();
 }
 
-function __tambahArsipMdt() {
-    const nama = document.getElementById('newArcName').value.trim();
-    const desc = document.getElementById('newArcDesc').value.trim();
-    if(!nama || !desc) return alert('Nama dan deskripsi arsip tidak boleh kosong!');
-    
-    __mdtArsipList.push({nama, desc, date: new Date().toLocaleDateString('id-ID')});
-    document.getElementById('newArcName').value = '';
-    document.getElementById('newArcDesc').value = '';
-    __renderArsipMdt();
-    alert('Arsip berhasil dibuat!');
+function __switchMdtTab(event, tabId) {
+    document.querySelectorAll('.mdt-nav-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.mdt-tab-content').forEach(c => c.style.display = 'none');
+    event.currentTarget.classList.add('active');
+    document.getElementById(tabId).style.display = 'block';
 }
 
-function __renderArsipMdt() {
-    const box = document.getElementById('mdtArcList');
-    if(__mdtArsipList.length === 0) {
-        box.innerHTML = `<span style="color:#888;font-size:12px;font-style:italic">Belum ada arsip tersimpan (Kosong)</span>`;
-        return;
-    }
-    box.innerHTML = '';
-    __mdtArsipList.forEach(a => {
-        box.innerHTML += `<div class="mdt-card-box"><div><b>${a.nama}</b><br><span style="color:#666">${a.desc}</span></div><span style="font-size:10px;color:#888">${a.date}</span></div>`;
+// 1. Citizens
+function __tambahCitizen() {
+    const nama = document.getElementById('citNama').value.trim();
+    const cid = document.getElementById('citCid').value.trim();
+    if(!nama || !cid) return alert('Nama dan CID wajib diisi!');
+    __mdtCitizens.push({nama, cid});
+    document.getElementById('citNama').value = '';
+    document.getElementById('citCid').value = '';
+    __renderCitizens();
+}
+function __renderCitizens() {
+    const tb = document.getElementById('tbCitizens');
+    if(__mdtCitizens.length === 0) { tb.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888">Belum ada data warga</td></tr>`; return; }
+    tb.innerHTML = '';
+    __mdtCitizens.forEach((c, idx) => {
+        tb.innerHTML += `<tr><td>${c.nama}</td><td>${c.cid}</td><td><button onclick="__mdtCitizens.splice(${idx},1);__renderCitizens()" class="dl">Hapus</button></td></tr>`;
     });
 }
 
-function __cariArsip() {
-    const q = document.getElementById('mdtSearchArc').value.toLowerCase();
-    const filtered = __mdtArsipList.filter(a => a.nama.toLowerCase().includes(q));
-    const box = document.getElementById('mdtArcList');
-    if(filtered.length === 0) {
-        box.innerHTML = `<span style="color:#d9534f;font-size:12px">Arsip tidak ditemukan</span>`;
-        return;
-    }
-    box.innerHTML = '';
-    filtered.forEach(a => {
-        box.innerHTML += `<div class="mdt-card-box" style="border-left:3px solid #0d6efd"><div><b>${a.nama}</b><br><span style="color:#666">${a.desc}</span></div></div>`;
+// 2. Injuries
+function __tambahInjury() {
+    const nama = document.getElementById('injNama').value.trim();
+    const bagian = document.getElementById('injBagian').value.trim();
+    const parah = document.getElementById('injParah').value;
+    if(!nama || !bagian) return alert('Lengkapi data cedera!');
+    __mdtInjuries.push({nama, bagian, parah});
+    document.getElementById('injNama').value = '';
+    document.getElementById('injBagian').value = '';
+    __renderInjuries();
+}
+function __renderInjuries() {
+    const tb = document.getElementById('tbInjuries');
+    if(__mdtInjuries.length === 0) { tb.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888">Belum ada data cedera</td></tr>`; return; }
+    tb.innerHTML = '';
+    __mdtInjuries.forEach((i, idx) => {
+        tb.innerHTML += `<tr><td>${i.nama}</td><td>${i.bagian}</td><td><b>${i.parah}</b></td><td><button onclick="__mdtInjuries.splice(${idx},1);__renderInjuries()" class="dl">Hapus</button></td></tr>`;
     });
 }
 
-function __tambahWargaMdt() {
-    const warga = document.getElementById('newCitName').value.trim();
-    if(!warga) return alert('Nama warga wajib diisi!');
-    __mdtWargaList.push({nama: warga});
-    document.getElementById('newCitName').value = '';
-    const box = document.getElementById('mdtCitList');
-    box.innerHTML = '';
-    __mdtWargaList.forEach(w => {
-        box.innerHTML += `<div class="mdt-card-box"><span>👤 ${w.nama}</span></div>`;
+// 3. Daftar Operasi
+function __tambahOperasi() {
+    const pasien = document.getElementById('opPasien').value.trim();
+    const keluhan = document.getElementById('opKeluhan').value.trim();
+    const dokter = document.getElementById('opDokter').value.trim();
+    if(!pasien || !keluhan || !dokter) return alert('Lengkapi data pasien operasi!');
+    __mdtOperasi.push({pasien, keluhan, dokter, status: 'Menunggu Jadwal'});
+    document.getElementById('opPasien').value = '';
+    document.getElementById('opKeluhan').value = '';
+    document.getElementById('opDokter').value = '';
+    __renderOperasi();
+}
+function __renderOperasi() {
+    const tb = document.getElementById('tbOperasi');
+    if(__mdtOperasi.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada pasien antrean operasi</td></tr>`; return; }
+    tb.innerHTML = '';
+    __mdtOperasi.push && __mdtOperasi.forEach((o, idx) => {
+        tb.innerHTML += `<tr><td>${o.pasien}</td><td>${o.keluhan}</td><td>${o.dokter}</td><td><span class="badge s-aktif">${o.status}</span></td><td><button onclick="__mdtOperasi.splice(${idx},1);__renderOperasi()" class="dl">Hapus</button></td></tr>`;
     });
-    alert('Data warga berhasil didaftarkan!');
 }
 
-function __tambahFotoMdt() {
-    const url = prompt('Masukkan URL Gambar / Bukti Medis:');
-    if(url) {
-        document.getElementById('mdtImgBox').innerHTML = `<img src="${url}" style="width:100%;height:100%;object-fit:cover;border-radius:6px">`;
-    }
+// 4. Rekam Medis
+function __tambahRekamMedis() {
+    const pasien = document.getElementById('rmPasien').value.trim();
+    const diagnosa = document.getElementById('rmDiagnosa').value.trim();
+    const tindakan = document.getElementById('rmTindakan').value.trim();
+    if(!pasien || !diagnosa || !tindakan) return alert('Lengkapi form rekam medis!');
+    const waktu = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + ' WIB';
+    __mdtRekamMedis.push({waktu, pasien, diagnosa, tindakan});
+    document.getElementById('rmPasien').value = '';
+    document.getElementById('rmDiagnosa').value = '';
+    document.getElementById('rmTindakan').value = '';
+    __renderRekamMedis();
+}
+function __renderRekamMedis() {
+    const tb = document.getElementById('tbRekamMedis');
+    if(__mdtRekamMedis.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada laporan rekam medis</td></tr>`; return; }
+    tb.innerHTML = '';
+    __mdtRekamMedis.forEach((r, idx) => {
+        tb.innerHTML += `<tr><td>${r.waktu}</td><td>${r.pasien}</td><td>${r.diagnosa}</td><td>${r.tindakan}</td><td><button onclick="__mdtRekamMedis.splice(${idx},1);__renderRekamMedis()" class="dl">Hapus</button></td></tr>`;
+    });
 }
 
-/* FUNGSI UTAMA ASLI DARI KODEAMAN.TXT */
+// 5. Dispatch 911
+function __tambahDispatch() {
+    const lokasi = document.getElementById('dispLokasi').value.trim();
+    const ket = document.getElementById('dispKet').value.trim();
+    if(!lokasi || !ket) return alert('Lengkapi lokasi dan keterangan dispatch!');
+    const waktu = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + ' WIB';
+    __mdtDispatch.push({waktu, lokasi, ket, status: 'Menuju Lokasi'});
+    document.getElementById('dispLokasi').value = '';
+    document.getElementById('dispKet').value = '';
+    __renderDispatch();
+}
+function __renderDispatch() {
+    const tb = document.getElementById('tbDispatch');
+    if(__mdtDispatch.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada panggilan dispatch aktif</td></tr>`; return; }
+    tb.innerHTML = '';
+    __mdtDispatch.forEach((d, idx) => {
+        tb.innerHTML += `<tr><td>${d.waktu}</td><td>${d.lokasi}</td><td>${d.ket}</td><td><span class="badge s-aktif">${d.status}</span></td><td><button onclick="__mdtDispatch.splice(${idx},1);__renderDispatch()" class="dl">Hapus</button></td></tr>`;
+    });
+}
+
+/* FUNGSI UTAMA ASLI DARI KODEAMAN.TXT[cite: 3] */
 function __L() {
     if(document.getElementById('PW').value === ADMIN_PASS) {
         __ADM = true;
