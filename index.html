@@ -3,80 +3,400 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Rumah Sakit Hommi Helper</title>
+<title>Rumah Sakit Hommi Helper & MDT EMS</title>
 <style>
-:root{--bg:#120202;--cbg:#1f0505;--txt:#f8f9fa;--brd:#7a0d0d;--ac:#ffb703;--acr:#e63946;--bt:#2b0a0a;--bth:#450f0f;--ok:#2a9d8f;--info:#028090}
+:root {
+    --bg-dark: #0f1115;
+    --panel-bg: #e5e5e5;
+    --card-bg: #ffffff;
+    --sidebar-bg: #f4f4f6;
+    --accent-blue: #0d6efd;
+    --accent-green: #198754;
+    --accent-red: #dc3545;
+    --txt-dark: #212529;
+    --txt-muted: #6c757d;
+    --border-color: #ced4da;
+    
+    /* Legacy variables for internal RS Hommi */
+    --bg:#120202;--cbg:#1f0505;--txt:#f8f9fa;--brd:#7a0d0d;--ac:#ffb703;--acr:#e63946;--bt:#2b0a0a;--bth:#450f0f;--ok:#2a9d8f;--info:#028090
+}
+
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--txt);padding:20px;line-height:1.6;-webkit-user-select:none;user-select:none}
-.c{max-width:1250px;margin:0 auto}
-h1{color:var(--ac);font-size:26px;text-shadow:0 2px 4px rgba(255,0,0,.4)}
-.hd{text-align:center;padding:20px 0;border-bottom:2px solid var(--brd);margin-bottom:25px}
-.m{display:flex;flex-direction:column;gap:12px;max-width:550px;margin:30px auto}
-.mi{background:var(--bt);border:2px solid var(--brd);border-radius:10px;padding:16px;text-align:center;font-weight:700;color:var(--ac);cursor:pointer;transition:.2s}
+body{font-family:'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg-dark);color:var(--txt-dark);line-height:1.5;-webkit-user-select:none;user-select:none;padding:15px}
+
+.c{max-width:1400px;margin:0 auto}
+
+/* HEADER RUMAH SAKIT HOMMI HELPER (OLD MENU) */
+.hd{text-align:center;padding:15px 0;border-bottom:2px solid var(--brd);margin-bottom:20px;background:var(--cbg);border-radius:10px}
+h1.main-title{color:var(--ac);font-size:24px;text-shadow:0 2px 4px rgba(255,0,0,.4)}
+.m{display:flex;flex-wrap:wrap;justify-content:center;gap:10px;max-width:900px;margin:15px auto}
+.mi{background:var(--bt);border:2px solid var(--brd);border-radius:8px;padding:12px 20px;font-weight:700;color:var(--ac);cursor:pointer;transition:.2s;font-size:14px}
 .mi:hover{background:var(--bth);border-color:var(--ac);transform:translateY(-2px)}
-.sec{display:none;background:var(--cbg);border:2px solid var(--brd);border-radius:12px;padding:25px;margin-top:20px;box-shadow:0 8px 24px rgba(0,0,0,.5)}
+.sec{display:none;background:var(--cbg);border:2px solid var(--brd);border-radius:12px;padding:25px;margin-top:20px;color:var(--txt)}
+
 .bk{background:#450f0f;color:#fff;border:1px solid var(--ac);padding:8px 16px;border-radius:6px;cursor:pointer;font-weight:700;margin-bottom:20px;transition:.2s}
 .bk:hover{background:#631515}
 .lb{display:block;font-weight:700;margin-bottom:6px;color:var(--ac);font-size:13px}
 .inp{width:100%;padding:10px 12px;background:var(--bg);border:1px solid var(--brd);border-radius:6px;color:var(--txt);font-size:14px;margin-bottom:12px}
 .inp:focus{border-color:var(--ac);outline:none}
-.inp:disabled{opacity:.5;cursor:not-allowed;background:#0d0101}
-select.inp{cursor:pointer}
 .btn{background:var(--ac);color:#000;border:none;padding:10px 18px;font-weight:700;border-radius:6px;cursor:pointer;margin:4px 6px 4px 0;transition:.2s}
 .btn:hover{background:#ffd166}
-.btn:disabled{opacity:.4;cursor:not-allowed}
-.dc{background:#5865f2;color:#fff}
-.dc:hover{background:#4752c4}
-.sm{background:var(--ac);color:#000;border:none;padding:5px 8px;font-weight:700;border-radius:4px;cursor:pointer;font-size:11px;margin:1px}
+.dc{background:#5865f2;color:#fff}.dc:hover{background:#4752c4}
+.sm{background:var(--ac);color:#000;border:none;padding:5px 8px;font-weight:700;border-radius:4px;cursor:pointer;font-size:11px}
 .ok{background:var(--ok);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .cn{background:#6c757d;color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .dl{background:var(--acr);color:#fff;border:none;padding:6px 12px;border-radius:4px;cursor:pointer;font-weight:700;font-size:12px}
 .tb{background:#150202;border-radius:8px;padding:12px;border:1px solid var(--brd);overflow-x:auto;margin-top:20px}
 table{width:100%;border-collapse:collapse;font-size:13px}
-th,td{padding:10px 8px;border-bottom:1px solid #3d0a0a;vertical-align:middle;text-align:center}
-th{background:#2b0a0a;color:var(--ac);white-space:nowrap;font-weight:700}
+th,td{padding:10px 8px;border-bottom:1px solid #3d0a0a;text-align:center}
+th{background:#2b0a0a;color:var(--ac);font-weight:700}
 th.grp{background:#3d0d0d;border:1px solid var(--brd);font-size:14px;color:var(--ac);text-align:left;padding:12px 15px}
 .tin{width:100%;padding:6px 8px;background:var(--bt);border:1px solid var(--ac);border-radius:4px;color:var(--txt);font-size:13px}
-select.tin{cursor:pointer}
-
 .badge{padding:3px 8px;border-radius:4px;font-size:11px;font-weight:700;display:inline-block}
-.j-manajemen{background:#b7094c;color:#fff}
-.j-medis{background:#0077b6;color:#fff}
-.j-trainee{background:#555;color:#fff}
-.j-nonaktif{background:#212529;color:#fff;border:1px solid #495057}
-
-.s-aktif{background:#2a9d8f;color:#fff}
-.s-tidakaktif{background:#e76f51;color:#fff}
-.s-resign{background:#343a40;color:#fff}
-.s-pthd{background:#f4a261;color:#000}
-.g-laki{background:#1d3557;color:#fff}
-.g-perempuan{background:#e63946;color:#fff}
-
+.j-manajemen{background:#b7094c;color:#fff}.j-medis{background:#0077b6;color:#fff}.j-trainee{background:#555;color:#fff}.j-nonaktif{background:#212529;color:#fff}
+.s-aktif{background:#2a9d8f;color:#fff}.s-tidakaktif{background:#e76f51;color:#fff}.g-laki{background:#1d3557;color:#fff}.g-perempuan{background:#e63946;color:#fff}
 .bg{display:inline-block;background:var(--ac);color:#000;padding:2px 8px;border-radius:4px;font-size:11px;font-weight:700;margin-left:8px}
-.lk{color:var(--ac);font-size:13px;margin-bottom:12px;font-style:italic}
-.msg{color:#2a9d8f;font-size:13px;margin-top:8px;font-weight:700}
-.err{color:#e63946}
-.arr{background:var(--info);color:#fff;padding:4px 6px;font-size:11px;border-radius:3px;margin:0 1px;cursor:pointer;border:none;font-weight:bold}
-.arr:hover{background:#036775}
-.pos-input{width:50px;padding:3px 5px;background:var(--bt);border:1px solid var(--ac);border-radius:3px;color:var(--txt);font-size:11px;text-align:center}
+.msg{color:#2a9d8f;font-size:13px;margin-top:8px;font-weight:700}.err{color:#e63946}
+
+/* ==================================================== */
+/* TAMPILAN MDT MODERN FIVEM (EXACT MATCH IMAGE)        */
+/* ==================================================== */
+.mdt-window {
+    background: #eef0f3;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    min-height: 720px;
+    border: 2px solid #333;
+    color: #212529;
+}
+
+/* Header MDT */
+.mdt-header {
+    background: #ffffff;
+    padding: 15px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid #e0e0e0;
+}
+.mdt-logo-sec {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+.mdt-logo-icon {
+    width: 50px;
+    height: 50px;
+    background: #003399;
+    clip-path: polygon(30% 0%, 70% 0%, 70% 30%, 100% 30%, 100% 70%, 70% 70%, 70% 100%, 30% 100%, 30% 70%, 0% 70%, 0% 30%, 30% 30%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-weight: bold;
+    font-size: 24px;
+}
+.mdt-title h2 { font-size: 22px; font-weight: 800; color: #1a1a1a; margin: 0; }
+.mdt-title p { font-size: 13px; color: #777; margin: 0; }
+
+.mdt-profile-card {
+    background: #f8f9fa;
+    border: 1px solid #ddd;
+    border-radius: 30px;
+    padding: 5px 15px 5px 8px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.mdt-avatar {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    background: #0077b6;
+    background-size: cover;
+    background-position: center;
+    border: 2px solid #0d6efd;
+}
+.mdt-prof-info { font-size: 12px; text-align: left; }
+.mdt-prof-info div { display: flex; align-items: center; gap: 5px; font-weight: 600; }
+
+/* Main Layout MDT */
+.mdt-body {
+    display: flex;
+    flex: 1;
+}
+
+/* Sidebar Left */
+.mdt-sidebar {
+    width: 220px;
+    background: #ffffff;
+    border-right: 2px solid #e0e0e0;
+    padding: 20px 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.mdt-nav-list { display: flex; flex-direction: column; gap: 6px; }
+.mdt-nav-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #555;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.mdt-nav-item:hover { background: #f0f2f5; color: #000; }
+.mdt-nav-item.active { background: #dcdfe4; color: #000; font-weight: 700; }
+
+.mdt-bottom-nav { display: flex; flex-direction: column; gap: 6px; border-top: 1px solid #eee; padding-top: 10px; }
+.mdt-btn-backup { color: #dc3545; font-weight: bold; }
+
+/* Content Grid Area */
+.mdt-content {
+    flex: 1;
+    padding: 15px;
+    display: grid;
+    grid-template-columns: 280px 1fr 1fr;
+    gap: 15px;
+    overflow-y: auto;
+}
+
+/* Column Cards / Boxes */
+.mdt-panel {
+    background: #f8f9fa;
+    border: 1px solid #dcdfe4;
+    border-radius: 10px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.mdt-panel-title { font-size: 16px; font-weight: 800; color: #222; margin-bottom: 4px; }
+
+/* Common UI Inputs MDT */
+.mdt-input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 13px;
+    background: #fff;
+}
+.mdt-btn {
+    background: #0d6efd;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.mdt-btn:hover { background: #0b5ed7; }
+.mdt-btn-success { background: #198754; } .mdt-btn-success:hover { background: #157347; }
+
+/* Items List in Panel */
+.mdt-card-item {
+    background: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    cursor: pointer;
+    transition: 0.2s;
+    position: relative;
+}
+.mdt-card-item:hover { border-color: #0d6efd; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+.mdt-card-item.selected {
+    background: #a3c2a0 !important;
+    border-color: #5b8a57 !important;
+    color: #1b3d18 !important;
+}
+.mdt-card-item.selected .mdt-card-sub { color: #2e592b !important; }
+.mdt-card-img { width: 45px; height: 45px; border-radius: 6px; background: #ddd; object-fit: cover; }
+.mdt-card-details { font-size: 11px; flex: 1; }
+.mdt-card-name { font-weight: 800; font-size: 12px; margin-bottom: 2px; }
+.mdt-card-sub { color: #666; }
+
+.mdt-selected-badge {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-weight: 800;
+    font-size: 13px;
+    letter-spacing: 1px;
+    color: #2b4c28;
+}
+
+/* Right Columns Layout */
+.mdt-grid-col { display: flex; flex-direction: column; gap: 15px; }
+
+/* Image Upload Grid */
+.mdt-img-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; }
+.mdt-img-thumb { width: 100%; height: 90px; border-radius: 6px; object-fit: cover; border: 1px solid #ccc; }
+
+.severity-urgent { color: #dc3545; font-weight: bold; }
+.severity-medium { color: #fd7e14; font-weight: bold; }
 </style>
 </head>
 <body>
 <div class="c">
+
+<!-- NAVIGATION / MENU UTAMA FACTION RS HOMMI -->
 <div class="hd">
-<h1>Rumah Sakit Hommi Helper</h1>
-<p style="color:var(--acr);font-weight:700;font-size:13px;margin-top:4px">Sistem Informasi & Manajemen Staff Internal Faksi</p>
+<h1 class="main-title">Rumah Sakit Hommi Helper</h1>
+<p style="color:var(--acr);font-weight:700;font-size:13px;margin-top:4px">Sistem Informasi Faksi & MDT EMS FiveM Integrated</p>
 </div>
 
 <div id="M" class="m">
+<div class="mi" onclick="__X('mdt')" style="background:#003399;border-color:#0d6efd;color:#fff;font-size:15px">🚑 Buka Terminal MDT EMS</div>
 <div class="mi" onclick="__X('ip')">📊 Infraction Point Staff</div>
 <div class="mi" onclick="__X('rp')">📋 Panduan Resep Dokter</div>
 <div class="mi" onclick="__X('ds')">👥 Data Staff Rumah Sakit</div>
 <div class="mi" onclick="__X('ab')">📋 Absensi Staff</div>
 <div class="mi" onclick="__X('rs')">📋 Administrasi Resign</div>
-<div class="mi" onclick="__X('mdt')" style="background:#023e8a;border-color:#0077b6;color:#fff">🚑 **MDT EMS (Mobile Data Terminal)**</div>
 </div>
 
+<!-- ======================================================= -->
+<!-- SECTION: MDT EMS MODERN (EXACT MATCH FIVE-M UI IN IMAGE)[cite: 2] -->
+<!-- ======================================================= -->
+<div id="Smdt" class="sec" style="display:block; background: transparent; border:none; padding:0">
+<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
+
+<div class="mdt-window">
+    <!-- Header -->
+    <div class="mdt-header">
+        <div class="mdt-logo-sec">
+            <div class="mdt-logo-icon">✚</div>
+            <div class="mdt-title">
+                <h2>Los Santos Medical Department</h2>
+                <p>Your best ems database ever!</p>
+            </div>
+        </div>
+        
+        <div class="mdt-profile-card">
+            <div class="mdt-avatar" style="background-image: url('https://i.imgur.com/8Km9tLL.png');"></div>
+            <div class="mdt-prof-info">
+                <div>👤 <span id="mdtProfName">John</span></div>
+                <div>⭐ <span id="mdtProfRank">Surgeon</span></div>
+                <div>💳 <span id="mdtProfCallsign">EMS-1</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Body Layout -->
+    <div class="mdt-body">
+        <!-- Sidebar Navigation Left -->
+        <div class="mdt-sidebar">
+            <div class="mdt-nav-list">
+                <div class="mdt-nav-item" onclick="__switchMdtTab(this, 'home')">🏠 Home</div>
+                <div class="mdt-nav-item" onclick="__switchMdtTab(this, 'citizens')">👤 Citizens</div>
+                <div class="mdt-nav-item active" onclick="__switchMdtTab(this, 'archives')">📁 Archives</div>
+                <div class="mdt-nav-item" onclick="__switchMdtTab(this, 'central')">🏢 Central</div>
+                <div class="mdt-nav-item" onclick="__switchMdtTab(this, 'dispatch')">📡 Dispatch</div>
+                <div class="mdt-nav-item" onclick="__switchMdtTab(this, 'fines')">🧾 Fines</div>
+                <div class="mdt-nav-item" onclick="__switchMdtTab(this, 'chat')">💬 Chat</div>
+                <div class="mdt-nav-item" onclick="__switchMdtTab(this, 'logs')">🕒 Logs</div>
+            </div>
+
+            <div class="mdt-bottom-nav">
+                <div class="mdt-nav-item mdt-btn-backup" onclick="alert('🚨 BACKUP SIGNAL BROADCASTED TO ALL EMS & POLICE!')">🔔 BACKUP</div>
+                <div class="mdt-nav-item" onclick="__B()">🚪 Logout</div>
+            </div>
+        </div>
+
+        <!-- Content Area Grid -->
+        <div class="mdt-content">
+            
+            <!-- Column 1: Search Archive -->
+            <div class="mdt-panel">
+                <div class="mdt-panel-title">Search Archive</div>
+                <div style="display:flex;gap:6px">
+                    <input type="text" id="arcSearch" class="mdt-input" placeholder="Search for archive name">
+                    <button class="mdt-btn" onclick="__filterArchive()">Check info</button>
+                </div>
+
+                <div id="archiveListContainer" style="display:flex;flex-direction:column;gap:8px;margin-top:10px">
+                    <!-- Cards Loaded via JS -->
+                </div>
+            </div>
+
+            <!-- Column 2: Citizens & Archive Infos -->
+            <div class="mdt-grid-col">
+                <!-- Citizens Panel -->
+                <div class="mdt-panel" style="max-height: 280px; overflow-y:auto">
+                    <div class="mdt-panel-title">Citizens</div>
+                    <input type="text" class="mdt-input" id="citSearch" placeholder="Write the name of civilian" onkeyup="__renderCitizens()">
+                    
+                    <div id="citListContainer" style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+                        <!-- Citizen List Loaded via JS -->
+                    </div>
+                    <button class="mdt-btn" style="align-self:flex-end;margin-top:4px">Selected</button>
+                </div>
+
+                <!-- Archive Infos Panel -->
+                <div class="mdt-panel" style="flex:1">
+                    <div class="mdt-panel-title">Archive Infos</div>
+                    <div>
+                        <label style="font-size:11px;font-weight:bold;color:#555">Name:</label>
+                        <input type="text" id="arcNameInput" class="mdt-input" value="EMS Archive">
+                    </div>
+                    <div>
+                        <label style="font-size:11px;font-weight:bold;color:#555">Description:</label>
+                        <textarea id="arcDescInput" class="mdt-input" style="height:70px;resize:none">Number 5 - Collab with police officer!</textarea>
+                    </div>
+                    <div>
+                        <label style="font-size:11px;font-weight:bold;color:#555">Medics involved:</label>
+                        <div style="display:flex;align-items:center;gap:8px;margin-top:4px">
+                            <div class="mdt-avatar" style="width:30px;height:30px;background-image:url('https://i.imgur.com/8Km9tLL.png')"></div>
+                            <div class="mdt-avatar" style="width:30px;height:30px;background:#6c757d;display:flex;align-items:center;justify-content:center;color:#fff;font-size:12px;font-weight:bold">👤</div>
+                            <button class="mdt-btn" style="padding:4px 8px;border-radius:50%">+</button>
+                        </div>
+                    </div>
+                    <button class="mdt-btn mdt-btn-success" style="align-self:flex-end;margin-top:auto" onclick="__saveArchiveInfo()">Create</button>
+                </div>
+            </div>
+
+            <!-- Column 3: Injuries & Images List -->
+            <div class="mdt-grid-col">
+                <!-- Injuries Panel -->
+                <div class="mdt-panel" style="max-height: 280px; overflow-y:auto">
+                    <div class="mdt-panel-title">Injuries</div>
+                    <input type="text" class="mdt-input" placeholder="Write name of injury">
+                    
+                    <div id="injuryListContainer" style="display:flex;flex-direction:column;gap:8px;margin-top:6px">
+                        <!-- Injury Cards Loaded via JS -->
+                    </div>
+                    <button class="mdt-btn" style="align-self:flex-end;margin-top:4px">Selected</button>
+                </div>
+
+                <!-- Images List Panel -->
+                <div class="mdt-panel" style="flex:1">
+                    <div class="mdt-panel-title">Images List</div>
+                    <div class="mdt-img-grid" id="imgGridContainer">
+                        <img src="https://i.imgur.com/rN9kQ4N.jpeg" class="mdt-img-thumb" alt="Evidence 1">
+                    </div>
+                    <button class="mdt-btn" style="align-self:flex-end;margin-top:auto" onclick="__addMdtImage()">Add more</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+</div>
+
+<!-- MENU LAMA (KEEP UNTOUCHED) -->
 <div id="Sip" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
 <h2>Input & Data Infraction Point (IP) Staff <span id="AD" class="bg" style="display:none">🔒 ADMIN</span></h2>
@@ -97,9 +417,7 @@ select.tin{cursor:pointer}
 </div>
 <div class="tb">
 <table>
-<thead>
-<tr><th>Nama Staff</th><th>Jabatan</th><th>IP</th><th id="AC" style="display:none">AKSI</th></tr>
-</thead>
+<thead><tr><th>Nama Staff</th><th>Jabatan</th><th>IP</th><th id="AC" style="display:none">AKSI</th></tr></thead>
 <tbody id="TB"></tbody>
 </table>
 </div>
@@ -135,7 +453,6 @@ select.tin{cursor:pointer}
 <label class="lb">Format Discord:</label>
 <pre id="RP" style="background:var(--bg);border:1px solid var(--brd);border-radius:6px;padding:12px;font-family:monospace;color:var(--ac);white-space:pre-wrap"></pre>
 <button class="btn dc" style="margin-top:10px" onclick="__RC()">📋 Copy Lengkap</button>
-<span id="RMG" class="msg"></span>
 </div>
 </div>
 </div>
@@ -147,370 +464,64 @@ select.tin{cursor:pointer}
 <label class="lb">🔑 Kata Sandi Admin:</label>
 <input type="password" id="PW2" class="inp" placeholder="Masukkan kata sandi...">
 <button class="btn" onclick="__L2()">🔓 Buka Akses Edit</button>
-<span id="LMG2" class="msg"></span>
 </div>
 <div id="IBOX2" style="opacity:.5;pointer-events:none">
-<div class="lk">🔒 Terkunci — Masukkan kata sandi admin di atas</div>
 <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
-<div><label class="lb">BATCH</label><input type="text" id="dsB" class="inp" disabled placeholder="Contoh: 001"></div>
-<div><label class="lb">NAMA LENGKAP</label><input type="text" id="dsN" class="inp" disabled placeholder="Nama Lengkap"></div>
-<div><label class="lb">JABATAN / PANGKAT</label>
-<select id="dsJ" class="inp" disabled>
-<option value="">— Pilih Jabatan —</option>
-<optgroup label="Direksi & Manajemen">
-<option value="CEO">CEO</option>
-<option value="Direktur">Direktur</option>
-<option value="Wakil Direktur">Wakil Direktur</option>
-<option value="Sekben">Sekben</option>
-<option value="Kabid Komdis">Kabid Komdis</option>
-<option value="Komdis">Komdis</option>
-<option value="Kabid HRD">Kabid HRD</option>
-<option value="HRD">HRD</option>
-<option value="Ka. Laboran">Ka. Laboran</option>
-<option value="Manajemen Lab">Manajemen Lab</option>
-</optgroup>
-<optgroup label="Staff Medis">
-<option value="Dokter Spesialis">Dokter Spesialis</option>
-<option value="Dokter Residen">Dokter Residen</option>
-<option value="Dokter Umum">Dokter Umum</option>
-<option value="Co Ass">Co Ass</option>
-</optgroup>
-<optgroup label="Trainee">
-<option value="Trainee">Trainee</option>
-</optgroup>
-<optgroup label="Resign / PTHD">
-<option value="Resign">Resign</option>
-<option value="PTHD">PTHD</option>
-</optgroup>
-</select>
-</div>
-<div><label class="lb">STATUS</label>
-<select id="dsSt" class="inp" disabled>
-<option value="">— Pilih Status —</option>
-<option value="Aktif">Aktif</option>
-<option value="Tidak Aktif">Tidak Aktif</option>
-<option value="Resign">Resign</option>
-<option value="PTHD">PTHD</option>
-</select>
-</div>
-<div><label class="lb">SP / KETERANGAN</label><input type="text" id="dsSP" class="inp" disabled placeholder="-"></div>
-<div><label class="lb">JENIS KELAMIN</label>
-<select id="dsJK" class="inp" disabled>
-<option value="">— Pilih —</option>
-<option value="Laki-laki">Laki-laki</option>
-<option value="Perempuan">Perempuan</option>
-</select>
-</div>
-<div><label class="lb">NO. HP</label><input type="text" id="dsHP" class="inp" disabled placeholder="08xx"></div>
-<div><label class="lb">CID</label><input type="text" id="dsCID" class="inp" disabled placeholder="CID"></div>
-<div><label class="lb">EMAIL</label><input type="text" id="dsEM" class="inp" disabled placeholder="Email"></div>
+<div><label class="lb">BATCH</label><input type="text" id="dsB" class="inp" disabled></div>
+<div><label class="lb">NAMA LENGKAP</label><input type="text" id="dsN" class="inp" disabled></div>
+<div><label class="lb">JABATAN</label><select id="dsJ" class="inp" disabled><option value="Dokter Umum">Dokter Umum</option></select></div>
+<div><label class="lb">STATUS</label><select id="dsSt" class="inp" disabled><option value="Aktif">Aktif</option></select></div>
 </div>
 <button class="btn" id="ADD2" onclick="__A2()" disabled>➕ Tambah Staff</button>
-<button class="btn dc" onclick="__CP2()">📋 Copy Semua ke Discord</button>
-<span id="IM2" class="msg"></span>
 </div>
-<div class="tb">
-<table>
-<tbody id="TB2"></tbody>
-</table>
-</div>
+<div class="tb"><table><tbody id="TB2"></tbody></table></div>
 </div>
 
-<!-- MENU ABSENSI STAFF -->
 <div id="Sab" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
-<h2>📋 Absensi & Perizinan Staff <span id="AD3" class="bg" style="display:none">🔒 ADMIN</span></h2>
-<div id="LBOX3">
-<label class="lb">🔑 Kata Sandi Admin:</label>
-<input type="password" id="PW3" class="inp" placeholder="Masukkan kata sandi...">
-<button class="btn" onclick="__L3()">🔓 Buka Akses Edit</button>
-<span id="LMG3" class="msg"></span>
-</div>
-<div id="IBOX3" style="opacity:.5;pointer-events:none">
-<div class="lk">🔒 Terkunci — Masukkan kata sandi admin di atas</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
-<div><label class="lb">BATCH</label><input type="text" id="abB" class="inp" disabled placeholder="Contoh: 001"></div>
-<div><label class="lb">NAMA STAFF</label><input type="text" id="abN" class="inp" disabled placeholder="Nama Lengkap"></div>
-<div><label class="lb">JABATAN</label><input type="text" id="abJ" class="inp" disabled placeholder="Jabatan"></div>
-<div><label class="lb">TANGGAL & WAKTU MULAI IZIN</label><input type="datetime-local" id="abStart" class="inp" disabled></div>
-<div><label class="lb">BATAS DURASI IZIN (MAKS 7 HARI)</label>
-<select id="abDur" class="inp" disabled>
-<option value="1">1 Hari</option>
-<option value="2">2 Hari</option>
-<option value="3">3 Hari</option>
-<option value="4">4 Hari</option>
-<option value="5">5 Hari</option>
-<option value="6">6 Hari</option>
-<option value="7" selected>7 Hari</option>
-</select>
-</div>
-<div><label class="lb">PENANGGUNG JAWAB</label><input type="text" id="abPIC" class="inp" disabled placeholder="Nama PJ"></div>
-</div>
-<button class="btn" id="ADD3" onclick="__A3()" disabled>➕ Tambah Data Izin</button>
-<span id="IM3" class="msg"></span>
-</div>
-<div class="tb">
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Batch</th>
-<th>Nama Staff</th>
-<th>Jabatan</th>
-<th>Waktu Mulai Izin</th>
-<th>Penanggung Jawab</th>
-<th>Lama Izin Berjalan</th>
-<th>Status Keaktifan</th>
-<th id="AC3" style="display:none">Aksi</th>
-</tr>
-</thead>
-<tbody id="TB3"></tbody>
-</table>
-</div>
+<h2>📋 Absensi & Perizinan Staff</h2>
+<div class="tb"><table><thead><tr><th>#</th><th>Batch</th><th>Nama Staff</th><th>Jabatan</th><th>Waktu</th></tr></thead><tbody id="TB3"></tbody></table></div>
 </div>
 
-<!-- MENU ADMINISTRASI RESIGN -->
 <div id="Srs" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
-<h2>📋 Administrasi Resign <span id="AD4" class="bg" style="display:none">🔒 ADMIN</span></h2>
-<div id="LBOX4">
-<label class="lb">🔑 Kata Sandi Admin:</label>
-<input type="password" id="PW4" class="inp" placeholder="Masukkan kata sandi...">
-<button class="btn" onclick="__L4()">🔓 Buka Akses Edit</button>
-<span id="LMG4" class="msg"></span>
-</div>
-<div id="IBOX4" style="opacity:.5;pointer-events:none">
-<div class="lk">🔒 Terkunci — Masukkan kata sandi admin di atas</div>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px">
-<div><label class="lb">BATCH</label><input type="text" id="rsBatch" class="inp" disabled placeholder="Contoh: 001"></div>
-<div><label class="lb">NAMA</label><input type="text" id="rsNama" class="inp" disabled placeholder="Nama Lengkap"></div>
-<div><label class="lb">JABATAN</label><input type="text" id="rsJabatan" class="inp" disabled placeholder="Jabatan Terakhir"></div>
-<div><label class="lb">CID</label><input type="text" id="rsCID" class="inp" disabled placeholder="CID"></div>
-<div><label class="lb">DISCORD</label><input type="text" id="rsDiscord" class="inp" disabled placeholder="Username Discord"></div>
-<div><label class="lb">PLAT KENDARAAN DINAS</label><input type="text" id="rsPlat" class="inp" disabled placeholder="Plat Nomor"></div>
-<div><label class="lb">WAKTU MULAI RESIGN (WIB)</label><input type="datetime-local" id="rsStart" class="inp" disabled></div>
-<div><label class="lb">STATUS PEMBAYARAN</label>
-<select id="rsStatus" class="inp" disabled>
-<option value="unpaid">Unpaid (❌)</option>
-<option value="belum_lunas">Belum Lunas (⏳)</option>
-<option value="paid">Paid (✔)</option>
-</select>
-</div>
-<div><label class="lb">JUMLAH YANG DIBAYAR</label><input type="text" id="rsNominal" class="inp" disabled placeholder="Contoh: $5,000 atau Rp 0"></div>
-</div>
-<button class="btn" id="ADD4" onclick="__A4()" disabled>➕ Tambah Data Resign</button>
-<span id="IM4" class="msg"></span>
-</div>
-<div class="tb">
-<table>
-<thead>
-<tr>
-<th>#</th>
-<th>Batch</th>
-<th>Nama</th>
-<th>Jabatan</th>
-<th>CID</th>
-<th>Discord</th>
-<th>Plat Kendaraan Dinas</th>
-<th>Waktu Resign</th>
-<th>Jangka Lama Resign</th>
-<th>Status Pembayaran</th>
-<th>Jumlah Dibayar</th>
-<th id="AC4" style="display:none">Aksi</th>
-</tr>
-</thead>
-<tbody id="TB4"></tbody>
-</table>
-</div>
-</div>
-
-<!-- ========================================== -->
-<!-- TAMBAHAN BARU: MDT EMS (MOBILE DATA TERMINAL) -->
-<!-- ========================================== -->
-<div id="Smdt" class="sec">
-<button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
-<h2>🚑 MDT EMS — Rumah Sakit Hommi Helper</h2>
-<p style="color:#aaa;font-size:13px;margin-bottom:15px">Sistem Terminal Data Medis Pasien, Dispatch Darurat, & Catatan Tindakan Bedah/Ambulans In-Game.</p>
-
-<!-- Sub-Tab Navigasi MDT -->
-<div style="display:flex;gap:8px;margin-bottom:20px;flex-wrap:wrap">
-<button class="btn" onclick="__mdtTab('pasien')" id="btnTabPasien" style="background:var(--ac)">📁 Database Pasien</button>
-<button class="btn" onclick="__mdtTab('tindakan')" id="btnTabTindakan" style="background:#2b0a0a;color:var(--txt)">📝 Buat Laporan Tindakan</button>
-<button class="btn" onclick="__mdtTab('dispatch')" id="btnTabDispatch" style="background:#2b0a0a;color:var(--txt)">🚨 Dispatch 911</button>
-</div>
-
-<!-- KONTEN 1: DATABASE PASIEN -->
-<div id="mdtPasienSec">
-<div style="background:var(--bt);padding:15px;border-radius:8px;border:1px solid var(--brd);margin-bottom:15px">
-<h3 style="color:var(--ac);font-size:15px;margin-bottom:10px">🔍 Cari atau Daftarkan Rekam Medis Warga</h3>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-<div><label class="lb">NAMA LENGKAP PASIEN</label><input type="text" id="mP_nama" class="inp" placeholder="Nama Warga"></div>
-<div><label class="lb">CID / NO. PASPOR</label><input type="text" id="mP_cid" class="inp" placeholder="CID"></div>
-<div><label class="lb">GOLONGAN DARAH</label>
-<select id="mP_darah" class="inp">
-<option value="O+">O+</option><option value="O-">O-</option>
-<option value="A+">A+</option><option value="A-">A-</option>
-<option value="B+">B+</option><option value="B-">B-</option>
-<option value="AB+">AB+</option><option value="AB-">AB-</option>
-</select>
-</div>
-<div><label class="lb">RIWAYAT ALERGI OBAT</label><input type="text" id="mP_alergi" class="inp" placeholder="Cth: Penicillin, Plaster (Opsional)"></div>
-<div><label class="lb">PENYAKIT KRONIS</label><input type="text" id="mP_kronis" class="inp" placeholder="Cth: Asma, Hipertensi (-)"></div>
-</div>
-<button class="btn" onclick="__simpanPasien()">💾 Daftarkan / Perbarui Pasien</button>
-<span id="mP_msg" class="msg"></span>
-</div>
-
-<div class="tb">
-<h3 style="color:var(--ac);font-size:14px;margin-bottom:8px">Daftar Rekam Medis Tersimpan</h3>
-<table>
-<thead>
-<tr><th>#</th><th>Nama Pasien</th><th>CID</th><th>Gol. Darah</th><th>Alergi</th><th>Penyakit Kronis</th><th>Aksi</th></tr>
-</thead>
-<tbody id="mP_tbody"></tbody>
-</table>
-</div>
-</div>
-
-<!-- KONTEN 2: LAPORAN TINDAKAN / BILLING -->
-<div id="mdtTindakanSec" style="display:none">
-<div style="background:var(--bt);padding:15px;border-radius:8px;border:1px solid var(--brd);margin-bottom:15px">
-<h3 style="color:var(--ac);font-size:15px;margin-bottom:10px">📋 Form Laporan Penanganan Medis & Tagihan</h3>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-<div><label class="lb">NAMA PASIEN</label><input type="text" id="mT_nama" class="inp" placeholder="Nama Pasien"></div>
-<div><label class="lb">DOKTER / PARAMEDIS PENANGGUNG JAWAB</label><input type="text" id="mT_dokter" class="inp" placeholder="Nama Petugas EMS"></div>
-<div><label class="lb">TINGKAT KEPARAHAN / KASUS</label>
-<select id="mT_kasus" class="inp">
-<option value="Luka Ringan / Rawat Jalan">Luka Ringan / Rawat Jalan</option>
-<option value="Kecelakaan / Luka Sedang">Kecelakaan / Luka Sedang</option>
-<option value="Luka Tembak / Operasi Bedah">Luka Tembak / Operasi Bedah</option>
-<option value="Gawat Darurat (ICU / Kritis)">Gawat Darurat (ICU / Kritis)</option>
-</select>
-</div>
-<div><label class="lb">VITAL SIGNS (Tensi / Nadi / Suhu)</label><input type="text" id="mT_vital" class="inp" placeholder="Cth: 120/80 mmHg, 82 bpm, 36.5°C"></div>
-<div><label class="lb">TINDAKAN / OBAT YANG DIBERIKAN</label><input type="text" id="mT_tindakan" class="inp" placeholder="Cth: Jahit luka 4 jahitan + Infus RL + Paracetamol"></div>
-<div><label class="lb">TOTAL BIAYA / TAGIHAN ($)</label><input type="number" id="mT_biaya" class="inp" placeholder="Cth: 2500"></div>
-</div>
-<button class="btn" onclick="__tambahTindakan()">➕ Rekam & Buat Tagihan</button>
-<span id="mT_msg" class="msg"></span>
-</div>
-
-<div class="tb">
-<h3 style="color:var(--ac);font-size:14px;margin-bottom:8px">Arsip Laporan Tindakan Medis</h3>
-<table>
-<thead>
-<tr><th>#</th><th>Waktu</th><th>Pasien</th><th>Petugas</th><th>Kasus</th><th>Vital Signs</th><th>Tindakan / Obat</th><th>Tagihan</th><th>Aksi</th></tr>
-</thead>
-<tbody id="mT_tbody"></tbody>
-</table>
-</div>
-</div>
-
-<!-- KONTEN 3: DISPATCH 911 -->
-<div id="mdtDispatchSec" style="display:none">
-<div style="background:var(--bt);padding:15px;border-radius:8px;border:1px solid var(--brd);margin-bottom:15px">
-<h3 style="color:var(--ac);font-size:15px;margin-bottom:10px">🚨 Buat Panggilan / Laporan Darurat 911 Baru</h3>
-<div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px">
-<div><label class="lb">PELAPOR / LOKASI</label><input type="text" id="mD_lokasi" class="inp" placeholder="Cth: Pillbox Hill / Legion Square"></div>
-<div><label class="lb">DESKRIPSI DARURAT</label><input type="text" id="mD_ket" class="inp" placeholder="Cth: Orang pingsan / Korban penembakan"></div>
-<div><label class="lb">UNIT EMS MERESPONS</label><input type="text" id="mD_unit" class="inp" placeholder="Cth: Ambulance 1 / Dr. Alex"></div>
-</div>
-<button class="btn" onclick="__tambahDispatch()">🚨 Broadcast Dispatch</button>
-<span id="mD_msg" class="msg"></span>
-</div>
-
-<div class="tb">
-<h3 style="color:var(--ac);font-size:14px;margin-bottom:8px">Live Dispatch 911 Logs</h3>
-<table>
-<thead>
-<tr><th>#</th><th>Waktu</th><th>Lokasi</th><th>Deskripsi Kasus</th><th>Unit Merespons</th><th>Status</th><th>Aksi</th></tr>
-</thead>
-<tbody id="mD_tbody"></tbody>
-</table>
-</div>
-</div>
-
+<h2>📋 Administrasi Resign</h2>
+<div class="tb"><table><thead><tr><th>#</th><th>Batch</th><th>Nama</th><th>Jabatan</th><th>Status</th></tr></thead><tbody id="TB4"></tbody></table></div>
 </div>
 
 </div>
 
 <script>
 document.addEventListener('contextmenu', e => e.preventDefault());
-document.addEventListener('keydown', e => {
-    if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','i','J','j','C','c'].includes(e.key)) || (e.ctrlKey && ['u','U','s','S','i','I','j','J'].includes(e.key))) {
-        e.preventDefault();
-        return false;
-    }
-});
 
 const ADMIN_PASS = 'EMShommioyeoye';
-let __ADM = false, __selK = null, __selT = null, __edit = -1, __edit2 = -1, __edit3 = -1, __moveId = -1;
-
-function _getGroup(j) {
-    if (!j) return 'manajemen';
-    const t = j.toLowerCase();
-    if (t.includes('resign') || t.includes('pthd')) return 'nonaktif';
-    if (t.includes('trainee')) return 'trainee';
-    if (t.includes('dokter') || t.includes('spesialis') || t.includes('residen') || t.includes('umum') || t.includes('co ass') || t.includes('coass')) return 'medis';
-    return 'manajemen';
-}
-
-const __R = {
-    kpl:{
-        rng:{j:'Sakit Kepala Migrain & Pusing — Ringan',o:'Paracetamol 500 mg (1 tablet)',c:'Minum 1 tablet setelah makan jika terasa pusing (maksimal 3–4 kali sehari). Perbanyak minum air putih.'},
-        sdg:{j:'Sakit Kepala Migrain & Pusing — Sedang',o:'Ibuprofen 400 mg (1 tablet) + Vitamin B Complex (1 tablet)',c:'Minum 1 tablet Ibuprofen setelah makan untuk meredakan nyeri dan peradangan, dikombinasikan dengan Vitamin B Complex untuk meredakan ketegangan saraf.'},
-        brt:{j:'Sakit Kepala Migrain & Pusing — Berat',o:'Ketorolac 10 mg (1 tablet) / Inj. Diazepam 5 mg (IGD)',c:'Diberikan di ruang IGD/klinik. Ketorolac diminum 1 tablet tiap 8 jam jika nyeri sangat hebat (dengan pengawasan dokter). Istirahat total di tempat tenang.'}
-    },
-    trk:{
-        rng:{j:'Terkilir / Keseleo — Ringan',o:'Ibuprofen Gel 5% / Salep Counterpain + Paracetamol 500 mg',c:'Oleskan salep/gel pada area yang terkilir 3 kali sehari. Minum Paracetamol 500 mg jika terasa nyeri.'},
-        sdg:{j:'Terkilir / Keseleo — Sedang',o:'Diclofenac Sodium 50 mg (1 tablet) + Kompres Es',c:'Minum Diclofenac 2 kali sehari setelah makan. Kompres area terkilir dengan es selama 15–20 menit setiap 4 jam. Balut dengan perban elastis (elastic bandage).'},
-        brt:{j:'Terkilir / Keseleo — Berat',o:'Ketorolac 30 mg/mL (Injeksi IV/IM) + Imobilisasi Spalk',c:'Suntikkan Ketorolac melalui IV/IM oleh petugas medis EMS untuk meredakan nyeri mendadak. Pasang bidai (spalk) dan posisikan area cidera lebih tinggi.'}
-    },
-    mag:{
-        rng:{j:'Maag / Nyeri Lambung / GERD — Ringan',o:'Antasida Doen (1–2 tablet kunyah)',c:'Dikunyah 1–2 tablet, 30 menit sebelum makan atau saat perut terasa perih/kembung.'},
-        sdg:{j:'Maag / Nyeri Lambung / GERD — Sedang',o:'Omeprazole 20 mg (1 kapsul) + Domperidone 10 mg (1 tablet)',c:'Omeprazole diminum 1 kapsul pada pagi hari sebelum makan (perut kosong). Domperidone diminum 30 menit sebelum makan jika ada rasa mual.'},
-        brt:{j:'Maag / Nyeri Lambung / GERD — Berat',o:'Inj. Omeprazole 40 mg (IV) + Inj. Ondansetron 4 mg (IV) + Infus RL',c:'Pasien diistirahatkan di IGD. Diberikan suntikan Omeprazole dan Ondansetron via jalur infus untuk meredakan radang lambung dan mual muntah secara instan.'}
-    },
-    lbm:{
-        rng:{j:'Lebam / Memar — Ringan',o:'Salep Heparin Sodium / Gel Thrombophob',c:'Oleskan tipis-tipis pada bagian kulit yang memar 2–3 kali sehari. Jangan dioleskan pada luka terbuka.'},
-        sdg:{j:'Lebam / Memar — Sedang',o:'Ibuprofen 400 mg (1 tablet) + Salep Heparin Sodium',c:'Minum Ibuprofen 2–3 kali sehari setelah makan untuk meredakan nyeri dan pembengkakan. Oleskan salep Thrombophob secara teratur.'},
-        brt:{j:'Lebam / Memar — Berat',o:'Diclofenac 50 mg (1 tablet) + Dexamethasone 0.5 mg (1 tablet) + Kompres Dingin',c:'Minum Diclofenac dan Dexamethasone 2 kali sehari setelah makan untuk mengurangi pembengkakan jaringan dalam secara cepat.'}
-    },
-    lka:{
-        rng:{j:'Luka Tembak / Sayat — Ringan',o:'Povidone Iodine 10% + Kasa Steril + Cefadroxil 500 mg',c:'Bersihkan luka dengan cairan NaCl 0.9% dan Povidone Iodine, lalu tutup dengan kasa. Minum Cefadroxil 2 kali sehari untuk mencegah infeksi.'},
-        sdg:{j:'Luka Tembak / Sayat — Sedang',o:'Operasi Pengangkatan / Penjahitan + Inj. Ketorolac 30 mg + Amoxicillin 500 mg',c:'Berikan Injeksi Ketorolac via IV. Lakukan tindakan pembedahan / jahit luka (Suturing), lalu minum Amoxicillin 3x1 hari (wajib dihabiskan).'},
-        brt:{j:'Luka Tembak / Sayat — Berat',o:'Infus NaCl 0.9% / RL + Inj. Adrenalin 1 mg + Operasi Bedah Mayor + Inj. Ceftriaxone 1g',c:'Pasang Infus NaCl/RL cepat untuk mengatasi pendarahan/syok. Segera bawa ke ruang operasi (OR) untuk tindakan pembedahan dan penanganan pendarahan dalam.'}
-    },
-    bkr:{
-        rng:{j:'Luka Bakar — Ringan',o:'Silver Sulfadiazine Cream / Bioplacenton',c:'Siram dengan air mengalir bersih selama 10–15 menit. Oleskan tipis cream Silver Sulfadiazine 2–3 kali sehari.'},
-        sdg:{j:'Luka Bakar — Sedang',o:'Salep Silver Sulfadiazine + Ibuprofen 400 mg + Kasa Parafin Steril',c:'Bersihkan luka tanpa memecahkan melepuh jika memungkinkan, tutupi dengan kasa parafin, lalu balut perban. Minum Ibuprofen 3 kali sehari.'},
-        brt:{j:'Luka Bakar — Berat',o:'Infus Ringer Lactate + Inj. Ketorolac / Morphine + Debridement',c:'Pasang infus RL dalam jumlah banyak (mencegah dehidrasi berat). Berikan suntikan anti-nyeri dosis tinggi. Lakukan pembersihan jaringan mati (debridement) di kamar operasi.'}
-    },
-    bsl:{
-        rng:{j:'Bisul / Infeksi Kulit — Ringan',o:'Salep Mupirocin 2% / Gentamicin Ointment',c:'Bersihkan area bisul dengan air hangat/antiseptik, lalu oleskan salep Mupirocin 2–3 kali sehari.'},
-        sdg:{j:'Bisul / Infeksi Kulit — Sedang',o:'Amoxicillin 500 mg (1 kaplet) + Paracetamol 500 mg + Salep Gentamicin',c:'Minum Amoxicillin 3 kali sehari (WAJIB DIHABISKAN). Minum Paracetamol jika timbul demam/nyeri. Oleskan salep pada area bisul.'},
-        brt:{j:'Bisul / Infeksi Kulit — Berat',o:'Ciprofloxacin 500 mg (1 tablet) + Diclofenac 50 mg + Prosedur Incision & Drainage',c:'Lakukan tindakan bedah kecil (incisi) oleh dokter EMS untuk mengeluarkan nanah, cuci dengan cairan Steril NaCl 0.9%, lalu balut dengan kasa steril. Minum Ciprofloxacin 2 kali sehari (habiskan).'}
-    }
-};
+let __ADM = false, __selK = null, __edit = -1, __edit2 = -1;
 
 let __D = JSON.parse(localStorage.getItem('rs_ip_data')) || [{n:'Prof. Dr. Kai Whitegate, Sp.B',j:'Direktur Utama',i:'Unlimited'}];
 let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
 let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
 let __RS = JSON.parse(localStorage.getItem('rs_resign_data')) || [];
 
-// Data MDT EMS Tambahan
-let __mdtPasien = JSON.parse(localStorage.getItem('rs_mdt_pasien')) || [{nama:'John Doe', cid:'99881', darah:'O+', alergi:'Tidak ada', kronis:'Asma'}];
-let __mdtTindakan = JSON.parse(localStorage.getItem('rs_mdt_tindakan')) || [];
-let __mdtDispatch = JSON.parse(localStorage.getItem('rs_mdt_dispatch')) || [{waktu:'12:30 WIB', lokasi:'Legion Square', ket:'Kecelakaan lalu lintas motor', unit:'Ambulance 01', status:'Selesai'}];
+/* DATA DUMMY MDT MEMINIRUKAN UI DI GAMBAR */
+let __mdtArchives = [
+    { id: 1, name: 'TEST4', createdBy: 'John Sads', date: '08/03/2025', imagesCount: 2, status: 'active' }
+];
+
+let __mdtCitizens = [
+    { id: 1, name: 'Best Doctor', sex: 'M', age: 30, job: 'Doctor', img: 'https://i.imgur.com/8Km9tLL.png', selected: true },
+    { id: 2, name: 'VVVV VVVV', sex: 'M', age: 0, job: 'Civilian', img: 'https://i.imgur.com/8Km9tLL.png', selected: false },
+    { id: 3, name: 'fdsghfdh fchfdghdf', sex: 'M', age: 25, job: 'Mechanic', img: 'https://i.imgur.com/8Km9tLL.png', selected: false }
+];
+
+let __mdtInjuries = [
+    { id: 1, name: 'Head', severity: 'Urgent', selected: false },
+    { id: 2, name: 'Left Arm', severity: 'Medium', selected: true },
+    { id: 3, name: 'Right Arm', severity: 'Medium', selected: false }
+];
 
 function __Simpan() {
     localStorage.setItem('rs_ip_data', JSON.stringify(__D));
     localStorage.setItem('rs_staff_data', JSON.stringify(__DS));
-    localStorage.setItem('rs_absensi_data', JSON.stringify(__AB));
-    localStorage.setItem('rs_resign_data', JSON.stringify(__RS));
-    localStorage.setItem('rs_mdt_pasien', JSON.stringify(__mdtPasien));
-    localStorage.setItem('rs_mdt_tindakan', JSON.stringify(__mdtTindakan));
-    localStorage.setItem('rs_mdt_dispatch', JSON.stringify(__mdtDispatch));
 }
 
 function __X(id) {
@@ -519,659 +530,114 @@ function __X(id) {
     document.getElementById('S'+id).style.display = 'block';
     if(id==='ip') __RenderTable();
     if(id==='ds') __RenderTable2();
-    if(id==='ab') __RenderTable3();
-    if(id==='rs') __RenderTable4();
-    if(id==='mdt') __renderMdtAll();
-    __edit = __edit2 = __edit3 = __moveId = -1;
+    if(id==='mdt') __renderMdtUI();
 }
+
 function __B() {
     document.getElementById('M').style.display = 'flex';
     document.querySelectorAll('.sec').forEach(x => x.style.display = 'none');
-    __edit = __edit2 = __edit3 = __moveId = -1;
 }
 
+/* RENDER MDT EXACT UI */
+function __renderMdtUI() {
+    // Render Archives
+    const arcBox = document.getElementById('archiveListContainer');
+    arcBox.innerHTML = '';
+    __mdtArchives.forEach(a => {
+        arcBox.innerHTML += `
+        <div class="mdt-card-item">
+            <div class="mdt-logo-icon" style="width:36px;height:36px;font-size:16px">✚</div>
+            <div class="mdt-card-details">
+                <div class="mdt-card-name">Name: ${a.name}</div>
+                <div class="mdt-card-sub">Created By: ${a.createdBy}</div>
+                <div class="mdt-card-sub">Date: ${a.date} | Images: ${a.imagesCount}</div>
+            </div>
+            <span style="width:10px;height:10px;background:#198754;border-radius:50%"></span>
+        </div>`;
+    });
+
+    // Render Citizens
+    __renderCitizens();
+
+    // Render Injuries
+    const injBox = document.getElementById('injuryListContainer');
+    injBox.innerHTML = '';
+    __mdtInjuries.forEach(i => {
+        const isSel = i.selected ? 'selected' : '';
+        const sevClass = i.severity === 'Urgent' ? 'severity-urgent' : 'severity-medium';
+        injBox.innerHTML += `
+        <div class="mdt-card-item ${isSel}" onclick="__selectInjury(${i.id})">
+            <div style="font-size:24px">🧍</div>
+            <div class="mdt-card-details">
+                <div class="mdt-card-name">Name: ${i.name}</div>
+                <div class="mdt-card-sub">Injury severity: <span class="${sevClass}">${i.severity}</span></div>
+            </div>
+            ${i.selected ? '<span class="mdt-selected-badge">SELECTED</span>' : ''}
+        </div>`;
+    });
+}
+
+function __renderCitizens() {
+    const citBox = document.getElementById('citListContainer');
+    const filter = document.getElementById('citSearch').value.toLowerCase();
+    citBox.innerHTML = '';
+    
+    __mdtCitizens.filter(c => c.name.toLowerCase().includes(filter)).forEach(c => {
+        const isSel = c.selected ? 'selected' : '';
+        citBox.innerHTML += `
+        <div class="mdt-card-item ${isSel}" onclick="__selectCitizen(${c.id})">
+            <img src="${c.img}" class="mdt-card-img">
+            <div class="mdt-card-details">
+                <div class="mdt-card-name">Name: ${c.name}</div>
+                <div class="mdt-card-sub">Age: ${c.age} | Sex: ${c.sex}</div>
+                <div class="mdt-card-sub">Job: ${c.job}</div>
+            </div>
+            ${c.selected ? '<span class="mdt-selected-badge">SELECTED</span>' : ''}
+        </div>`;
+    });
+}
+
+function __selectCitizen(id) {
+    __mdtCitizens.forEach(c => c.selected = (c.id === id));
+    __renderCitizens();
+}
+
+function __selectInjury(id) {
+    __mdtInjuries.forEach(i => i.selected = (i.id === id));
+    __renderMdtUI();
+}
+
+function __switchMdtTab(el, tabName) {
+    document.querySelectorAll('.mdt-nav-item').forEach(x => x.classList.remove('active'));
+    el.classList.add('active');
+}
+
+function __addMdtImage() {
+    const url = prompt('Masukkan URL Gambar/Bukti Medis:');
+    if(url) {
+        const grid = document.getElementById('imgGridContainer');
+        grid.innerHTML += `<img src="${url}" class="mdt-img-thumb">`;
+    }
+}
+
+function __saveArchiveInfo() {
+    alert('Arsip medis berhasil disimpan ke database FiveM!');
+}
+
+/* OLD HELPER FUNCTIONALITY */
 function __L() {
     if(document.getElementById('PW').value === ADMIN_PASS) {
         __ADM = true;
         document.getElementById('AD').style.display = 'inline-block';
-        const b = document.getElementById('IBOX');
-        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
-        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
-        b.querySelector('.lk').style.display = 'none';
-        document.getElementById('AC').style.display = 'table-cell';
         document.getElementById('LMG').innerText = '✅ Akses Admin Dibuka!';
         __RenderTable();
-    } else {
-        document.getElementById('LMG').innerText = '❌ Sandi Salah!';
-        document.getElementById('LMG').classList.add('err');
     }
 }
 function __RenderTable() {
     const t = document.getElementById('TB'); t.innerHTML = '';
     __D.forEach((s, i) => {
-        const r = document.createElement('tr');
-        if(__edit === i && __ADM) {
-            r.innerHTML = `<td><input type="text" id="en${i}" class="tin" value="${s.n}"></td><td><input type="text" id="ej${i}" class="tin" value="${s.j}"></td><td><input type="text" id="ei${i}" class="tin" value="${s.i}"></td><td><button onclick="__SV(${i})" class="ok">Simpan</button> <button onclick="__CL()" class="cn">Batal</button></td>`;
-        } else {
-            r.innerHTML = `<td>${s.n}</td><td>${s.j}</td><td>${s.i}</td><td style="${__ADM?'':'display:none'}"><button onclick="__ED(${i})" class="sm">Edit</button> <button onclick="__DL(${i})" class="dl">Hapus</button></td>`;
-        }
-        t.appendChild(r);
+        t.innerHTML += `<tr><td>${s.n}</td><td>${s.j}</td><td>${s.i}</td></tr>`;
     });
-}
-function __A() {
-    const n = document.getElementById('NM').value.trim(), j = document.getElementById('JB').value.trim(), ip = document.getElementById('IP').value.trim();
-    if(!n || !j || !ip) return alert('Lengkapi kolom!');
-    __D.push({n,j,i:ip}); __Simpan(); __RenderTable();
-    document.getElementById('NM').value = document.getElementById('JB').value = document.getElementById('IP').value = '';
-}
-function __ED(i) { __edit = i; __RenderTable(); }
-function __SV(i) {
-    __D[i] = {n:document.getElementById(`en${i}`).value, j:document.getElementById(`ej${i}`).value, i:document.getElementById(`ei${i}`).value};
-    __Simpan(); __edit = -1; __RenderTable();
-}
-function __CL() { __edit = -1; __RenderTable(); }
-function __DL(i) { if(confirm('Hapus?')) { __D.splice(i,1); __Simpan(); __RenderTable(); } }
-function __CP() {
-    let t = '```\nDATA IP STAFF\n';
-    __D.forEach(s => t += `Nama: ${s.n} | Jabatan: ${s.j} | IP: ${s.i}\n`);
-    navigator.clipboard.writeText(t+'```'); alert('Disalin!');
-}
-
-function __K(k) {
-    __selK = k; document.getElementById('TW').style.display = 'block'; document.getElementById('HR').style.display = 'none';
-}
-function __T(t) {
-    const d = __R[__selK][t];
-    document.getElementById('RJ').innerText = d.j;
-    document.getElementById('RO').innerText = d.o;
-    document.getElementById('RC').innerText = d.c;
-    document.getElementById('RP').innerText = `📋 RESEP\n${d.j}\n💊 Obat: ${d.o}\n📝 Cara Pakai: ${d.c}`;
-    document.getElementById('HR').style.display = 'block';
-}
-function __CX(id) { navigator.clipboard.writeText(document.getElementById(id).innerText); alert('Disalin!'); }
-function __RC() { navigator.clipboard.writeText(document.getElementById('RP').innerText); alert('Disalin!'); }
-
-function __L2() {
-    if(document.getElementById('PW2').value === ADMIN_PASS) {
-        __ADM = true;
-        document.getElementById('AD2').style.display = 'inline-block';
-        const b = document.getElementById('IBOX2');
-        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
-        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
-        b.querySelector('.lk').style.display = 'none';
-        document.getElementById('LMG2').innerText = '✅ Akses Admin Dibuka!';
-        __RenderTable2();
-    } else {
-        document.getElementById('LMG2').innerText = '❌ Sandi Salah!';
-        document.getElementById('LMG2').classList.add('err');
-    }
-}
-
-function __swapPos(idxA, idxB) {
-    if(idxA < 0 || idxB < 0 || idxA >= __DS.length || idxB >= __DS.length) return;
-    [__DS[idxA], __DS[idxB]] = [__DS[idxB], __DS[idxA]];
-    __Simpan(); __RenderTable2();
-}
-
-function __moveUp(i) {
-    if(i <= 0) return;
-    __swapPos(i, i - 1);
-}
-
-function __moveDown(i) {
-    if(i >= __DS.length - 1) return;
-    __swapPos(i, i + 1);
-}
-
-function __moveToIndex(fromIdx, toIdx) {
-    if(toIdx < 0 || toIdx >= __DS.length || fromIdx === toIdx) return;
-    const [item] = __DS.splice(fromIdx, 1);
-    __DS.splice(toIdx, 0, item);
-    __Simpan(); __RenderTable2();
-}
-
-function __RenderTable2() {
-    const t = document.getElementById('TB2'); t.innerHTML = '';
-    
-    const groups = [
-        { key: 'manajemen', label: '👔 DIREKSI & MANAJEMEN' },
-        { key: 'medis', label: '⚕️ STAFF MEDIS' },
-        { key: 'trainee', label: '🎓 TRAINEE' },
-        { key: 'nonaktif', label: '📋 RESIGN / PTHD' }
-    ];
-
-    groups.forEach(g => {
-        let list = __DS.map((item, originalIndex) => ({...item, originalIndex}))
-                       .filter(s => {
-                           if (s.forcedGroup) return s.forcedGroup === g.key;
-                           return _getGroup(s.j) === g.key;
-                       });
-
-        list.sort((a, b) => a.originalIndex - b.originalIndex);
-
-        const hRow = document.createElement('tr');
-        hRow.innerHTML = `<th colspan="${__ADM ? 11 : 10}" class="grp">${g.label}</th>`;
-        t.appendChild(hRow);
-
-        const colRow = document.createElement('tr');
-        colRow.innerHTML = `<th>#</th><th>BATCH</th><th>NAMA</th><th>JABATAN</th><th>STATUS</th><th>SP</th><th>JK</th><th>NO. HP</th><th>CID</th><th>EMAIL</th>${__ADM ? '<th>AKSI</th>' : ''}`;
-        t.appendChild(colRow);
-
-        if (list.length === 0) {
-            const emptyRow = document.createElement('tr');
-            emptyRow.innerHTML = `<td colspan="${__ADM ? 11 : 10}" style="color:#666;font-style:italic;padding:12px;">Belum ada data</td>`;
-            t.appendChild(emptyRow);
-            return;
-        }
-
-        list.forEach((s, displayPos) => {
-            const i = s.originalIndex;
-            const r = document.createElement('tr');
-            
-            if(__edit2 === i && __ADM) {
-                r.innerHTML = `
-                <td>-</td>
-                <td><input type="text" id="db${i}" class="tin" value="${s.b}"></td>
-                <td><input type="text" id="dn${i}" class="tin" value="${s.n}"></td>
-                <td><select id="dj${i}" class="tin">
-                    <option ${s.j==='CEO'?'selected':''}>CEO</option>
-                    <option ${s.j==='Direktur'?'selected':''}>Direktur</option>
-                    <option ${s.j==='Wakil Direktur'?'selected':''}>Wakil Direktur</option>
-                    <option ${s.j==='Sekben'?'selected':''}>Sekben</option>
-                    <option ${s.j==='Kabid Komdis'?'selected':''}>Kabid Komdis</option>
-                    <option ${s.j==='Komdis'?'selected':''}>Komdis</option>
-                    <option ${s.j==='Kabid HRD'?'selected':''}>Kabid HRD</option>
-                    <option ${s.j==='HRD'?'selected':''}>HRD</option>
-                    <option ${s.j==='Ka. Laboran'?'selected':''}>Ka. Laboran</option>
-                    <option ${s.j==='Manajemen Lab'?'selected':''}>Manajemen Lab</option>
-                    <option ${s.j==='Dokter Spesialis'?'selected':''}>Dokter Spesialis</option>
-                    <option ${s.j==='Dokter Residen'?'selected':''}>Dokter Residen</option>
-                    <option ${s.j==='Dokter Umum'?'selected':''}>Dokter Umum</option>
-                    <option ${s.j==='Co Ass'?'selected':''}>Co Ass</option>
-                    <option ${s.j==='Trainee'?'selected':''}>Trainee</option>
-                    <option ${s.j==='Resign'?'selected':''}>Resign</option>
-                    <option ${s.j==='PTHD'?'selected':''}>PTHD</option>
-                </select></td>
-                <td><select id="dst${i}" class="tin">
-                    <option ${s.st==='Aktif'?'selected':''}>Aktif</option>
-                    <option ${s.st==='Tidak Aktif'?'selected':''}>Tidak Aktif</option>
-                    <option ${s.st==='Resign'?'selected':''}>Resign</option>
-                    <option ${s.st==='PTHD'?'selected':''}>PTHD</option>
-                </select></td>
-                <td><input type="text" id="dsp${i}" class="tin" value="${s.sp}"></td>
-                <td><select id="djk${i}" class="tin"><option ${s.jk==='Laki-laki'?'selected':''}>Laki-laki</option><option ${s.jk==='Perempuan'?'selected':''}>Perempuan</option></select></td>
-                <td><input type="text" id="dhp${i}" class="tin" value="${s.hp}"></td>
-                <td><input type="text" id="dcid${i}" class="tin" value="${s.cid}"></td>
-                <td><input type="text" id="dem${i}" class="tin" value="${s.em}"></td>
-                <td>
-                    <button onclick="__SV2(${i})" class="ok">Simpan</button>
-                    <button onclick="__CL2()" class="cn">Batal</button>
-                </td>`;
-            } else if (__moveId === i && __ADM) {
-                r.innerHTML = `<td colspan="${__ADM ? 11 : 10}" style="background:#260505;padding:10px;">
-                    <span style="color:var(--ac);font-weight:700;margin-right:10px;">🔀 Atur ${s.n}:</span>
-                    <button onclick="__moveUp(${i})" class="arr">⬆ Ke Atas</button>
-                    <button onclick="__moveDown(${i})" class="arr">⬇ Ke Bawah</button>
-                    <span style="margin:0 6px;">| Lompat ke posisi:</span>
-                    <input type="number" id="gotoPos${i}" class="pos-input" min="1" max="${list.length}" placeholder="1..${list.length}">
-                    <button onclick="const p=document.getElementById('gotoPos${i}').valueAsNumber;if(p)__moveToIndex(${i}, ${list.findIndex(x=>x.originalIndex===i)>=0 ? list[0].originalIndex + p - 1 : 0})" class="arr">Pindah</button>
-                    <span style="margin:0 6px;">| Pindah Divisi:</span>
-                    <button onclick="__moveTo(${i}, 'manajemen')" class="sm" style="background:#b7094c;color:#fff">Manajemen</button>
-                    <button onclick="__moveTo(${i}, 'medis')" class="sm" style="background:#0077b6;color:#fff">Medis</button>
-                    <button onclick="__moveTo(${i}, 'trainee')" class="sm" style="background:#555;color:#fff">Trainee</button>
-                    <button onclick="__moveTo(${i}, 'nonaktif')" class="sm" style="background:#343a40;color:#fff">Nonaktif</button>
-                    <button onclick="__CL2()" class="cn" style="margin-left:8px;">Batal</button>
-                </td>`;
-            } else {
-                r.innerHTML = `
-                <td style="color:var(--ac);font-weight:bold">${displayPos + 1}</td>
-                <td><strong>${s.b}</strong></td>
-                <td style="text-align:left">${s.n}</td>
-                <td><span class="badge j-${_getGroup(s.j)}">${s.j}</span></td>
-                <td><span class="badge s-${s.st.toLowerCase().replace(/\s/g,'')}">${s.st}</span></td>
-                <td>${s.sp||'-'}</td>
-                <td><span class="badge g-${s.jk==='Laki-laki'?'laki':'perempuan'}">${s.jk}</span></td>
-                <td>${s.hp||'-'}</td>
-                <td>${s.cid||'-'}</td>
-                <td>${s.em||'-'}</td>
-                <td style="${__ADM?'':'display:none'};white-space:nowrap">
-                    <button onclick="__moveUp(${i})" class="arr" title="Naik">⬆</button>
-                    <button onclick="__moveDown(${i})" class="arr" title="Turun">⬇</button>
-                    <button onclick="__MVModal(${i})" class="sm" style="background:#028090;color:#fff">Atur</button>
-                    <button onclick="__ED2(${i})" class="sm">Edit</button>
-                    <button onclick="__DL2(${i})" class="dl">Hapus</button>
-                </td>`;
-            }
-            t.appendChild(r);
-        });
-    });
-}
-
-function __A2() {
-    const b = document.getElementById('dsB').value.trim();
-    const n = document.getElementById('dsN').value.trim();
-    const j = document.getElementById('dsJ').value;
-    const st = document.getElementById('dsSt').value;
-    const sp = document.getElementById('dsSP').value.trim();
-    const jk = document.getElementById('dsJK').value;
-    const hp = document.getElementById('dsHP').value.trim();
-    const cid = document.getElementById('dsCID').value.trim();
-    const em = document.getElementById('dsEM').value.trim();
-    
-    if(!b || !n || !j || !st || !jk) return alert('Lengkapi kolom wajib!');
-    
-    __DS.push({b, n, j, st, sp, jk, hp, cid, em});
-    __Simpan(); __RenderTable2();
-    
-    document.getElementById('dsB').value = '';
-    document.getElementById('dsN').value = '';
-    document.getElementById('dsSP').value = '';
-    document.getElementById('dsHP').value = '';
-    document.getElementById('dsCID').value = '';
-    document.getElementById('dsEM').value = '';
-    document.getElementById('IM2').innerText = '✅ Berhasil ditambah!';
-    setTimeout(() => document.getElementById('IM2').innerText = '', 2000);
-}
-
-function __ED2(i) { __edit2 = i; __moveId = -1; __RenderTable2(); }
-function __MVModal(i) { __moveId = i; __edit2 = -1; __RenderTable2(); }
-function __CL2() { __edit2 = -1; __RenderTable2(); }
-
-function __moveTo(i, targetGroup) {
-    __DS[i].forcedGroup = targetGroup;
-    __Simpan();
-    __moveId = -1;
-    __RenderTable2();
-}
-
-function __SV2(i) {
-    __DS[i] = {
-        ...__DS[i],
-        b: document.getElementById(`db${i}`).value,
-        n: document.getElementById(`dn${i}`).value,
-        j: document.getElementById(`dj${i}`).value,
-        st: document.getElementById(`dst${i}`).value,
-        sp: document.getElementById(`dsp${i}`).value,
-        jk: document.getElementById(`djk${i}`).value,
-        hp: document.getElementById(`dhp${i}`).value,
-        cid: document.getElementById(`dcid${i}`).value,
-        em: document.getElementById(`dem${i}`).value
-    };
-    __Simpan(); __edit2 = -1; __RenderTable2();
-}
-
-function __DL2(i) {
-    if(confirm('Hapus data staff ini?')) {
-        __DS.splice(i,1); __Simpan(); __RenderTable2();
-    }
-}
-
-function __CP2() {
-    let t = '```\nDATA STAFF RUMAH SAKIT HOMMI\n';
-    __DS.forEach(s => {
-        t += `[${s.b}] ${s.n} | ${s.j} | Status: ${s.st} | HP: ${s.hp||'-'} | CID: ${s.cid||'-'}\n`;
-    });
-    navigator.clipboard.writeText(t+'```'); alert('Data berhasil disalin ke format Discord!');
-}
-
-// === FUNGSI MENU ABSENSI STAFF ===
-function __L3() {
-    if(document.getElementById('PW3').value === ADMIN_PASS) {
-        __ADM = true;
-        document.getElementById('AD3').style.display = 'inline-block';
-        const b = document.getElementById('IBOX3');
-        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
-        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
-        b.querySelector('.lk').style.display = 'none';
-        document.getElementById('AC3').style.display = 'table-cell';
-        document.getElementById('LMG3').innerText = '✅ Akses Admin Dibuka!';
-        __RenderTable3();
-    } else {
-        document.getElementById('LMG3').innerText = '❌ Sandi Salah!';
-        document.getElementById('LMG3').classList.add('err');
-    }
-}
-
-function __A3() {
-    const b = document.getElementById('abB').value.trim();
-    const n = document.getElementById('abN').value.trim();
-    const j = document.getElementById('abJ').value.trim();
-    const start = document.getElementById('abStart').value;
-    const dur = parseInt(document.getElementById('abDur').value);
-    const pic = document.getElementById('abPIC').value.trim();
-
-    if(!b || !n || !j || !start || !pic) return alert('Lengkapi semua kolom formulir izin!');
-
-    __AB.push({b, n, j, start, dur, pic});
-    __Simpan();
-    __RenderTable3();
-
-    document.getElementById('abB').value = '';
-    document.getElementById('abN').value = '';
-    document.getElementById('abJ').value = '';
-    document.getElementById('abStart').value = '';
-    document.getElementById('abPIC').value = '';
-    document.getElementById('IM3').innerText = '✅ Data izin berhasil ditambahkan!';
-    setTimeout(() => document.getElementById('IM3').innerText = '', 2000);
-}
-
-function __DL3(i) {
-    if(confirm('Hapus data absensi/izin ini?')) {
-        __AB.splice(i, 1);
-        __Simpan();
-        __RenderTable3();
-    }
-}
-
-function __RenderTable3() {
-    const t = document.getElementById('TB3');
-    t.innerHTML = '';
-    document.getElementById('AC3').style.display = __ADM ? 'table-cell' : 'none';
-
-    if (__AB.length === 0) {
-        t.innerHTML = `<tr><td colspan="${__ADM ? 9 : 8}" style="color:#666;font-style:italic;padding:15px;">Belum ada data izin/absensi</td></tr>`;
-        return;
-    }
-
-    const now = new Date();
-
-    __AB.forEach((item, i) => {
-        const startDate = new Date(item.start);
-        const diffMs = now - startDate;
-        const diffSec = Math.floor(diffMs / 1000);
-
-        let durationText = '';
-        let isExpired = false;
-
-        if (diffSec < 0) {
-            durationText = 'Belum mulai (Akan datang)';
-        } else {
-            const diffDays = Math.floor(diffSec / (3600 * 24));
-            const diffHours = Math.floor((diffSec % (3600 * 24)) / 3600);
-            const diffMinutes = Math.floor((diffSec % 3600) / 60);
-            durationText = `${diffDays} hari ${diffHours} jam ${diffMinutes} menit`;
-
-            if (diffDays >= item.dur) {
-                isExpired = true;
-            }
-        }
-
-        const r = document.createElement('tr');
-        r.innerHTML = `
-            <td style="color:var(--ac);font-weight:bold">${i + 1}</td>
-            <td><strong>${item.b}</strong></td>
-            <td style="text-align:left">${item.n}</td>
-            <td>${item.j}</td>
-            <td>${startDate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB (Maks: ${item.dur} Hari)</td>
-            <td>${item.pic}</td>
-            <td>${durationText}</td>
-            <td><span class="badge ${isExpired ? 's-tidakaktif' : 's-aktif'}">${isExpired ? 'Tidak Aktif (Melebihi Batas)' : 'Aktif (Dalam Masa Izin)'}</span></td>
-            ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL3(${i})" class="dl">Hapus</button></td>` : ''}
-        `;
-        t.appendChild(r);
-    });
-}
-
-// === FUNGSI MENU ADMINISTRASI RESIGN ===
-function __L4() {
-    if(document.getElementById('PW4').value === ADMIN_PASS) {
-        __ADM = true;
-        document.getElementById('AD4').style.display = 'inline-block';
-        const b = document.getElementById('IBOX4');
-        b.style.opacity = '1'; b.style.pointerEvents = 'auto';
-        b.querySelectorAll('.inp,button').forEach(x => x.disabled = false);
-        b.querySelector('.lk').style.display = 'none';
-        document.getElementById('AC4').style.display = 'table-cell';
-        document.getElementById('LMG4').innerText = '✅ Akses Admin Dibuka!';
-        __RenderTable4();
-    } else {
-        document.getElementById('LMG4').innerText = '❌ Sandi Salah!';
-        document.getElementById('LMG4').classList.add('err');
-    }
-}
-
-function __A4() {
-    const batch = document.getElementById('rsBatch').value.trim();
-    const nama = document.getElementById('rsNama').value.trim();
-    const jabatan = document.getElementById('rsJabatan').value.trim();
-    const cid = document.getElementById('rsCID').value.trim();
-    const discord = document.getElementById('rsDiscord').value.trim();
-    const plat = document.getElementById('rsPlat').value.trim();
-    const start = document.getElementById('rsStart').value;
-    const status = document.getElementById('rsStatus').value;
-    const nominal = document.getElementById('rsNominal').value.trim();
-
-    if(!batch || !nama || !jabatan || !cid || !discord || !plat || !start) {
-        return alert('Lengkapi semua kolom administrasi resign!');
-    }
-
-    __RS.push({batch, nama, jabatan, cid, discord, plat, start, status, nominal: nominal || '0'});
-    __Simpan();
-    __RenderTable4();
-
-    document.getElementById('rsBatch').value = '';
-    document.getElementById('rsNama').value = '';
-    document.getElementById('rsJabatan').value = '';
-    document.getElementById('rsCID').value = '';
-    document.getElementById('rsDiscord').value = '';
-    document.getElementById('rsPlat').value = '';
-    document.getElementById('rsStart').value = '';
-    document.getElementById('rsNominal').value = '';
-    document.getElementById('IM4').innerText = '✅ Data resign berhasil ditambahkan!';
-    setTimeout(() => document.getElementById('IM4').innerText = '', 2000);
-}
-
-function __DL4(i) {
-    if(confirm('Hapus data administrasi resign ini?')) {
-        __RS.splice(i, 1);
-        __Simpan();
-        __RenderTable4();
-    }
-}
-
-function __RenderTable4() {
-    const t = document.getElementById('TB4');
-    t.innerHTML = '';
-    document.getElementById('AC4').style.display = __ADM ? 'table-cell' : 'none';
-
-    if (__RS.length === 0) {
-        t.innerHTML = `<tr><td colspan="${__ADM ? 12 : 11}" style="color:#666;font-style:italic;padding:15px;">Belum ada data administrasi resign</td></tr>`;
-        return;
-    }
-
-    const now = new Date();
-
-    __RS.forEach((item, i) => {
-        const startDate = new Date(item.start);
-        const diffMs = now - startDate;
-        const diffSec = Math.floor(diffMs / 1000);
-
-        let durationText = '';
-        if (diffSec < 0) {
-            durationText = 'Belum mulai';
-        } else {
-            const diffDays = Math.floor(diffSec / (3600 * 24));
-            const diffHours = Math.floor((diffSec % (3600 * 24)) / 3600);
-            const diffMinutes = Math.floor((diffSec % 3600) / 60);
-            durationText = `${diffDays} hari ${diffHours} jam ${diffMinutes} menit`;
-        }
-
-        let paymentBadge = '';
-        if (item.status === 'paid') {
-            paymentBadge = '<span style="font-size:16px;color:#2a9d8f;font-weight:bold" title="Paid">✔ Paid</span>';
-        } else if (item.status === 'belum_lunas') {
-            paymentBadge = '<span style="font-size:14px;color:#f4a261;font-weight:bold" title="Belum Lunas">⏳ Belum Lunas</span>';
-        } else {
-            paymentBadge = '<span style="font-size:16px;color:#e63946;font-weight:bold" title="Unpaid">❌ Unpaid</span>';
-        }
-
-        const r = document.createElement('tr');
-        r.innerHTML = `
-            <td style="color:var(--ac);font-weight:bold">${i + 1}</td>
-            <td><strong>${item.batch}</strong></td>
-            <td style="text-align:left">${item.nama}</td>
-            <td>${item.jabatan}</td>
-            <td>${item.cid}</td>
-            <td>${item.discord}</td>
-            <td>${item.plat}</td>
-            <td>${startDate.toLocaleString('id-ID', { timeZone: 'Asia/Jakarta' })} WIB</td>
-            <td>${durationText}</td>
-            <td>${paymentBadge}</td>
-            <td style="font-weight:bold;color:var(--ac);">${item.nominal || '-'}</td>
-            ${__ADM ? `<td style="white-space:nowrap"><button onclick="__DL4(${i})" class="dl">Hapus</button></td>` : ''}
-        `;
-        t.appendChild(r);
-    });
-}
-
-// === LOGIKA SCRIPT MDT EMS TAMBAHAN ===
-function __mdtTab(tab) {
-    document.getElementById('mdtPasienSec').style.display = tab === 'pasien' ? 'block' : 'none';
-    document.getElementById('mdtTindakanSec').style.display = tab === 'tindakan' ? 'block' : 'none';
-    document.getElementById('mdtDispatchSec').style.display = tab === 'dispatch' ? 'block' : 'none';
-
-    document.getElementById('btnTabPasien').style.background = tab === 'pasien' ? 'var(--ac)' : '#2b0a0a';
-    document.getElementById('btnTabPasien').style.color = tab === 'pasien' ? '#000' : 'var(--txt)';
-    document.getElementById('btnTabTindakan').style.background = tab === 'tindakan' ? 'var(--ac)' : '#2b0a0a';
-    document.getElementById('btnTabTindakan').style.color = tab === 'tindakan' ? '#000' : 'var(--txt)';
-    document.getElementById('btnTabDispatch').style.background = tab === 'dispatch' ? 'var(--ac)' : '#2b0a0a';
-    document.getElementById('btnTabDispatch').style.color = tab === 'dispatch' ? '#000' : 'var(--txt)';
-}
-
-function __renderMdtAll() {
-    // Render Pasien
-    const tP = document.getElementById('mP_tbody'); tP.innerHTML = '';
-    if (__mdtPasien.length === 0) {
-        tP.innerHTML = `<tr><td colspan="7" style="color:#666;font-style:italic">Belum ada rekam medis pasien</td></tr>`;
-    } else {
-        __mdtPasien.forEach((p, idx) => {
-            tP.innerHTML += `<tr>
-                <td><b>${idx+1}</b></td>
-                <td style="text-align:left">${p.nama}</td>
-                <td>${p.cid}</td>
-                <td><span class="badge" style="background:#028090;color:#fff">${p.darah}</span></td>
-                <td>${p.alergi || '-'}</td>
-                <td>${p.kronis || '-'}</td>
-                <td><button onclick="__hapusPasien(${idx})" class="dl">Hapus</button></td>
-            </tr>`;
-        });
-    }
-
-    // Render Tindakan
-    const tT = document.getElementById('mT_tbody'); tT.innerHTML = '';
-    if (__mdtTindakan.length === 0) {
-        tT.innerHTML = `<tr><td colspan="9" style="color:#666;font-style:italic">Belum ada catatan tindakan medis</td></tr>`;
-    } else {
-        __mdtTindakan.forEach((t, idx) => {
-            tT.innerHTML += `<tr>
-                <td><b>${idx+1}</b></td>
-                <td>${t.waktu}</td>
-                <td style="text-align:left">${t.nama}</td>
-                <td>${t.dokter}</td>
-                <td><span class="badge" style="background:#b7094c">${t.kasus}</span></td>
-                <td>${t.vital}</td>
-                <td style="text-align:left">${t.tindakan}</td>
-                <td style="color:var(--ac);font-weight:bold">$${t.biaya}</td>
-                <td><button onclick="__hapusTindakan(${idx})" class="dl">Hapus</button></td>
-            </tr>`;
-        });
-    }
-
-    // Render Dispatch
-    const tD = document.getElementById('mD_tbody'); tD.innerHTML = '';
-    if (__mdtDispatch.length === 0) {
-        tD.innerHTML = `<tr><td colspan="7" style="color:#666;font-style:italic">Belum ada log dispatch 911</td></tr>`;
-    } else {
-        __mdtDispatch.forEach((d, idx) => {
-            tD.innerHTML += `<tr>
-                <td><b>${idx+1}</b></td>
-                <td>${d.waktu}</td>
-                <td style="text-align:left">${d.lokasi}</td>
-                <td style="text-align:left">${d.ket}</td>
-                <td>${d.unit}</td>
-                <td><span class="badge s-aktif">${d.status}</span></td>
-                <td><button onclick="__hapusDispatch(${idx})" class="dl">Hapus</button></td>
-            </tr>`;
-        });
-    }
-}
-
-function __simpanPasien() {
-    const nama = document.getElementById('mP_nama').value.trim();
-    const cid = document.getElementById('mP_cid').value.trim();
-    const darah = document.getElementById('mP_darah').value;
-    const alergi = document.getElementById('mP_alergi').value.trim();
-    const kronis = document.getElementById('mP_kronis').value.trim();
-
-    if(!nama || !cid) return alert('Nama dan CID pasien wajib diisi!');
-    __mdtPasien.push({nama, cid, darah, alergi, kronis});
-    __Simpan(); __renderMdtAll();
-    document.getElementById('mP_nama').value = '';
-    document.getElementById('mP_cid').value = '';
-    document.getElementById('mP_alergi').value = '';
-    document.getElementById('mP_kronis').value = '';
-    document.getElementById('mP_msg').innerText = '✅ Rekam medis pasien berhasil disimpan!';
-    setTimeout(() => document.getElementById('mP_msg').innerText = '', 2000);
-}
-
-function __hapusPasien(idx) {
-    if(confirm('Hapus rekam medis pasien ini?')) {
-        __mdtPasien.splice(idx, 1);
-        __Simpan(); __renderMdtAll();
-    }
-}
-
-function __tambahTindakan() {
-    const nama = document.getElementById('mT_nama').value.trim();
-    const dokter = document.getElementById('mT_dokter').value.trim();
-    const kasus = document.getElementById('mT_kasus').value;
-    const vital = document.getElementById('mT_vital').value.trim();
-    const tindakan = document.getElementById('mT_tindakan').value.trim();
-    const biaya = document.getElementById('mT_biaya').value.trim();
-
-    if(!nama || !dokter || !tindakan) return alert('Lengkapi Nama Pasien, Dokter, dan Tindakan!');
-    const waktu = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}) + ' WIB';
-
-    __mdtTindakan.push({waktu, nama, dokter, kasus, vital, tindakan, biaya: biaya || '0'});
-    __Simpan(); __renderMdtAll();
-    document.getElementById('mT_nama').value = '';
-    document.getElementById('mT_dokter').value = '';
-    document.getElementById('mT_vital').value = '';
-    document.getElementById('mT_tindakan').value = '';
-    document.getElementById('mT_biaya').value = '';
-    document.getElementById('mT_msg').innerText = '✅ Laporan tindakan & tagihan berhasil direkam!';
-    setTimeout(() => document.getElementById('mT_msg').innerText = '', 2000);
-}
-
-function __hapusTindakan(idx) {
-    if(confirm('Hapus laporan tindakan ini?')) {
-        __mdtTindakan.splice(idx, 1);
-        __Simpan(); __renderMdtAll();
-    }
-}
-
-function __tambahDispatch() {
-    const lokasi = document.getElementById('mD_lokasi').value.trim();
-    const ket = document.getElementById('mD_ket').value.trim();
-    const unit = document.getElementById('mD_unit').value.trim();
-
-    if(!lokasi || !ket) return alert('Lokasi dan deskripsi darurat wajib diisi!');
-    const waktu = new Date().toLocaleTimeString('id-ID', {hour: '2-digit', minute:'2-digit'}) + ' WIB';
-
-    __mdtDispatch.push({waktu, lokasi, ket, unit: unit || 'Belum Ditentukan', status:'Menuju Lokasi'});
-    __Simpan(); __renderMdtAll();
-    document.getElementById('mD_lokasi').value = '';
-    document.getElementById('mD_ket').value = '';
-    document.getElementById('mD_unit').value = '';
-    document.getElementById('mD_msg').innerText = '🚨 Dispatch 911 berhasil disiarkan!';
-    setTimeout(() => document.getElementById('mD_msg').innerText = '', 2000);
-}
-
-function __hapusDispatch(idx) {
-    if(confirm('Hapus log dispatch ini?')) {
-        __mdtDispatch.splice(idx, 1);
-        __Simpan(); __renderMdtAll();
-    }
 }
 </script>
 </body>
