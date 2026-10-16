@@ -60,18 +60,18 @@ select.tin{cursor:pointer}
 .arr:hover{background:#036775}
 .pos-input{width:50px;padding:3px 5px;background:var(--bt);border:1px solid var(--ac);border-radius:3px;color:var(--txt);font-size:11px;text-align:center}
 
-/* CSS MDT EMS RUMAH SAKIT HOMMI */
-.mdt-container-box { background: #eef0f3; color: #212529; border-radius: 12px; padding: 15px; min-height: 650px; display: flex; flex-direction: column; }
+/* CSS MDT EMS RUMAH SAKIT HOMMI MODERN INTERAKTIF */
+.mdt-container-box { background: #eef0f3; color: #212529; border-radius: 12px; padding: 15px; min-height: 700px; display: flex; flex-direction: column; }
 .mdt-header-top { background: #fff; padding: 12px 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #ddd; margin-bottom: 15px; }
 .mdt-body-grid { display: grid; grid-template-columns: 220px 1fr; gap: 15px; flex: 1; }
 .mdt-sidebar-menu { background: #fff; border-radius: 8px; padding: 15px 10px; border: 1px solid #ddd; display: flex; flex-direction: column; gap: 8px; height: fit-content; }
 .mdt-nav-btn { padding: 10px 12px; border-radius: 6px; font-weight: 600; font-size: 13px; color: #495057; cursor: pointer; border: none; background: transparent; text-align: left; width: 100%; transition: .2s; }
-.mdt-nav-btn:hover { background: #e9ecef; color: #000; }
+.mdt-nav-btn:hover { background: #f8f9fa; color: #000; }
 .mdt-nav-btn.active { background: #0d6efd; color: #fff; font-weight: 700; }
-.mdt-content-area { background: #fff; border: 1px solid #ced4da; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; min-height: 450px; }
-.mdt-pane-title { font-weight: 800; font-size: 18px; color: #212529; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 10px; }
+.mdt-content-area { background: #fff; border: 1px solid #ced4da; border-radius: 8px; padding: 20px; display: flex; flex-direction: column; gap: 15px; min-height: 500px; }
+.mdt-pane-title { font-weight: 800; font-size: 18px; color: #212529; border-bottom: 2px solid #eee; padding-bottom: 8px; margin-bottom: 5px; }
 .mdt-input-clean { width: 100%; padding: 9px 12px; border: 1px solid #ced4da; border-radius: 6px; font-size: 13px; background: #fff; color: #212529; margin-bottom: 10px; }
-.mdt-btn-clean { background: #0d6efd; color: #fff; border: none; padding: 9px 16px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
+.mdt-btn-clean { background: #0d6efd; color: #fff; border: none; padding: 10px 16px; border-radius: 6px; font-weight: bold; font-size: 13px; cursor: pointer; }
 .mdt-btn-clean:hover { background: #0b5ed7; }
 .mdt-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; color: #212529; }
 .mdt-table th, .mdt-table td { padding: 10px; border: 1px solid #dee2e6; text-align: left; }
@@ -96,7 +96,7 @@ select.tin{cursor:pointer}
 </div>
 
 <!-- ======================================================= -->
-<!-- MENU MDT EMS RUMAH SAKIT HOMMI -->
+<!-- MDT EMS RUMAH SAKIT HOMMI (GAYA MODERN, INTERAKTIF, LENGKAP) -->
 <!-- ======================================================= -->
 <div id="Smdt" class="sec" style="background:transparent;border:none;padding:0">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
@@ -106,9 +106,9 @@ select.tin{cursor:pointer}
 <h2 style="color:var(--ac);margin-bottom:15px">🔐 Login MDT Rumah Sakit Hommi</h2>
 <p style="font-size:13px;color:#aaa;margin-bottom:20px">Masukkan Identitas Petugas/Dokter yang Bertugas</p>
 <label class="lb" style="text-align:left">NAMA LENGKAP & GELAR</label>
-<input type="text" id="loginMdtNama" class="inp" placeholder="Cth: Matthew Whiteford">
+<input type="text" id="loginMdtNama" class="inp" placeholder="Cth: Dr. Alex Morgan, Sp.B">
 <label class="lb" style="text-align:left">JABATAN / PANGKAT</label>
-<input type="text" id="loginMdtJabatan" class="inp" placeholder="Cth: Dokter Spesialis">
+<input type="text" id="loginMdtJabatan" class="inp" placeholder="Cth: Dokter Spesialis / Surgeon">
 <label class="lb" style="text-align:left">CALLSIGN / NO. UNIT</label>
 <input type="text" id="loginMdtCallsign" class="inp" placeholder="Cth: EMS-01">
 <button class="btn" style="width:100%;margin-top:10px;padding:12px;background:var(--ac);font-weight:bold" onclick="__prosesLoginMdt()">Masuk Terminal ➔</button>
@@ -140,11 +140,12 @@ select.tin{cursor:pointer}
         <div class="mdt-sidebar-menu">
             <button class="mdt-nav-btn active" onclick="__switchMdtTab(event, 'tab-citizens')">👤 Citizens (Warga)</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-injuries')">🩹 Injuries (Cedera)</button>
-            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-operasi')">🏥 Pasien Operasi</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-body-map')" style="background:#e63946;color:#fff;font-weight:bold">🩺 Body Injury Helper</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-operasi')">🏥 Daftar Pasien Operasi</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-rekammedis')">📋 Laporan Rekam Medis</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-dispatch')">📡 Dispatch 911</button>
             <div style="margin-top:20px;border-top:1px solid #eee;padding-top:10px">
-                <button class="mdt-nav-btn" style="color:#dc3545;font-weight:bold" onclick="alert('🚨 SINYAL BACKUP DARURAT DISEBARKAN KE UNTUK EMS & POLISI!')">🔔 BACKUP</button>
+                <button class="mdt-nav-btn" style="color:#dc3545;font-weight:bold" onclick="alert('🚨 SINYAL BACKUP DARURAT DISEBARKAN KE SEMUA UNIT EMS & POLISI!')">🔔 BACKUP</button>
             </div>
         </div>
 
@@ -180,6 +181,42 @@ select.tin{cursor:pointer}
                     <thead><tr><th>Pasien</th><th>Bagian Tubuh</th><th>Tingkat Keparahan</th><th>Aksi</th></tr></thead>
                     <tbody id="tbInjuries"><tr><td colspan="4" style="text-align:center;color:#888">Belum ada data cedera</td></tr></tbody>
                 </table>
+            </div>
+
+            <!-- TAB BARU: BODY INJURY HELPER (FIRST AID & STATUS TUBUH) -->
+            <div id="tab-body-map" class="mdt-tab-content" style="display:none">
+                <div class="mdt-pane-title">🩺 Body Injury Helper & First Aid Status</div>
+                <p style="font-size:13px;color:#666;margin-bottom:15px">Pilih bagian tubuh pasien di bawah untuk melihat diagnosa awal, obat-obatan yang diperlukan, dan tindakan pertolongan pertama (BLS):</p>
+                
+                <!-- Diagram Visual Peta Tubuh Pasien -->
+                <div style="background:#120202;border:2px solid #7a0d0d;border-radius:10px;padding:15px;margin-bottom:15px;text-align:center">
+                    <p style="color:#ffb703;font-size:12px;font-weight:bold;margin-bottom:10px">--- SKEMA ANATOMI PASIEN (KLIK UNTUK MEMILIH BAGIAN TUBUH) ---</p>
+                    <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
+                        <button onclick="__pilihBodyPart('kepala')" class="btn" style="background:#d62828;color:#fff;width:220px">🧠 [ KEPALA & WAJAH ]</button>
+                        <button onclick="__pilihBodyPart('leher')" class="btn" style="background:#e65100;color:#fff;width:200px">🦒 [ LEHER ]</button>
+                        <div style="display:flex;gap:10px;justify-content:center;width:100%">
+                            <button onclick="__pilihBodyPart('tangan_kanan')" class="btn" style="background:#028090;color:#fff;width:140px">🦾 [ TANGAN KANAN ]</button>
+                            <button onclick="__pilihBodyPart('dada')" class="btn" style="background:#c1121f;color:#fff;width:160px">🫁 [ DADA & PERUT ]</button>
+                            <button onclick="__pilihBodyPart('tangan_kiri')" class="btn" style="background:#028090;color:#fff;width:140px">🦾 [ TANGAN KIRI ]</button>
+                        </div>
+                        <button onclick="__pilihBodyPart('pinggul')" class="btn" style="background:#588157;color:#fff;width:180px">🦴 [ PINGGUL / PERUT BAHAH ]</button>
+                        <div style="display:flex;gap:10px;justify-content:center;width:100%">
+                            <button onclick="__pilihBodyPart('paha_kanan')" class="btn" style="background:#f77f00;color:#fff;width:160px">🦿 [ PAHA KANAN ]</button>
+                            <button onclick="__pilihBodyPart('paha_kiri')" class="btn" style="background:#f77f00;color:#fff;width:160px">🦿 [ PAHA KIRI ]</button>
+                        </div>
+                        <div style="display:flex;gap:10px;justify-content:center;width:100%">
+                            <button onclick="__pilihBodyPart('kaki_kanan')" class="btn" style="background:#3a5a40;color:#fff;width:160px">🦶 [ BETIS / KAKI KANAN ]</button>
+                            <button onclick="__pilihBodyPart('kaki_kiri')" class="btn" style="background:#3a5a40;color:#fff;width:160px">🦶 [ BETIS / KAKI KIRI ]</button>
+                        </div>
+                        <button onclick="__pilihBodyPart('bakar')" class="btn" style="background:#d4a373;color:#000;width:330px;margin-top:5px;font-weight:bold">🔥 [ LUKA BAKAR & LEDAKAN (BURNS) ]</button>
+                    </div>
+                </div>
+
+                <!-- Panel Informasi Diagnosa & Penanganan -->
+                <div id="bodyPartDetailDisplay" style="background:#1a0505;border:2px solid #ffb703;border-radius:10px;padding:20px;color:#fff;min-height:200px">
+                    <h3 style="color:#ffb703;margin-bottom:10px">👈 Silahkan klik salah satu tombol bagian tubuh di atas.</h3>
+                    <p style="font-size:13px;color:#ccc">Sistem akan menampilkan daftar jenis luka, diagnosa awal, obat-obatan wajib, serta langkah pertolongan pertama (BLS) di lokasi kejadian.</p>
+                </div>
             </div>
 
             <!-- 3. TAB DAFTAR PASIEN OPERASI -->
@@ -229,7 +266,7 @@ select.tin{cursor:pointer}
 </div>
 
 <!-- ======================================================= -->
-<!-- DATA UTAMA ASLI DARI KODEAMAN.TXT (100% UTUH TANPA DIUBAH) -->
+<!-- DATA UTAMA ASLI DARI KODEAMAN.TXT -->
 <!-- ======================================================= -->
 <div id="Sip" class="sec">
 <button class="bk" onclick="__B()">⬅ Kembali ke Menu Utama</button>
@@ -544,7 +581,7 @@ let __DS = JSON.parse(localStorage.getItem('rs_staff_data')) || [];
 let __AB = JSON.parse(localStorage.getItem('rs_absensi_data')) || [];
 let __RS = JSON.parse(localStorage.getItem('rs_resign_data')) || [];
 
-// ARRAY DATA MDT KOSONG
+// ARRAY DATA MDT KOSONG AWAL
 let __mdtCitizens = [];
 let __mdtInjuries = [];
 let __mdtOperasi = [];
@@ -575,12 +612,12 @@ function __B() {
     __edit = __edit2 = __edit3 = __moveId = -1;
 }
 
-/* LOGIKA MDT EMS SANGAT STABIL & TANPA ERROR */
+/* LOGIKA MDT EMS INTERAKTIF */
 function __prosesLoginMdt() {
     const nama = document.getElementById('loginMdtNama').value.trim();
     const jabatan = document.getElementById('loginMdtJabatan').value.trim();
     const callsign = document.getElementById('loginMdtCallsign').value.trim();
-    if(!nama || !jabatan || !callsign) return alert('Mohon isi Nama, Jabatan, dan Callsign!');
+    if(!nama || !jabatan || !callsign) return alert('Mohon lengkapi data login!');
     localStorage.setItem('rs_mdt_user', JSON.stringify({nama, jabatan, callsign}));
     __cekLoginMdtState();
 }
@@ -594,11 +631,6 @@ function __cekLoginMdtState() {
         document.getElementById('uiMdtJabatan').innerText = userData.jabatan;
         document.getElementById('uiMdtCallsign').innerText = userData.callsign;
         document.getElementById('mdtAvatarLetter').innerText = userData.nama.charAt(0).toUpperCase();
-        __renderCitizens();
-        __renderInjuries();
-        __renderOperasi();
-        __renderRekamMedis();
-        __renderDispatch();
     } else {
         document.getElementById('mdtLoginScreen').style.display = 'block';
         document.getElementById('mdtDashboard').style.display = 'none';
@@ -621,7 +653,7 @@ function __switchMdtTab(event, tabId) {
 function __tambahCitizen() {
     const nama = document.getElementById('citNama').value.trim();
     const cid = document.getElementById('citCid').value.trim();
-    if(!nama || !cid) return alert('Lengkapi Nama dan CID warga!');
+    if(!nama || !cid) return alert('Nama dan CID wajib diisi!');
     __mdtCitizens.push({nama, cid});
     document.getElementById('citNama').value = '';
     document.getElementById('citCid').value = '';
@@ -629,7 +661,6 @@ function __tambahCitizen() {
 }
 function __renderCitizens() {
     const tb = document.getElementById('tbCitizens');
-    if(!tb) return;
     if(__mdtCitizens.length === 0) { tb.innerHTML = `<tr><td colspan="3" style="text-align:center;color:#888">Belum ada data warga</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtCitizens.forEach((c, idx) => {
@@ -650,7 +681,6 @@ function __tambahInjury() {
 }
 function __renderInjuries() {
     const tb = document.getElementById('tbInjuries');
-    if(!tb) return;
     if(__mdtInjuries.length === 0) { tb.innerHTML = `<tr><td colspan="4" style="text-align:center;color:#888">Belum ada data cedera</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtInjuries.forEach((i, idx) => {
@@ -658,13 +688,185 @@ function __renderInjuries() {
     });
 }
 
-// 3. Daftar Operasi Pasien
+/* LOGIKA BARU: BODY INJURY HELPER (STATUS TUBUH & FIRST AID) */
+const __bodyPartData = {
+    kepala: {
+        title: "🧠 BAGIAN TUBUH: KEPALA & WAJAH",
+        cases: [
+            {
+                nama: "Luka Robek Kepala (Scalp Laceration)",
+                diag: "Perdarahan aktif di kulit kepala akibat benturan/gesekan. Risiko retak tulang tengkorak.",
+                obat: "Povidone Iodine 10%, Cefadroxil 500 mg, Paracetamol 500 mg.",
+                alat: "Kasa Steril, Head Bandage / Perban Gulung, Gunting Kasa, Disposable Gloves.",
+                tindakan: "1. Tekan langsung area luka dengan kain kasa steril secara hati-hati.\n2. Bersihkan sekitar luka dengan Povidone Iodine.\n3. Pasang perban melingkari kepala (head bandage).\n4. Berikan Paracetamol untuk nyeri dan Cefadroxil untuk antibiotik pencegah infeksi."
+            },
+            {
+                nama: "Mimisan Berat (Epistaxis) & Luka Bibir/Gusi",
+                diag: "Trauma tumpul area wajah akibat pukulan, perdarahan nasal/oral.",
+                obat: "Cairan Steril NaCl 0.9% (Irigasi/Bilas).",
+                alat: "Kasa Steril, Disposable Gloves.",
+                tindakan: "1. Minta korban duduk tegak dan agak menunduk ke depan (jangan mendongak agar darah tidak masuk tenggorokan).\n2. Pencet cuping hidung selama 10 menit.\n3. Untuk luka bibir/mulut: Bilas dengan air bersih/saline, lalu tekan luka dengan kasa steril."
+            },
+            {
+                nama: "Pingsan / Gegar Otak Ringan (Concussion / KO)",
+                diag: "Penurunan kesadaran akibat pukulan telak / benturan keras kepala belakang.",
+                obat: "Tabung Oksigen + Regulator.",
+                alat: "Pulse Oximeter, Stetoskop.",
+                tindakan: "1. Baringkan korban telentang, periksa napas dan nadi (ABC).\n2. Pasang Oksigen via mask.\n3. Jika bernapas normal namun belum sadar, posisikan miring (recovery position) agar tidak tersumbat muntahan."
+            }
+        ]
+    },
+    leher: {
+        title: "🦒 BAGIAN TUBUH: LEHER",
+        cases: [
+            {
+                nama: "Luka Cedera Cambuk (Whiplash)",
+                diag: "Trauma akselerasi/deselerasi leher akibat kecelakaan kendaraan.",
+                obat: "Ibuprofen 400 mg / Diclofenac 50 mg.",
+                alat: "Neck Collar (Penyangga Leher / C-Collar).",
+                tindakan: "1. Segera pasang penyangga leher (Neck Collar) untuk membatasi pergerakan tulang leher dan MENCEGAH KELUMPUHAN.\n2. Berikan Ibuprofen / Diclofenac untuk meredakan nyeri dan peradangan."
+            }
+        ]
+    },
+    dada: {
+        title: "🫁 BAGIAN TUBUH: DADA & PERUT",
+        cases: [
+            {
+                nama: "Luka Tembak Masuk & Keluar (GSW - Gunshot Wound)",
+                diag: "Vital Wound / Perdarahan berat internal-eksternal akibat tembakan peluru.",
+                obat: "Inj. Ketorolac 30 mg, Infus Saline / RL, Tabung Oksigen.",
+                alat: "Pressure Dressing (Pembalut Tekan), Kasa Steril, Infus Set, Pulse Oximeter.",
+                tindakan: "1. Tekan area luka dengan kasa steril secara agresif (apply pressure).\n2. Pasang pembalut tekan (pressure dressing) pada luka masuk dan luka keluar.\n3. Berikan Oksigen konsentrasi tinggi & pasang infus RL.\n4. WAJIB EVAKUASI: Naikkan ke ambulans untuk operasi pengangkatan proyektil di IGD RS."
+            },
+            {
+                nama: "Luka Memar Berat Dada / Benturan Setir (Contusion)",
+                diag: "Trauma tumpul dada akibat benturan setir kendaraan / benturan keras.",
+                obat: "Ibuprofen 400 mg / Diclofenac 50 mg.",
+                alat: "Kompres Es / Cold Pack, Stetoskop.",
+                tindakan: "1. Kompres area dada dengan es batu dibalut kain selama 15-20 menit.\n2. Berikan Ibuprofen atau Diclofenac untuk meredakan nyeri dan pembengkakan."
+            }
+        ]
+    },
+    pinggul: {
+        title: "🦴 BAGIAN TUBUH: PERUT BAWAH & PINGGUL",
+        cases: [
+            {
+                nama: "Luka Tusuk (Puncture / Stab Wound)",
+                diag: "Trauma tajam menembus dinding perut/rusuk.",
+                obat: "Inj. Ketorolac 30 mg, Amoxicillin 500 mg.",
+                alat: "Perban Gulung, Kasa Steril, Gunting Medis.",
+                tindakan: "1. JANGAN CABUT benda yang menancap! (Berfungsi menyumbat perdarahan).\n2. Amankan benda tersebut dengan perban gulung di sekelilingnya, lalu balut rapi.\n3. Segera bawa ke IGD Rumah Sakit."
+            }
+        ]
+    },
+    tangan_kanan: { title: "🦾 BAGIAN TUBUH: TANGAN KANAN / BAHU", cases: [] },
+    tangan_kiri: { title: "🦾 BAGIAN TUBUH: TANGAN KIRI / BAHU", cases: [] },
+    paha_kanan: { title: "🦿 BAGIAN TUBUH: PAHA KANAN", cases: [] },
+    paha_kiri: { title: "🦿 BAGIAN TUBUH: PAHA KIRI", cases: [] },
+    kaki_kanan: { title: "🦶 BAGIAN TUBUH: BETIS & KAKI KANAN", cases: [] },
+    kaki_kiri: { title: "🦶 BAGIAN TUBUH: BETIS & KAKI KIRI", cases: [] },
+    bakar: {
+        title: "🔥 LUKA BAKAR & LEDAKAN (BURNS & EXPLOSIONS)",
+        cases: [
+            {
+                nama: "Luka Bakar Derajat 1 & 2 (Superficial & Partial)",
+                diag: "Kulit kemerahan, melepuh/bula, nyeri hebat.",
+                obat: "Silver Sulfadiazine Cream / Bioplacenton, Ibuprofen 400 mg.",
+                alat: "Kasa Parafin Steril / Kasa Basah, Perban Gulung.",
+                tindakan: "1. Siram dengan air mengalir selama 10-15 menit (jangan pakai air es).\n2. Jangan pecahkan lepuhan kulit!\n3. Oleskan cream Silver Sulfadiazine dan tutup longgar dengan kasa steril."
+            },
+            {
+                nama: "Luka Bakar Derajat 3 (Full Thickness Burn)",
+                diag: "Kulit menghitam/hangus, mati rasa (kerusakan saraf), risiko syok dehidrasi.",
+                obat: "Infus Ringer Lactate (RL) Grojok, Inj. Ketorolac 30 mg, Oksigen.",
+                alat: "Kasa Steril Kering, Infus Set, BVM.",
+                tindakan: "1. Tutup luka secara longgar dengan kain/kasa steril kering.\n2. Pasang Infus RL guyur cepat untuk mencegah syok hipovolemik.\n3. Jangan pakai air jika area luka terlalu luas (mencegah hipotermia).\n4. Segera evakuasi ke kamar operasi RS."
+            }
+        ]
+    }
+};
+
+// Pengisian data umum ekstremitas (Tangan & Kaki)
+const umumTangan = [
+    {
+        nama: "Luka Sayat / Potong (Laceration / Incision)",
+        diag: "Robekan kulit/otot akibat senjata tajam atau pecahan kaca.",
+        obat: "Povidone Iodine, Mupirocin Ointment, Cefadroxil 500 mg.",
+        alat: "Kasa Steril, Plester Medis / Perban, Pinset.",
+        tindakan: "1. Bersihkan luka dengan antiseptik / NaCl 0.9%.\n2. Tekan kasa steril sampai perdarahan berhenti.\n3. Oleskan salep Mupirocin dan rekatkan dengan plester medis."
+    },
+    {
+        nama: "Dislokasi Sendi Bahu / Siku",
+        diag: "Pergeseran sendi dari posisi normal akibat benturan/perkelahian.",
+        obat: "Ketorolac 10 mg / Ibuprofen 400 mg.",
+        alat: "Mitela (Sling / Kain Segitiga), Elastic Bandage.",
+        tindakan: "1. JANGAN DIPAKSA dikembalikan posisinya secara manual!\n2. Pasang Mitela (Sling) untuk menopang lengan agar tidak bergerak.\n3. Berikan anti-nyeri Ketorolac/Ibuprofen."
+    }
+];
+
+const umumKaki = [
+    {
+        nama: "Patah Tulang Tertutup & Terbuka (Closed & Open Fracture)",
+        diag: "Deformitas/patah tulang. Pada kasus terbuka, tulang menembus kulit.",
+        obat: "Inj. Ketorolac 30 mg, Infus RL / Saline.",
+        alat: "Bidai (Splint / Spalk), Perban Elastis, Kasa Steril Basah.",
+        tindakan: "1. Patah Tertutup: Pasang Bidai (Splint) melewati dua sendi di atas dan bawah area patah.\n2. Patah Terbuka: Tekan area sekitar tulang (jangan tekan tulangnya), tutup tulang menonjol dengan kasa basah, lalu pasang bidai.\n3. Berikan injeksi Ketorolac dan evakuasi ke RS."
+    },
+    {
+        nama: "Terkilir / Keseleo Berat (Severe Sprain)",
+        diag: "Cedera ligamen pergelangan kaki (ankle) akibat salah tumpuan.",
+        obat: "Ibuprofen Gel 5% / Counterpain, Ibuprofen 400 mg.",
+        alat: "Elastic Bandage, Kompres Es.",
+        tindakan: "Metode RICE: Rest (istirahatkan), Ice (kompres es 15m), Compression (balut perban elastis), Elevation (tinggikan kaki)."
+    },
+    {
+        nama: "Luka Parut Kecelakaan Jalanan (Road Rash / Abrasion)",
+        diag: "Gesekan kulit dengan aspal/tanah saat kecelakaan kendaraan.",
+        obat: "Cairan Saline (NaCl 0.9%), Povidone Iodine, Salep Mupirocin/Gentamicin.",
+        alat: "Kasa Non-Lengket, Gunting, Pinset.",
+        tindakan: "1. Irigasi/siram luka dengan Saline untuk membersihkan kerikil/pasir.\n2. Oleskan salep antibiotik Gentamicin/Mupirocin.\n3. Tutup dengan kasa non-lengket."
+    }
+];
+
+__bodyPartData.tangan_kanan.cases = umumTangan;
+__bodyPartData.tangan_kiri.cases = umumTangan;
+__bodyPartData.paha_kanan.cases = umumKaki;
+__bodyPartData.paha_kiri.cases = umumKaki;
+__bodyPartData.kaki_kanan.cases = umumKaki;
+__bodyPartData.kaki_kiri.cases = umumKaki;
+
+function __pilihBodyPart(key) {
+    const data = __bodyPartData[key];
+    const display = document.getElementById('bodyPartDetailDisplay');
+    if(!data) return;
+
+    let html = `<h2 style="color:#ffb703;border-bottom:1px solid #7a0d0d;padding-bottom:8px;margin-bottom:15px">${data.title}</h2>`;
+    
+    if(data.cases.length === 0) {
+        html += `<p style="color:#aaa">Tidak ada data khusus untuk bagian tubuh ini.</p>`;
+    } else {
+        data.cases.forEach((item, idx) => {
+            html += `
+            <div style="background:#2b0a0a;border:1px solid #ffb703;border-radius:8px;padding:15px;margin-bottom:15px">
+                <h3 style="color:#ffb703;margin-bottom:8px">${idx+1}. ${item.nama}</h3>
+                <p style="font-size:13px;margin-bottom:6px"><strong>🔍 Diagnosa Awal:</strong> ${item.diag}</p>
+                <p style="font-size:13px;margin-bottom:6px;color:#2a9d8f"><strong>💊 Obat yang Dimasukkan:</strong> ${item.obat}</p>
+                <p style="font-size:13px;margin-bottom:6px;color:#028090"><strong>🛠️ Peralatan:</strong> ${item.alat}</p>
+                <div style="background:#120202;border-left:3px solid #ffb703;padding:10px;margin-top:8px;font-size:13px;white-space:pre-wrap"><strong>🩺 Pertolongan Pertama (BLS):</strong>\n${item.tindakan}</div>
+            </div>`;
+        });
+    }
+
+    display.innerHTML = html;
+}
+
+// 3. Daftar Operasi
 function __tambahOperasi() {
     const pasien = document.getElementById('opPasien').value.trim();
     const keluhan = document.getElementById('opKeluhan').value.trim();
     const dokter = document.getElementById('opDokter').value.trim();
-    if(!pasien || !keluhan || !dokter) return alert('Lengkapi form pasien operasi!');
-    __mdtOperasi.push({pasien, keluhan, dokter, status: 'Menunggu Operasi'});
+    if(!pasien || !keluhan || !dokter) return alert('Lengkapi data pasien operasi!');
+    __mdtOperasi.push({pasien, keluhan, dokter, status: 'Menunggu Jadwal'});
     document.getElementById('opPasien').value = '';
     document.getElementById('opKeluhan').value = '';
     document.getElementById('opDokter').value = '';
@@ -672,20 +874,19 @@ function __tambahOperasi() {
 }
 function __renderOperasi() {
     const tb = document.getElementById('tbOperasi');
-    if(!tb) return;
     if(__mdtOperasi.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada pasien antrean operasi</td></tr>`; return; }
     tb.innerHTML = '';
-    __mdtOperasi.forEach((o, idx) => {
+    __mdtOperasi.push && __mdtOperasi.forEach((o, idx) => {
         tb.innerHTML += `<tr><td>${o.pasien}</td><td>${o.keluhan}</td><td>${o.dokter}</td><td><span class="badge s-aktif">${o.status}</span></td><td><button onclick="__mdtOperasi.splice(${idx},1);__renderOperasi()" class="dl">Hapus</button></td></tr>`;
     });
 }
 
-// 4. Laporan Rekam Medis
+// 4. Rekam Medis
 function __tambahRekamMedis() {
     const pasien = document.getElementById('rmPasien').value.trim();
     const diagnosa = document.getElementById('rmDiagnosa').value.trim();
     const tindakan = document.getElementById('rmTindakan').value.trim();
-    if(!pasien || !diagnosa || !tindakan) return alert('Lengkapi data rekam medis!');
+    if(!pasien || !diagnosa || !tindakan) return alert('Lengkapi form rekam medis!');
     const waktu = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + ' WIB';
     __mdtRekamMedis.push({waktu, pasien, diagnosa, tindakan});
     document.getElementById('rmPasien').value = '';
@@ -695,7 +896,6 @@ function __tambahRekamMedis() {
 }
 function __renderRekamMedis() {
     const tb = document.getElementById('tbRekamMedis');
-    if(!tb) return;
     if(__mdtRekamMedis.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada laporan rekam medis</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtRekamMedis.forEach((r, idx) => {
@@ -707,7 +907,7 @@ function __renderRekamMedis() {
 function __tambahDispatch() {
     const lokasi = document.getElementById('dispLokasi').value.trim();
     const ket = document.getElementById('dispKet').value.trim();
-    if(!lokasi || !ket) return alert('Lengkapi lokasi dan keterangan!');
+    if(!lokasi || !ket) return alert('Lengkapi lokasi dan keterangan dispatch!');
     const waktu = new Date().toLocaleTimeString('id-ID', {hour:'2-digit', minute:'2-digit'}) + ' WIB';
     __mdtDispatch.push({waktu, lokasi, ket, status: 'Menuju Lokasi'});
     document.getElementById('dispLokasi').value = '';
@@ -716,7 +916,6 @@ function __tambahDispatch() {
 }
 function __renderDispatch() {
     const tb = document.getElementById('tbDispatch');
-    if(!tb) return;
     if(__mdtDispatch.length === 0) { tb.innerHTML = `<tr><td colspan="5" style="text-align:center;color:#888">Belum ada panggilan dispatch aktif</td></tr>`; return; }
     tb.innerHTML = '';
     __mdtDispatch.forEach((d, idx) => {
@@ -724,7 +923,7 @@ function __renderDispatch() {
     });
 }
 
-/* FUNGSI KODE UTAMA ASLI (100% UTUH) */
+/* FUNGSI UTAMA ASLI DARI KODEAMAN.TXT */
 function __L() {
     if(document.getElementById('PW').value === ADMIN_PASS) {
         __ADM = true;
