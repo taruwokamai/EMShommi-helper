@@ -76,6 +76,15 @@ select.tin{cursor:pointer}
 .mdt-table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 13px; color: #212529; }
 .mdt-table th, .mdt-table td { padding: 10px; border: 1px solid #dee2e6; text-align: left; }
 .mdt-table th { background: #f1f3f5; color: #111; font-weight: bold; }
+
+/* CSS TAMBAHAN MINIGAME ANATOMI BADAN MANUSIA */
+.body-silhouette { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 15px; background: #1a0505; border-radius: 10px; border: 1px solid #ffb703; width: fit-content; margin: 0 auto; }
+.body-part-btn { background: #2b0a0a; color: #ffb703; border: 2px solid #7a0d0d; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; text-align: center; font-size: 12px; width: 180px; }
+.body-part-btn:hover { background: #450f0f; border-color: #ffb703; transform: scale(1.05); }
+.body-part-btn.active-wound { background: #e63946 !important; color: #fff !important; border-color: #ffb703 !important; animation: pulseRed 1.5s infinite; }
+@keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); } }
+.minigame-item-box { display: inline-block; background: #2b0a0a; border: 1px solid #ffb703; padding: 8px 12px; margin: 4px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; color: #ffb703; transition: 0.2s; }
+.minigame-item-box:hover { background: #ffb703; color: #000; }
 </style>
 </head>
 <body>
@@ -140,7 +149,7 @@ select.tin{cursor:pointer}
         <div class="mdt-sidebar-menu">
             <button class="mdt-nav-btn active" onclick="__switchMdtTab(event, 'tab-citizens')">👤 Citizens (Warga)</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-injuries')">🩹 Injuries (Cedera)</button>
-            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-body-map')" style="background:#e63946;color:#fff;font-weight:bold">🩺 Body Injury Helper</button>
+            <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-body-map')" style="background:#e63946;color:#fff;font-weight:bold">🩺 Body Injury Minigame</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-operasi')">🏥 Daftar Pasien Operasi</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-rekammedis')">📋 Laporan Rekam Medis</button>
             <button class="mdt-nav-btn" onclick="__switchMdtTab(event, 'tab-dispatch')">📡 Dispatch 911</button>
@@ -183,39 +192,53 @@ select.tin{cursor:pointer}
                 </table>
             </div>
 
-            <!-- TAB BARU: BODY INJURY HELPER (FIRST AID & STATUS TUBUH) -->
+            <!-- TAB BARU: BODY INJURY MINIGAME & FIRST AID -->
             <div id="tab-body-map" class="mdt-tab-content" style="display:none">
-                <div class="mdt-pane-title">🩺 Body Injury Helper & First Aid Status</div>
-                <p style="font-size:13px;color:#666;margin-bottom:15px">Pilih bagian tubuh pasien di bawah untuk melihat diagnosa awal, obat-obatan yang diperlukan, dan tindakan pertolongan pertama (BLS):</p>
+                <div class="mdt-pane-title">🩺 Minigame Penanganan Medis Pasien (Body Injury System)</div>
+                <p style="font-size:13px;color:#666;margin-bottom:10px">1. Pilih jenis luka pada menu dropdown di bawah untuk mensimulasikan lokasi trauma pada tubuh pasien[cite: 1].</p>
                 
-                <!-- Diagram Visual Peta Tubuh Pasien -->
+                <div style="margin-bottom:15px">
+                    <label class="lb" style="color:#212529">PILIH JENIS LUKA / Kasus:</label>
+                    <select id="minigameSelectWound" class="mdt-input-clean" onchange="__triggerMinigameWound(this.value)">
+                        <option value="">— Pilih Jenis Luka / Kasus —</option>
+                        <option value="kepala">Luka Robek / Trauma Kepala (Head Injury)</option>
+                        <option value="dada">Luka Tembak Dada (Gunshot Wound - GSW)</option>
+                        <option value="tangan_kanan">Luka Sayat Lengan Kanan (Laceration)</option>
+                        <option value="tangan_kiri">Dislokasi / Patah Tulang Tangan Kiri</option>
+                        <option value="paha_kanan">Patah Paha Kanan (Fracture)</option>
+                        <option value="bakar">Luka Bakar Berat (Burns)</option>
+                    </select>
+                </div>
+
+                <!-- Visual Badan Manusia Interaktif -->
                 <div style="background:#120202;border:2px solid #7a0d0d;border-radius:10px;padding:15px;margin-bottom:15px;text-align:center">
-                    <p style="color:#ffb703;font-size:12px;font-weight:bold;margin-bottom:10px">--- SKEMA ANATOMI PASIEN (KLIK UNTUK MEMILIH BAGIAN TUBUH) ---</p>
-                    <div style="display:flex;flex-direction:column;align-items:center;gap:8px">
-                        <button onclick="__pilihBodyPart('kepala')" class="btn" style="background:#d62828;color:#fff;width:220px">🧠 [ KEPALA & WAJAH ]</button>
-                        <button onclick="__pilihBodyPart('leher')" class="btn" style="background:#e65100;color:#fff;width:200px">🦒 [ LEHER ]</button>
-                        <div style="display:flex;gap:10px;justify-content:center;width:100%">
-                            <button onclick="__pilihBodyPart('tangan_kanan')" class="btn" style="background:#028090;color:#fff;width:140px">🦾 [ TANGAN KANAN ]</button>
-                            <button onclick="__pilihBodyPart('dada')" class="btn" style="background:#c1121f;color:#fff;width:160px">🫁 [ DADA & PERUT ]</button>
-                            <button onclick="__pilihBodyPart('tangan_kiri')" class="btn" style="background:#028090;color:#fff;width:140px">🦾 [ TANGAN KIRI ]</button>
+                    <p style="color:#ffb703;font-size:12px;font-weight:bold;margin-bottom:12px">--- SILUET ANATOMI BADAN MANUSIA (KLIK BAGIAN TUBUH UNTUK PENANGANAN) ---</p>
+                    
+                    <div class="body-silhouette">
+                        <button id="bp-kepala" class="body-part-btn" onclick="__pilihBodyPart('kepala')">🧠 KEPALA & WAJAH</button>
+                        <button id="bp-leher" class="body-part-btn" onclick="__pilihBodyPart('leher')">🦒 LEHER</button>
+                        <div style="display:flex;gap:15px">
+                            <button id="bp-tangan_kanan" class="body-part-btn" onclick="__pilihBodyPart('tangan_kanan')" style="width:130px">🦾 TANGAN KANAN</button>
+                            <button id="bp-dada" class="body-part-btn" onclick="__pilihBodyPart('dada')" style="width:160px">🫁 DADA & PERUT</button>
+                            <button id="bp-tangan_kiri" class="body-part-btn" onclick="__pilihBodyPart('tangan_kiri')" style="width:130px">🦾 TANGAN KIRI</button>
                         </div>
-                        <button onclick="__pilihBodyPart('pinggul')" class="btn" style="background:#588157;color:#fff;width:180px">🦴 [ PINGGUL / PERUT BAHAH ]</button>
-                        <div style="display:flex;gap:10px;justify-content:center;width:100%">
-                            <button onclick="__pilihBodyPart('paha_kanan')" class="btn" style="background:#f77f00;color:#fff;width:160px">🦿 [ PAHA KANAN ]</button>
-                            <button onclick="__pilihBodyPart('paha_kiri')" class="btn" style="background:#f77f00;color:#fff;width:160px">🦿 [ PAHA KIRI ]</button>
+                        <button id="bp-pinggul" class="body-part-btn" onclick="__pilihBodyPart('pinggul')">🦴 PINGGUL & PERUT BAWAH</button>
+                        <div style="display:flex;gap:15px">
+                            <button id="bp-paha_kanan" class="body-part-btn" onclick="__pilihBodyPart('paha_kanan')" style="width:145px">🦿 PAHA KANAN</button>
+                            <button id="bp-paha_kiri" class="body-part-btn" onclick="__pilihBodyPart('paha_kiri')" style="width:145px">🦿 PAHA KIRI</button>
                         </div>
-                        <div style="display:flex;gap:10px;justify-content:center;width:100%">
-                            <button onclick="__pilihBodyPart('kaki_kanan')" class="btn" style="background:#3a5a40;color:#fff;width:160px">🦶 [ BETIS / KAKI KANAN ]</button>
-                            <button onclick="__pilihBodyPart('kaki_kiri')" class="btn" style="background:#3a5a40;color:#fff;width:160px">🦶 [ BETIS / KAKI KIRI ]</button>
+                        <div style="display:flex;gap:15px">
+                            <button id="bp-kaki_kanan" class="body-part-btn" onclick="__pilihBodyPart('kaki_kanan')" style="width:145px">🦶 KAKI KANAN</button>
+                            <button id="bp-kaki_kiri" class="body-part-btn" onclick="__pilihBodyPart('kaki_kiri')" style="width:145px">🦶 KAKI KIRI</button>
                         </div>
-                        <button onclick="__pilihBodyPart('bakar')" class="btn" style="background:#d4a373;color:#000;width:330px;margin-top:5px;font-weight:bold">🔥 [ LUKA BAKAR & LEDAKAN (BURNS) ]</button>
+                        <button id="bp-bakar" class="body-part-btn" onclick="__pilihBodyPart('bakar')" style="width:315px;background:#d4a373;color:#000">🔥 LUKA BAKAR (BURNS)</button>
                     </div>
                 </div>
 
-                <!-- Panel Informasi Diagnosa & Penanganan -->
+                <!-- Panel Informasi Minigame, Bleeding, Kotak Obat & Alat -->
                 <div id="bodyPartDetailDisplay" style="background:#1a0505;border:2px solid #ffb703;border-radius:10px;padding:20px;color:#fff;min-height:200px">
-                    <h3 style="color:#ffb703;margin-bottom:10px">👈 Silahkan klik salah satu tombol bagian tubuh di atas.</h3>
-                    <p style="font-size:13px;color:#ccc">Sistem akan menampilkan daftar jenis luka, diagnosa awal, obat-obatan wajib, serta langkah pertolongan pertama (BLS) di lokasi kejadian.</p>
+                    <h3 style="color:#ffb703;margin-bottom:10px">👈 Pilih menu jenis luka di atas atau klik bagian badan manusia untuk memulai minigame pertolongan!</h3>
+                    <p style="font-size:13px;color:#ccc">Sistem akan menampilkan status perdarahan (bleeding), diagnosa, serta kotak obat dan alat penanganan medis interaktif[cite: 1].</p>
                 </div>
             </div>
 
@@ -688,171 +711,201 @@ function __renderInjuries() {
     });
 }
 
-/* LOGIKA BARU: BODY INJURY HELPER (STATUS TUBUH & FIRST AID) */
+/* LOGIKA MINIGAME ANATOMI BADAN MANUSIA & PENANGANAN MEDIS */
 const __bodyPartData = {
     kepala: {
-        title: "🧠 BAGIAN TUBUH: KEPALA & WAJAH",
+        title: "🧠 ANATOMI: KEPALA & WAJAH",
+        wound: "Luka Robek Kepala & Gegar Otak Ringan (Bleeding Active)",
         cases: [
             {
                 nama: "Luka Robek Kepala (Scalp Laceration)",
-                diag: "Perdarahan aktif di kulit kepala akibat benturan/gesekan. Risiko retak tulang tengkorak.",
+                diag: "Perdarahan aktif di kulit kepala akibat benturan/gesekan.",
                 obat: "Povidone Iodine 10%, Cefadroxil 500 mg, Paracetamol 500 mg.",
-                alat: "Kasa Steril, Head Bandage / Perban Gulung, Gunting Kasa, Disposable Gloves.",
-                tindakan: "1. Tekan langsung area luka dengan kain kasa steril secara hati-hati.\n2. Bersihkan sekitar luka dengan Povidone Iodine.\n3. Pasang perban melingkari kepala (head bandage).\n4. Berikan Paracetamol untuk nyeri dan Cefadroxil untuk antibiotik pencegah infeksi."
-            },
-            {
-                nama: "Mimisan Berat (Epistaxis) & Luka Bibir/Gusi",
-                diag: "Trauma tumpul area wajah akibat pukulan, perdarahan nasal/oral.",
-                obat: "Cairan Steril NaCl 0.9% (Irigasi/Bilas).",
-                alat: "Kasa Steril, Disposable Gloves.",
-                tindakan: "1. Minta korban duduk tegak dan agak menunduk ke depan (jangan mendongak agar darah tidak masuk tenggorokan).\n2. Pencet cuping hidung selama 10 menit.\n3. Untuk luka bibir/mulut: Bilas dengan air bersih/saline, lalu tekan luka dengan kasa steril."
-            },
-            {
-                nama: "Pingsan / Gegar Otak Ringan (Concussion / KO)",
-                diag: "Penurunan kesadaran akibat pukulan telak / benturan keras kepala belakang.",
-                obat: "Tabung Oksigen + Regulator.",
-                alat: "Pulse Oximeter, Stetoskop.",
-                tindakan: "1. Baringkan korban telentang, periksa napas dan nadi (ABC).\n2. Pasang Oksigen via mask.\n3. Jika bernapas normal namun belum sadar, posisikan miring (recovery position) agar tidak tersumbat muntahan."
+                alat: "Kasa Steril, Head Bandage, Gunting Kasa, Disposable Gloves.",
+                tindakan: "1. Tekan langsung area luka dengan kasa steril.\n2. Bersihkan luka dengan Povidone Iodine.\n3. Pasang perban melingkari kepala."
             }
         ]
     },
     leher: {
-        title: "🦒 BAGIAN TUBUH: LEHER",
+        title: "🦒 ANATOMI: LEHER",
+        wound: "Cedera Whiplash & Risiko Trakea (Bleeding Minor)",
         cases: [
             {
-                nama: "Luka Cedera Cambuk (Whiplash)",
-                diag: "Trauma akselerasi/deselerasi leher akibat kecelakaan kendaraan.",
-                obat: "Ibuprofen 400 mg / Diclofenac 50 mg.",
-                alat: "Neck Collar (Penyangga Leher / C-Collar).",
-                tindakan: "1. Segera pasang penyangga leher (Neck Collar) untuk membatasi pergerakan tulang leher dan MENCEGAH KELUMPUHAN.\n2. Berikan Ibuprofen / Diclofenac untuk meredakan nyeri dan peradangan."
+                nama: "Cedera Leher (Whiplash)",
+                diag: "Trauma jaringan lunak leher akibat benturan.",
+                obat: "Ibuprofen 400 mg.",
+                alat: "Neck Collar (Penyangga Leher).",
+                tindakan: "1. Pasang Neck Collar.\n2. Berikan obat pereda nyeri Ibuprofen."
             }
         ]
     },
     dada: {
-        title: "🫁 BAGIAN TUBUH: DADA & PERUT",
+        title: "🫁 ANATOMI: DADA & PERUT",
+        wound: "Luka Tembak Dada (Gunshot Wound - GSW) — BLEEDING SEVERE 🔴",
         cases: [
             {
-                nama: "Luka Tembak Masuk & Keluar (GSW - Gunshot Wound)",
-                diag: "Vital Wound / Perdarahan berat internal-eksternal akibat tembakan peluru.",
-                obat: "Inj. Ketorolac 30 mg, Infus Saline / RL, Tabung Oksigen.",
-                alat: "Pressure Dressing (Pembalut Tekan), Kasa Steril, Infus Set, Pulse Oximeter.",
-                tindakan: "1. Tekan area luka dengan kasa steril secara agresif (apply pressure).\n2. Pasang pembalut tekan (pressure dressing) pada luka masuk dan luka keluar.\n3. Berikan Oksigen konsentrasi tinggi & pasang infus RL.\n4. WAJIB EVAKUASI: Naikkan ke ambulans untuk operasi pengangkatan proyektil di IGD RS."
-            },
-            {
-                nama: "Luka Memar Berat Dada / Benturan Setir (Contusion)",
-                diag: "Trauma tumpul dada akibat benturan setir kendaraan / benturan keras.",
-                obat: "Ibuprofen 400 mg / Diclofenac 50 mg.",
-                alat: "Kompres Es / Cold Pack, Stetoskop.",
-                tindakan: "1. Kompres area dada dengan es batu dibalut kain selama 15-20 menit.\n2. Berikan Ibuprofen atau Diclofenac untuk meredakan nyeri dan pembengkakan."
+                nama: "Luka Tembak (Gunshot Wound)",
+                diag: "Perdarahan berat internal/eksternal akibat tembakan peluru.",
+                obat: "Inj. Ketorolac 30 mg, Infus RL / Saline, Oksigen.",
+                alat: "Pressure Dressing (Pembalut Tekan), Kasa Steril, Infus Set.",
+                tindakan: "1. Tekan luka dada dengan kasa dan pasang Pressure Dressing.\n2. Berikan oksigen dan pasang infus.\n3. Evakuasi segera ke ruang operasi."
             }
         ]
     },
     pinggul: {
-        title: "🦴 BAGIAN TUBUH: PERUT BAWAH & PINGGUL",
+        title: "🦴 ANATOMI: PINGGUL & PERUT BAWAH",
+        wound: "Luka Tusuk / Trauma Pelvis (Bleeding Moderate)",
         cases: [
             {
-                nama: "Luka Tusuk (Puncture / Stab Wound)",
-                diag: "Trauma tajam menembus dinding perut/rusuk.",
+                nama: "Luka Tusuk (Stab Wound)",
+                diag: "Trauma tajam menembus rongga perut.",
                 obat: "Inj. Ketorolac 30 mg, Amoxicillin 500 mg.",
-                alat: "Perban Gulung, Kasa Steril, Gunting Medis.",
-                tindakan: "1. JANGAN CABUT benda yang menancap! (Berfungsi menyumbat perdarahan).\n2. Amankan benda tersebut dengan perban gulung di sekelilingnya, lalu balut rapi.\n3. Segera bawa ke IGD Rumah Sakit."
+                alat: "Perban Gulung, Kasa Steril.",
+                tindakan: "1. JANGAN CABUT benda yang menancap!\n2. Fiksasi benda dengan perban.\n3. Bawa ke IGD."
             }
         ]
     },
-    tangan_kanan: { title: "🦾 BAGIAN TUBUH: TANGAN KANAN / BAHU", cases: [] },
-    tangan_kiri: { title: "🦾 BAGIAN TUBUH: TANGAN KIRI / BAHU", cases: [] },
-    paha_kanan: { title: "🦿 BAGIAN TUBUH: PAHA KANAN", cases: [] },
-    paha_kiri: { title: "🦿 BAGIAN TUBUH: PAHA KIRI", cases: [] },
-    kaki_kanan: { title: "🦶 BAGIAN TUBUH: BETIS & KAKI KANAN", cases: [] },
-    kaki_kiri: { title: "🦶 BAGIAN TUBUH: BETIS & KAKI KIRI", cases: [] },
-    bakar: {
-        title: "🔥 LUKA BAKAR & LEDAKAN (BURNS & EXPLOSIONS)",
+    tangan_kanan: {
+        title: "🦾 ANATOMI: TANGAN KANAN",
+        wound: "Luka Sayat / Pendarahan Lengan (Bleeding Active)",
         cases: [
             {
-                nama: "Luka Bakar Derajat 1 & 2 (Superficial & Partial)",
-                diag: "Kulit kemerahan, melepuh/bula, nyeri hebat.",
-                obat: "Silver Sulfadiazine Cream / Bioplacenton, Ibuprofen 400 mg.",
-                alat: "Kasa Parafin Steril / Kasa Basah, Perban Gulung.",
-                tindakan: "1. Siram dengan air mengalir selama 10-15 menit (jangan pakai air es).\n2. Jangan pecahkan lepuhan kulit!\n3. Oleskan cream Silver Sulfadiazine dan tutup longgar dengan kasa steril."
-            },
+                nama: "Luka Sayat Lengan (Laceration)",
+                diag: "Robekan kulit akibat senjata tajam.",
+                obat: "Povidone Iodine, Mupirocin Ointment, Cefadroxil 500 mg.",
+                alat: "Kasa Steril, Perban Elastis, Plester.",
+                tindakan: "1. Bersihkan dengan NaCl 0.9% dan antiseptik.\n2. Tutup dengan kasa dan plester medis."
+            }
+        ]
+    },
+    tangan_kiri: {
+        title: "🦾 ANATOMI: TANGAN KIRI",
+        wound: "Dislokasi / Patah Tulang Lengan Kiri",
+        cases: [
             {
-                nama: "Luka Bakar Derajat 3 (Full Thickness Burn)",
-                diag: "Kulit menghitam/hangus, mati rasa (kerusakan saraf), risiko syok dehidrasi.",
-                obat: "Infus Ringer Lactate (RL) Grojok, Inj. Ketorolac 30 mg, Oksigen.",
-                alat: "Kasa Steril Kering, Infus Set, BVM.",
-                tindakan: "1. Tutup luka secara longgar dengan kain/kasa steril kering.\n2. Pasang Infus RL guyur cepat untuk mencegah syok hipovolemik.\n3. Jangan pakai air jika area luka terlalu luas (mencegah hipotermia).\n4. Segera evakuasi ke kamar operasi RS."
+                nama: "Dislokasi / Fraktur Lengan",
+                diag: "Pergeseran tulang / patah tertutup.",
+                obat: "Ibuprofen 400 mg.",
+                alat: "Mitela (Sling / Kain Segitiga), Spalk.",
+                tindakan: "1. Pasang Mitela (Sling) untuk menyangga lengan.\n2. Berikan obat pereda nyeri."
+            }
+        ]
+    },
+    paha_kanan: {
+        title: "🦿 ANATOMI: PAHA KANAN",
+        wound: "Patah Tulang Paha (Closed/Open Fracture)",
+        cases: [
+            {
+                nama: "Fraktur Paha (Femur Fracture)",
+                diag: "Patah tulang paha dengan risiko nyeri hebat dan syok.",
+                obat: "Inj. Ketorolac 30 mg, Infus RL.",
+                alat: "Bidai Panjang (Splint), Perban Elastis.",
+                tindakan: "1. Pasang bidai panjang dari pinggang hingga mata kaki.\n2. Berikan injeksi anti-nyeri."
+            }
+        ]
+    },
+    paha_kiri: {
+        title: "🦿 ANATOMI: PAHA KIRI",
+        wound: "Patah Tulang Paha Kiri (Fracture)",
+        cases: [
+            {
+                nama: "Fraktur Paha Kiri",
+                diag: "Patah tulang paha akibat benturan keras.",
+                obat: "Inj. Ketorolac 30 mg, Infus RL.",
+                alat: "Bidai Panjang (Splint), Perban Elastis.",
+                tindakan: "1. Pasang bidai panjang.\n2. Berikan cairan infus dan evakuasi."
+            }
+        ]
+    },
+    kaki_kanan: {
+        title: "🦶 ANATOMI: KAKI KANAN",
+        wound: "Keseleo Berat / Luka Asap Jalanan (Road Rash)",
+        cases: [
+            {
+                nama: "Luka Lecet Aspal & Terkilir",
+                diag: "Gesekan kulit dan robekan ligamen.",
+                obat: "Salep Mupirocin, Paracetamol 500 mg.",
+                alat: "Kasa Non-Lengket, Elastic Bandage.",
+                tindakan: "1. Cuci luka dengan saline.\n2. Balut dengan perban elastis."
+            }
+        ]
+    },
+    kaki_kiri: {
+        title: "🦶 ANATOMI: KAKI KIRI",
+        wound: "Keseleo Pergelangan Kaki (Ankle Sprain)",
+        cases: [
+            {
+                nama: "Sprain Ankle",
+                diag: "Peregangan ligamen kaki kiri.",
+                obat: "Counterpain / Ibuprofen Gel.",
+                alat: "Elastic Bandage, Kompres Es.",
+                tindakan: "1. Kompres es selama 15 menit.\n2. Balut dengan elastic bandage."
+            }
+        ]
+    },
+    bakar: {
+        title: "🔥 ANATOMI: LUKA BAKAR (BURNS)",
+        wound: "Luka Bakar Derajat 2/3 (Thermal Burns) — BLEEDING / FLUID LOSS 🔴",
+        cases: [
+            {
+                nama: "Luka Bakar Luas",
+                diag: "Kerusakan jaringan kulit akibat api/ledakan.",
+                obat: "Silver Sulfadiazine Cream, Infus RL Grojok, Inj. Ketorolac.",
+                alat: "Kasa Parafin Steril, Perban Gulung, Infus Set.",
+                tindakan: "1. Dinginkan dengan air mengalir.\n2. Oleskan cream Silver Sulfadiazine.\n3. Pasang infus guyur RL dan tutup kasa steril."
             }
         ]
     }
 };
 
-// Pengisian data umum ekstremitas (Tangan & Kaki)
-const umumTangan = [
-    {
-        nama: "Luka Sayat / Potong (Laceration / Incision)",
-        diag: "Robekan kulit/otot akibat senjata tajam atau pecahan kaca.",
-        obat: "Povidone Iodine, Mupirocin Ointment, Cefadroxil 500 mg.",
-        alat: "Kasa Steril, Plester Medis / Perban, Pinset.",
-        tindakan: "1. Bersihkan luka dengan antiseptik / NaCl 0.9%.\n2. Tekan kasa steril sampai perdarahan berhenti.\n3. Oleskan salep Mupirocin dan rekatkan dengan plester medis."
-    },
-    {
-        nama: "Dislokasi Sendi Bahu / Siku",
-        diag: "Pergeseran sendi dari posisi normal akibat benturan/perkelahian.",
-        obat: "Ketorolac 10 mg / Ibuprofen 400 mg.",
-        alat: "Mitela (Sling / Kain Segitiga), Elastic Bandage.",
-        tindakan: "1. JANGAN DIPAKSA dikembalikan posisinya secara manual!\n2. Pasang Mitela (Sling) untuk menopang lengan agar tidak bergerak.\n3. Berikan anti-nyeri Ketorolac/Ibuprofen."
-    }
-];
-
-const umumKaki = [
-    {
-        nama: "Patah Tulang Tertutup & Terbuka (Closed & Open Fracture)",
-        diag: "Deformitas/patah tulang. Pada kasus terbuka, tulang menembus kulit.",
-        obat: "Inj. Ketorolac 30 mg, Infus RL / Saline.",
-        alat: "Bidai (Splint / Spalk), Perban Elastis, Kasa Steril Basah.",
-        tindakan: "1. Patah Tertutup: Pasang Bidai (Splint) melewati dua sendi di atas dan bawah area patah.\n2. Patah Terbuka: Tekan area sekitar tulang (jangan tekan tulangnya), tutup tulang menonjol dengan kasa basah, lalu pasang bidai.\n3. Berikan injeksi Ketorolac dan evakuasi ke RS."
-    },
-    {
-        nama: "Terkilir / Keseleo Berat (Severe Sprain)",
-        diag: "Cedera ligamen pergelangan kaki (ankle) akibat salah tumpuan.",
-        obat: "Ibuprofen Gel 5% / Counterpain, Ibuprofen 400 mg.",
-        alat: "Elastic Bandage, Kompres Es.",
-        tindakan: "Metode RICE: Rest (istirahatkan), Ice (kompres es 15m), Compression (balut perban elastis), Elevation (tinggikan kaki)."
-    },
-    {
-        nama: "Luka Parut Kecelakaan Jalanan (Road Rash / Abrasion)",
-        diag: "Gesekan kulit dengan aspal/tanah saat kecelakaan kendaraan.",
-        obat: "Cairan Saline (NaCl 0.9%), Povidone Iodine, Salep Mupirocin/Gentamicin.",
-        alat: "Kasa Non-Lengket, Gunting, Pinset.",
-        tindakan: "1. Irigasi/siram luka dengan Saline untuk membersihkan kerikil/pasir.\n2. Oleskan salep antibiotik Gentamicin/Mupirocin.\n3. Tutup dengan kasa non-lengket."
-    }
-];
-
-__bodyPartData.tangan_kanan.cases = umumTangan;
-__bodyPartData.tangan_kiri.cases = umumTangan;
-__bodyPartData.paha_kanan.cases = umumKaki;
-__bodyPartData.paha_kiri.cases = umumKaki;
-__bodyPartData.kaki_kanan.cases = umumKaki;
-__bodyPartData.kaki_kiri.cases = umumKaki;
+function __triggerMinigameWound(woundKey) {
+    if(!woundKey) return;
+    __pilihBodyPart(woundKey);
+}
 
 function __pilihBodyPart(key) {
+    // Reset semua tombol siluet
+    document.querySelectorAll('.body-part-btn').forEach(btn => btn.classList.remove('active-wound'));
+    
+    // Nyalakan tombol yang dipilih menjadi merah menyala
+    const targetBtn = document.getElementById('bp-' + key);
+    if(targetBtn) targetBtn.classList.add('active-wound');
+
+    // Sinkronkan dropdown jika dipilih dari tombol
+    const selectElem = document.getElementById('minigameSelectWound');
+    if(selectElem) selectElem.value = key;
+
     const data = __bodyPartData[key];
     const display = document.getElementById('bodyPartDetailDisplay');
     if(!data) return;
 
-    let html = `<h2 style="color:#ffb703;border-bottom:1px solid #7a0d0d;padding-bottom:8px;margin-bottom:15px">${data.title}</h2>`;
-    
-    if(data.cases.length === 0) {
-        html += `<p style="color:#aaa">Tidak ada data khusus untuk bagian tubuh ini.</p>`;
-    } else {
+    let html = `
+        <h2 style="color:#ffb703;border-bottom:1px solid #7a0d0d;padding-bottom:8px;margin-bottom:12px">${data.title}</h2>
+        <div style="background:#e63946;color:#fff;padding:8px 12px;border-radius:6px;font-weight:bold;margin-bottom:12px;font-size:14px">
+            ⚠️ STATUS DIAGNOSA: <span style="text-decoration:underline">${data.wound}</span>
+        </div>
+    `;
+
+    if(data.cases && data.cases.length > 0) {
         data.cases.forEach((item, idx) => {
             html += `
-            <div style="background:#2b0a0a;border:1px solid #ffb703;border-radius:8px;padding:15px;margin-bottom:15px">
-                <h3 style="color:#ffb703;margin-bottom:8px">${idx+1}. ${item.nama}</h3>
-                <p style="font-size:13px;margin-bottom:6px"><strong>🔍 Diagnosa Awal:</strong> ${item.diag}</p>
-                <p style="font-size:13px;margin-bottom:6px;color:#2a9d8f"><strong>💊 Obat yang Dimasukkan:</strong> ${item.obat}</p>
-                <p style="font-size:13px;margin-bottom:6px;color:#028090"><strong>🛠️ Peralatan:</strong> ${item.alat}</p>
-                <div style="background:#120202;border-left:3px solid #ffb703;padding:10px;margin-top:8px;font-size:13px;white-space:pre-wrap"><strong>🩺 Pertolongan Pertama (BLS):</strong>\n${item.tindakan}</div>
+            <div style="background:#2b0a0a;border:1px solid #ffb703;border-radius:8px;padding:15px;margin-bottom:12px">
+                <h3 style="color:#ffb703;margin-bottom:6px">${idx+1}. Kasus: ${item.nama}</h3>
+                <p style="font-size:13px;margin-bottom:6px"><strong>🔍 Keterangan:</strong> ${item.diag}</p>
+                
+                <div style="background:#120202;border:1px solid #028090;padding:10px;border-radius:6px;margin-top:8px">
+                    <p style="color:#2a9d8f;font-weight:bold;margin-bottom:4px">💊 KOTAK OBAT (Klik untuk Mengambil):</p>
+                    <div>
+                        <span class="minigame-item-box" onclick="alert('💊 Obat berhasil diambil & diaplikasikan: ${item.obat}')">📦 ${item.obat}</span>
+                    </div>
+                    
+                    <p style="color:#028090;font-weight:bold;margin-top:8px;margin-bottom:4px">🛠️ KOTAK ALAT PENANGANAN (Klik untuk Menggunakan):</p>
+                    <div>
+                        <span class="minigame-item-box" onclick="alert('🛠️ Alat berhasil dipasang ke pasien: ${item.alat}')">⚙️ ${item.alat}</span>
+                    </div>
+                </div>
+
+                <div style="background:#120202;border-left:3px solid #ffb703;padding:10px;margin-top:8px;font-size:13px;white-space:pre-wrap"><strong>🩺 Langkah Pertolongan Pertama (First Aid):</strong>\n${item.tindakan}</div>
             </div>`;
         });
     }
