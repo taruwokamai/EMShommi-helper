@@ -77,12 +77,12 @@ select.tin{cursor:pointer}
 .mdt-table th, .mdt-table td { padding: 10px; border: 1px solid #dee2e6; text-align: left; }
 .mdt-table th { background: #f1f3f5; color: #111; font-weight: bold; }
 
-/* CSS TAMBAHAN MINIGAME ANATOMI BADAN MANUSIA */
-.body-silhouette { display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 15px; background: #1a0505; border-radius: 10px; border: 1px solid #ffb703; width: fit-content; margin: 0 auto; }
-.body-part-btn { background: #2b0a0a; color: #ffb703; border: 2px solid #7a0d0d; padding: 8px 16px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.2s; text-align: center; font-size: 12px; width: 180px; }
-.body-part-btn:hover { background: #450f0f; border-color: #ffb703; transform: scale(1.05); }
-.body-part-btn.active-wound { background: #e63946 !important; color: #fff !important; border-color: #ffb703 !important; animation: pulseRed 1.5s infinite; }
-@keyframes pulseRed { 0% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(230, 57, 70, 0); } 100% { box-shadow: 0 0 0 0 rgba(230, 57, 70, 0); } }
+/* CSS SILUET ANATOMI TUBUH MANUSIA (BODY MAP VISUAL) */
+.human-body-container { position: relative; width: 260px; height: 460px; margin: 0 auto; background: #1a0505; border: 2px solid #7a0d0d; border-radius: 12px; padding: 10px; display: flex; justify-content: center; align-items: center; box-shadow: inset 0 0 15px rgba(0,0,0,0.8); }
+.body-part-svg { cursor: pointer; fill: #3a1111; stroke: #7a0d0d; stroke-width: 2; transition: 0.3s; }
+.body-part-svg:hover { fill: #5c1818; stroke: #ffb703; }
+.body-part-svg.active-wound { fill: #e63946 !important; stroke: #ffb703 !important; stroke-width: 3; filter: drop-shadow(0 0 8px #ff0000); animation: pulseAnatomy 1.2s infinite; }
+@keyframes pulseAnatomy { 0% { opacity: 0.8; } 50% { opacity: 1; filter: drop-shadow(0 0 12px #ffb703); } 100% { opacity: 0.8; } }
 .minigame-item-box { display: inline-block; background: #2b0a0a; border: 1px solid #ffb703; padding: 8px 12px; margin: 4px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold; color: #ffb703; transition: 0.2s; }
 .minigame-item-box:hover { background: #ffb703; color: #000; }
 </style>
@@ -192,13 +192,13 @@ select.tin{cursor:pointer}
                 </table>
             </div>
 
-            <!-- TAB BARU: BODY INJURY MINIGAME & FIRST AID -->
+            <!-- TAB BARU: BODY INJURY MINIGAME & SILUET TUBUH MANUSIA -->
             <div id="tab-body-map" class="mdt-tab-content" style="display:none">
-                <div class="mdt-pane-title">🩺 Minigame Penanganan Medis Pasien (Body Injury System)</div>
-                <p style="font-size:13px;color:#666;margin-bottom:10px">1. Pilih jenis luka pada menu dropdown di bawah untuk mensimulasikan lokasi trauma pada tubuh pasien[cite: 1].</p>
+                <div class="mdt-pane-title">🩺 Minigame Penanganan Medis Pasien (Anatomi Tubuh Manusia)</div>
+                <p style="font-size:13px;color:#666;margin-bottom:10px">1. Pilih jenis luka pada menu dropdown ATAU klik langsung pada bagian tubuh manusia di bawah ini untuk melihat status luka (`bleeding`), obat, dan alat medis[cite: 1].</p>
                 
                 <div style="margin-bottom:15px">
-                    <label class="lb" style="color:#212529">PILIH JENIS LUKA / Kasus:</label>
+                    <label class="lb" style="color:#212529">PILIH JENIS LUKA / KASUS:</label>
                     <select id="minigameSelectWound" class="mdt-input-clean" onchange="__triggerMinigameWound(this.value)">
                         <option value="">— Pilih Jenis Luka / Kasus —</option>
                         <option value="kepala">Luka Robek / Trauma Kepala (Head Injury)</option>
@@ -210,35 +210,50 @@ select.tin{cursor:pointer}
                     </select>
                 </div>
 
-                <!-- Visual Badan Manusia Interaktif -->
+                <!-- GAMBAR SILUET ANATOMI TUBUH MANUSIA (SVG) -->
                 <div style="background:#120202;border:2px solid #7a0d0d;border-radius:10px;padding:15px;margin-bottom:15px;text-align:center">
-                    <p style="color:#ffb703;font-size:12px;font-weight:bold;margin-bottom:12px">--- SILUET ANATOMI BADAN MANUSIA (KLIK BAGIAN TUBUH UNTUK PENANGANAN) ---</p>
+                    <p style="color:#ffb703;font-size:12px;font-weight:bold;margin-bottom:10px">--- KLIK BAGIAN ANATOMI TUBUH PASIEN DI BAWAH ---</p>
                     
-                    <div class="body-silhouette">
-                        <button id="bp-kepala" class="body-part-btn" onclick="__pilihBodyPart('kepala')">🧠 KEPALA & WAJAH</button>
-                        <button id="bp-leher" class="body-part-btn" onclick="__pilihBodyPart('leher')">🦒 LEHER</button>
-                        <div style="display:flex;gap:15px">
-                            <button id="bp-tangan_kanan" class="body-part-btn" onclick="__pilihBodyPart('tangan_kanan')" style="width:130px">🦾 TANGAN KANAN</button>
-                            <button id="bp-dada" class="body-part-btn" onclick="__pilihBodyPart('dada')" style="width:160px">🫁 DADA & PERUT</button>
-                            <button id="bp-tangan_kiri" class="body-part-btn" onclick="__pilihBodyPart('tangan_kiri')" style="width:130px">🦾 TANGAN KIRI</button>
-                        </div>
-                        <button id="bp-pinggul" class="body-part-btn" onclick="__pilihBodyPart('pinggul')">🦴 PINGGUL & PERUT BAWAH</button>
-                        <div style="display:flex;gap:15px">
-                            <button id="bp-paha_kanan" class="body-part-btn" onclick="__pilihBodyPart('paha_kanan')" style="width:145px">🦿 PAHA KANAN</button>
-                            <button id="bp-paha_kiri" class="body-part-btn" onclick="__pilihBodyPart('paha_kiri')" style="width:145px">🦿 PAHA KIRI</button>
-                        </div>
-                        <div style="display:flex;gap:15px">
-                            <button id="bp-kaki_kanan" class="body-part-btn" onclick="__pilihBodyPart('kaki_kanan')" style="width:145px">🦶 KAKI KANAN</button>
-                            <button id="bp-kaki_kiri" class="body-part-btn" onclick="__pilihBodyPart('kaki_kiri')" style="width:145px">🦶 KAKI KIRI</button>
-                        </div>
-                        <button id="bp-bakar" class="body-part-btn" onclick="__pilihBodyPart('bakar')" style="width:315px;background:#d4a373;color:#000">🔥 LUKA BAKAR (BURNS)</button>
+                    <div class="human-body-container">
+                        <svg width="220" height="430" viewBox="0 0 200 400">
+                            <!-- Kepala & Wajah -->
+                            <ellipse id="svg-kepala" class="body-part-svg" cx="100" cy="35" rx="25" ry="30" onclick="__pilihBodyPart('kepala')" title="Kepala & Wajah" />
+                            
+                            <!-- Leher -->
+                            <rect id="svg-leher" class="body-part-svg" x="90" y="65" width="20" height="20" rx="4" onclick="__pilihBodyPart('leher')" title="Leher" />
+
+                            <!-- Dada & Perut -->
+                            <path id="svg-dada" class="body-part-svg" d="M70,90 L130,90 L135,160 L65,160 Z" onclick="__pilihBodyPart('dada')" title="Dada & Perut" />
+
+                            <!-- Pinggul & Perut Bawah -->
+                            <rect id="svg-pinggul" class="body-part-svg" x="68" y="165" width="64" height="35" rx="5" onclick="__pilihBodyPart('pinggul')" title="Pinggul" />
+
+                            <!-- Tangan Kanan -->
+                            <path id="svg-tangan_kanan" class="body-part-svg" d="M45,95 L65,95 L60,175 L40,175 Z" onclick="__pilihBodyPart('tangan_kanan')" title="Tangan Kanan" />
+
+                            <!-- Tangan Kiri -->
+                            <path id="svg-tangan_kiri" class="body-part-svg" d="M135,95 L155,95 L160,175 L140,175 Z" onclick="__pilihBodyPart('tangan_kiri')" title="Tangan Kiri" />
+
+                            <!-- Paha Kanan -->
+                            <rect id="svg-paha_kanan" class="body-part-svg" x="70" y="205" width="27" height="90" rx="6" onclick="__pilihBodyPart('paha_kanan')" title="Paha Kanan" />
+
+                            <!-- Paha Kiri -->
+                            <rect id="svg-paha_kiri" class="body-part-svg" x="103" y="205" width="27" height="90" rx="6" onclick="__pilihBodyPart('paha_kiri')" title="Paha Kiri" />
+
+                            <!-- Kaki Kanan -->
+                            <rect id="svg-kaki_kanan" class="body-part-svg" x="71" y="300" width="25" height="85" rx="5" onclick="__pilihBodyPart('kaki_kanan')" title="Kaki Kanan" />
+
+                            <!-- Kaki Kiri -->
+                            <rect id="svg-kaki_kiri" class="body-part-svg" x="104" y="300" width="25" height="85" rx="5" onclick="__pilihBodyPart('kaki_kiri')" title="Kaki Kiri" />
+                        </svg>
                     </div>
+                    <button onclick="__pilihBodyPart('bakar')" class="btn" style="background:#d4a373;color:#000;margin-top:10px;font-weight:bold;width:240px">🔥 [ SIMULASI LUKA BAKAR (BURNS) ]</button>
                 </div>
 
                 <!-- Panel Informasi Minigame, Bleeding, Kotak Obat & Alat -->
                 <div id="bodyPartDetailDisplay" style="background:#1a0505;border:2px solid #ffb703;border-radius:10px;padding:20px;color:#fff;min-height:200px">
-                    <h3 style="color:#ffb703;margin-bottom:10px">👈 Pilih menu jenis luka di atas atau klik bagian badan manusia untuk memulai minigame pertolongan!</h3>
-                    <p style="font-size:13px;color:#ccc">Sistem akan menampilkan status perdarahan (bleeding), diagnosa, serta kotak obat dan alat penanganan medis interaktif[cite: 1].</p>
+                    <h3 style="color:#ffb703;margin-bottom:10px">👈 Klik siluet anatomi tubuh di atas atau pilih menu jenis luka untuk mulai menangani pasien.</h3>
+                    <p style="font-size:13px;color:#ccc">Sistem interaktif akan menampilkan status perdarahan (`bleeding`), daftar obat, serta kotak peralatan medis[cite: 1].</p>
                 </div>
             </div>
 
@@ -711,7 +726,7 @@ function __renderInjuries() {
     });
 }
 
-/* LOGIKA MINIGAME ANATOMI BADAN MANUSIA & PENANGANAN MEDIS */
+/* DATA ANATOMI TUBUH & PENANGANAN MEDIS MINIGAME */
 const __bodyPartData = {
     kepala: {
         title: "🧠 ANATOMI: KEPALA & WAJAH",
@@ -864,14 +879,14 @@ function __triggerMinigameWound(woundKey) {
 }
 
 function __pilihBodyPart(key) {
-    // Reset semua tombol siluet
-    document.querySelectorAll('.body-part-btn').forEach(btn => btn.classList.remove('active-wound'));
+    // Reset semua elemen SVG anatomi
+    document.querySelectorAll('.body-part-svg').forEach(el => el.classList.remove('active-wound'));
     
-    // Nyalakan tombol yang dipilih menjadi merah menyala
-    const targetBtn = document.getElementById('bp-' + key);
-    if(targetBtn) targetBtn.classList.add('active-wound');
+    // Nyalakan elemen SVG yang diklik menjadi merah menyala
+    const targetSvg = document.getElementById('svg-' + key);
+    if(targetSvg) targetSvg.classList.add('active-wound');
 
-    // Sinkronkan dropdown jika dipilih dari tombol
+    // Sinkronkan dropdown jika dipilih dari gambar anatomi
     const selectElem = document.getElementById('minigameSelectWound');
     if(selectElem) selectElem.value = key;
 
